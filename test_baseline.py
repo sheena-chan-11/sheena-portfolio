@@ -66,12 +66,19 @@ class BaselineTests(unittest.TestCase):
             links = soup.select('a.project-img[href="/project/step-by-step"]')
             self.assertEqual(len(links), 1)
             self.assertTrue(links[0].select_one("img")["alt"])
+            self.assertNotIn("height", links[0].select_one("img").attrs)
             self.assertIn("Step by Step", links[0].get_text())
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
         self.assertEqual(soup.h1.get_text(), "Step by Step")
         for phrase in ("coming soon", "U.S. college students", "quick movement breaks"):
             self.assertIn(phrase, soup.get_text())
         self.assertEqual(soup.select_one(".step-back")["href"], "/latestprojects")
+
+    def test_requested_project_order(self):
+        expected = ["/project/step-by-step", "/project/womens-wilderness", "/project/sarinc"]
+        for name in ("index.html", "latestprojects/index.html", "aboutme/index.html"):
+            soup = BeautifulSoup((ROOT / name).read_text(), "html.parser")
+            self.assertEqual([a["href"] for a in soup.select("a.project-img")], expected)
 
     def test_script_integrity_still_matches(self):
         for page in ROOT.rglob("*.html"):
@@ -81,3 +88,11 @@ class BaselineTests(unittest.TestCase):
                 algorithm = script["integrity"].split("-", 1)[0]
                 expected = algorithm + "-" + base64.b64encode(hashlib.new(algorithm, content).digest()).decode()
                 self.assertEqual(script["integrity"], expected)
+
+    def test_original_interaction_runtime_is_untouched(self):
+        # The known-working runtime from the owner's selected commit 320f0ca.
+        content = (ROOT / "assets/29133ca8abc58af805e3.js").read_bytes()
+        self.assertEqual(
+            hashlib.sha256(content).hexdigest(),
+            "75b351485c3eaf585a3ad997c032aad52d0775f8189c9638a0ad93401933bec8",
+        )

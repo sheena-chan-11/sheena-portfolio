@@ -24,16 +24,31 @@ python3 -m venv .venv
 
 ## Scope
 
-Six pages: home, about, project listing, SARINC, Women's Wilderness, and PetPal.
+Seven pages: home, about, project listing, SARINC, Women's Wilderness, PetPal,
+and Step by Step (coming soon).
 Images, CSS, JavaScript, and CSS-referenced fonts are copied locally.
 The original WebFont loader still loads Google Fonts externally.
 Webflow interactions remain in place; this is a baseline, not a framework rewrite.
+All original vendor JavaScript is unchanged from commit `320f0ca`. The platform
+sticker is hidden using a small CSS rule, without editing the runtime or its
+integrity hashes.
+
+## Current portfolio
+
+- Homepage side LinkedIn/Email CTAs are removed; the contact section remains.
+- Home, Projects, and About's Latest Work list show Step by Step, Women's
+  Wilderness, and Small Angel Rescue, in that order.
+- PetPal is unlisted, not access-restricted: `/project/petpal/` remains available.
+  Its original YouTube embed URL is restored instead of the captured `.bin`.
+- `/project/step-by-step/` is a coming-soon page; it makes no claims about
+  completed research or outcomes. Stock-image provenance is in `IMAGE_CREDITS.md`.
 
 Intentional preview safeguards:
 
 - Production Google Analytics is removed.
 - Contact forms display an explicit preview-only message instead of submitting
-  to the production Webflow service. Email and LinkedIn links remain available.
+  to the production Webflow service. The homepage's side CTAs were subsequently
+  removed at the owner's request.
 - One inaccessible Webflow stock placeholder (HTTP 403 at capture time) is
   replaced by a neutral SVG; details are in `capture-manifest.json`.
 - No domain or DNS changes have been made. `sheenachan.com` can be connected

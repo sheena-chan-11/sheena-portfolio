@@ -1,3 +1,8 @@
+.step-card > img.project-img {
+  height: auto;
+  aspect-ratio: 1920 / 2740;
+  object-fit: cover;
+}
 .step-card-label {
   position: absolute;
   inset: auto 0 0;
