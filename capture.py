@@ -71,6 +71,16 @@ for path, soup in pages.items():
         if "googletagmanager" in tag.get("src", "") or "gtag(" in tag.get_text():
             tag.decompose()
     for tag in soup.find_all(True):
+        if tag.name == "a" and tag.get("href", "").startswith("https://cdn.prod.website-files.com/"):
+            tag["href"] = asset(tag["href"])
+        if tag.name == "script" and tag.get("type") == "application/json":
+            # Webflow lightboxes keep full-resolution image URLs in JSON.
+            data = json.loads(tag.string or "{}")
+            for item in data.get("items", []):
+                for key in ("url", "thumbnailUrl"):
+                    if item.get(key):
+                        item[key] = asset(urljoin(ORIGIN + path, item[key]))
+            tag.string = json.dumps(data)
         for attr in ("src", "poster"):
             if tag.get(attr) and not tag[attr].startswith("data:"):
                 tag[attr] = asset(urljoin(ORIGIN + path, tag[attr]))
