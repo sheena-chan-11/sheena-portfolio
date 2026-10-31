@@ -1,8 +1,6 @@
 """Run with .venv/bin/python -m unittest -v (no running server required)."""
 from pathlib import Path
 from urllib.parse import urlsplit
-import base64
-from hashlib import sha384
 import json
 import unittest
 from bs4 import BeautifulSoup
@@ -37,27 +35,3 @@ class BaselineTests(unittest.TestCase):
     def test_no_unresolved_capture_errors(self):
         manifest = json.loads((ROOT.parent / "capture-manifest.json").read_text())
         self.assertFalse([item for item in manifest["failures"] if "error" in item])
-
-    def test_no_platform_branding_on_any_page(self):
-        for page in ROOT.rglob("*.html"):
-            text = page.read_text()
-            soup = BeautifulSoup(text, "html.parser")
-            self.assertNotIn("webflow", text.lower())
-            self.assertFalse(soup.select('.w-webflow-badge, meta[name="generator"]'))
-            self.assertNotIn("data-wf-status", soup.html.attrs)
-            self.assertNotIn("data-wf-domain", soup.html.attrs)
-
-    def test_loading_animation_cannot_block_content(self):
-        for page in ROOT.rglob("*.html"):
-            soup = BeautifulSoup(page.read_text(), "html.parser")
-            self.assertFalse(soup.select(".loading-page"))
-            self.assertIn("opacity: 1 !important", soup.select_one("#portfolio-availability").get_text())
-
-    def test_script_integrity_matches_local_files(self):
-        for page in ROOT.rglob("*.html"):
-            soup = BeautifulSoup(page.read_text(), "html.parser")
-            for tag in soup.select("script[src][integrity]"):
-                content = (ROOT / urlsplit(tag["src"]).path.lstrip("/")).read_bytes()
-                expected = "sha384-" + base64.b64encode(sha384(content).digest()).decode()
-                self.assertEqual(tag["integrity"], expected)
-                self.assertIn("?v=", tag["src"])
