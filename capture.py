@@ -154,3 +154,7 @@ while batch := [(url, name) for url, name in assets.items() if url not in comple
 }, indent=2))
 if any("error" in failure for failure in failures):
     raise SystemExit("Downloads failed; see capture-manifest.json")
+
+# Captures must never reintroduce visitor-facing platform promotion.
+from remove_branding import remove_branding
+remove_branding(ROOT)

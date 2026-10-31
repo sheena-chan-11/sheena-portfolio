@@ -28,6 +28,10 @@ Six pages: home, about, project listing, SARINC, Women's Wilderness, and PetPal.
 Images, CSS, JavaScript, and CSS-referenced fonts are copied locally.
 The original WebFont loader still loads Google Fonts externally.
 Webflow interactions remain in place; this is a baseline, not a framework rewrite.
+Visitor-facing platform branding and metadata have been removed. The local
+runtime's promotional-badge and hosted-editor modules are disabled; navigation,
+animations, and lightboxes remain available. `remove_branding.py` applies this
+cleanup idempotently and also runs after any fresh capture.
 
 Intentional preview safeguards:
 
