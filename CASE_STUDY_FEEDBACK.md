@@ -98,3 +98,24 @@ https://womenswilderness.org/programs/
 https://backcountrybeauties.com/
 https://backcountrybeauties.com/event-directory/upcoming-trips/
 ```
+
+## Follow-up review: revised draft
+
+The revised draft improves the project overview, identifies the author's competitive-analysis task, gives concrete examples of inconsistent labels, and more accurately separates client response from measured impact.
+
+Remaining priorities:
+
+1. Replace or shorten the rhetorical opening. It still introduces participation disparities, economic barriers, and scrutiny that the described website research does not directly investigate. Avoid implying universal program eligibility; use the organization's documented audience language and distinguish program-specific eligibility.
+2. Align the overview with the findings. The overview promises improved filter discoverability, but the revised findings discuss filtering flexibility instead. Either restore documented discoverability evidence or describe the opportunity as improving program filtering.
+3. Identify the session method accurately. If participants completed assigned tasks, describe usability testing plus interview questions; if not, describe interviews with website exploration. Replace topic fragments with actual questions or documented example tasks.
+4. Treat researcher walkthrough conclusions as hypotheses unless participant evidence supports them. Explain the rationale for choosing the comparator and tasks. Consider the heading “Competitive analysis and task walkthroughs.”
+5. Explain synthesis beyond color coding. Describe actual grouping, interpretation, and prioritization steps without adding procedures that did not occur. Include the author's contribution if documented.
+6. Shorten the naming finding while retaining the exact labels and observed confusion. Use annotated screenshots for this finding. Do not imply that every occurrence of “program” and “course” must be identical if the organization uses a meaningful distinction.
+7. Clarify whether filtering needs mean combining activity, age, and type or selecting multiple values inside one category. Replace “we decided to adopt it” with a recommendation tied to the observed need. Label any demonstration as proposed and untested when appropriate.
+8. Separate sold-out upcoming events, closed deadlines, and completed events. Offer cancellation waitlists only when applicable; use clear statuses, alternatives, or future-date notifications for other states. Do not promise a seat or assume the competitor's waitlist serves that purpose.
+9. Retain the client-response heading; shorten the quotation with accurate omissions. State implementation and follow-up evaluation status only if known.
+10. Make limitations conditional on scope. Parent participation matters if youth registration was in scope. Say recommendations were not evaluated through follow-up usability testing, distinguishing that from any testing of the original site.
+
+Suggested overall research question: “How might we help prospective participants find suitable outdoor programs and understand their registration options?” Treat the competitive comparison as a supporting investigation.
+
+No additional online verification was needed for this follow-up: these comments concern the supplied revision and proposed wording, not new claims about the current websites.
