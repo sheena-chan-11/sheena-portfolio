@@ -103,6 +103,22 @@ class BaselineTests(unittest.TestCase):
             soup = BeautifulSoup((ROOT / name).read_text(), "html.parser")
             self.assertEqual([a["href"] for a in soup.select("a.project-img")], expected)
 
+    def test_project_overlay_content_and_stylesheet_version(self):
+        version = hashlib.sha256((ROOT / "assets/step-by-step.css").read_bytes()).hexdigest()[:12]
+        for name in ("index.html", "latestprojects/index.html", "aboutme/index.html"):
+            soup = BeautifulSoup((ROOT / name).read_text(), "html.parser")
+            self.assertFalse(soup.select(".step-card-label"))
+            self.assertIsNotNone(soup.select_one(
+                f'link[href="/assets/step-by-step.css?v={version}"]'
+            ))
+            for card in soup.select("a.project-img"):
+                overlay = card.select_one(".project-img-overlay")
+                for selector in (".project-title", ".product-description", ".project-type"):
+                    self.assertTrue(overlay.select_one(selector).get_text(strip=True))
+                self.assertFalse(card.select(".step-card-label"))
+        soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
+        self.assertIsNotNone(soup.select_one(f'link[href="/assets/step-by-step.css?v={version}"]'))
+
     def test_script_integrity_still_matches(self):
         for page in ROOT.rglob("*.html"):
             soup = BeautifulSoup(page.read_text(), "html.parser")

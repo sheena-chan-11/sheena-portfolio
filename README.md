@@ -40,6 +40,8 @@ integrity hashes.
   LinkedIn links beneath the biography.
 - Home, Projects, and About's Latest Work list show Step by Step, Women's
   Wilderness, and Small Angel Rescue, in that order.
+- Step by Step's thumbnail has no permanent text label. All three cards share
+  the same padded purple hover/keyboard-focus overlay with wrapping text.
 - PetPal is unlisted, not access-restricted: `/project/petpal/` remains available.
   Its original YouTube embed URL is restored instead of the captured `.bin`.
 - `/project/step-by-step/` is a coming-soon page; it makes no claims about
