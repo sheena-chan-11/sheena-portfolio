@@ -46,11 +46,12 @@ class BaselineTests(unittest.TestCase):
             self.assertFalse(soup.select('.w-webflow-badge, meta[name="generator"]'))
             self.assertNotIn("data-wf-status", soup.html.attrs)
             self.assertNotIn("data-wf-domain", soup.html.attrs)
-        for script in (ROOT / "assets").glob("*.js"):
-            text = script.read_text()
-            self.assertNotIn("Made in Webflow", text)
-            self.assertNotIn("utm_campaign=brandjs", text)
-            self.assertNotIn("editor-api.webflow.com", text)
+
+    def test_loading_animation_cannot_block_content(self):
+        for page in ROOT.rglob("*.html"):
+            soup = BeautifulSoup(page.read_text(), "html.parser")
+            self.assertFalse(soup.select(".loading-page"))
+            self.assertIn("opacity: 1 !important", soup.select_one("#portfolio-availability").get_text())
 
     def test_script_integrity_matches_local_files(self):
         for page in ROOT.rglob("*.html"):
@@ -59,3 +60,4 @@ class BaselineTests(unittest.TestCase):
                 content = (ROOT / urlsplit(tag["src"]).path.lstrip("/")).read_bytes()
                 expected = "sha384-" + base64.b64encode(sha384(content).digest()).decode()
                 self.assertEqual(tag["integrity"], expected)
+                self.assertIn("?v=", tag["src"])

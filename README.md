@@ -28,10 +28,13 @@ Six pages: home, about, project listing, SARINC, Women's Wilderness, and PetPal.
 Images, CSS, JavaScript, and CSS-referenced fonts are copied locally.
 The original WebFont loader still loads Google Fonts externally.
 Webflow interactions remain in place; this is a baseline, not a framework rewrite.
-Visitor-facing platform branding and metadata have been removed. The local
-runtime's promotional-badge and hosted-editor modules are disabled; navigation,
-animations, and lightboxes remain available. `remove_branding.py` applies this
-cleanup idempotently and also runs after any fresh capture.
+Visitor-facing platform branding and metadata have been removed by removing
+the original hosted-domain and badge flags, without modifying the original
+interaction runtime. Navigation, animations, and lightboxes remain available.
+The full-screen loading overlay is removed so content cannot be blocked by its
+animation. Script URLs are versioned by content and retain verified integrity
+hashes to prevent stale browser cache mismatches. `remove_branding.py` applies
+this cleanup idempotently and also runs after any fresh capture.
 
 Intentional preview safeguards:
 
