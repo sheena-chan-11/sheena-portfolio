@@ -27,12 +27,12 @@ class BaselineTests(unittest.TestCase):
                         local = ROOT / urlsplit(url).path.lstrip("/")
                         self.assertTrue(local.is_file() or (local / "index.html").is_file(), f"{page}: {url}")
 
-    def test_no_production_analytics_or_form_submission(self):
+    def test_no_production_analytics_or_contact_forms(self):
         for page in ROOT.rglob("*.html"):
             text = page.read_text()
             self.assertNotIn("googletagmanager.com", text)
-            self.assertIn("event.preventDefault()", text)
-            self.assertIn("Preview only:", text)
+            soup = BeautifulSoup(text, "html.parser")
+            self.assertFalse(soup.select("form, input, textarea"))
 
     def test_no_unresolved_capture_errors(self):
         manifest = json.loads((ROOT.parent / "capture-manifest.json").read_text())
@@ -46,11 +46,34 @@ class BaselineTests(unittest.TestCase):
             self.assertIn(".w-webflow-badge", style.get_text())
             self.assertIn("display: none !important", style.get_text())
 
-    def test_homepage_side_ctas_removed_but_contact_kept(self):
+    def test_homepage_contact_section_and_side_ctas_removed(self):
         soup = BeautifulSoup((ROOT / "index.html").read_text(), "html.parser")
         self.assertFalse(soup.select(".social-block, .social-link"))
-        self.assertIsNotNone(soup.select_one("#contact"))
-        self.assertIsNotNone(soup.select_one("form"))
+        self.assertIsNone(soup.select_one("#contact"))
+        self.assertNotIn("Got a project in mind?", soup.get_text())
+        self.assertNotIn("Drop me a line!", soup.get_text())
+        self.assertNotIn("Let's make something awesome together.", soup.get_text())
+        self.assertIsNotNone(soup.select_one("footer"))
+
+    def test_no_contact_navigation_or_dead_contact_links(self):
+        for page in ROOT.rglob("*.html"):
+            soup = BeautifulSoup(page.read_text(), "html.parser")
+            self.assertEqual(
+                [a.get_text(" ", strip=True) for a in soup.select(".nav-menu a")],
+                ["Home", "About Me", "Projects"],
+            )
+            self.assertFalse(soup.select('a[href="/#contact"], a[href="#contact"], a[href="/contact"]'))
+
+    def test_about_me_contact_links(self):
+        soup = BeautifulSoup((ROOT / "aboutme/index.html").read_text(), "html.parser")
+        links = soup.select_one(".column-paragraph .about-contact-links")
+        self.assertIsNotNone(links)
+        email = links.select_one('a[href="mailto:scyl182011@gmail.com"]')
+        self.assertEqual(email.get_text(), "scyl182011@gmail.com")
+        linkedin = links.select_one('a[href="https://www.linkedin.com/in/sheenachan11"]')
+        self.assertIsNotNone(linkedin)
+        self.assertEqual(linkedin["target"], "_blank")
+        self.assertIn("noopener", linkedin["rel"])
 
     def test_petpal_unlisted_but_details_remain(self):
         for name in ("index.html", "latestprojects/index.html", "aboutme/index.html"):

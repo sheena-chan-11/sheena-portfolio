@@ -35,7 +35,9 @@ integrity hashes.
 
 ## Current portfolio
 
-- Homepage side LinkedIn/Email CTAs are removed; the contact section remains.
+- Homepage side LinkedIn/Email CTAs, bottom contact copy/form, and Contact
+  navigation links are removed. About Me now includes direct email and
+  LinkedIn links beneath the biography.
 - Home, Projects, and About's Latest Work list show Step by Step, Women's
   Wilderness, and Small Angel Rescue, in that order.
 - PetPal is unlisted, not access-restricted: `/project/petpal/` remains available.
@@ -46,9 +48,8 @@ integrity hashes.
 Intentional preview safeguards:
 
 - Production Google Analytics is removed.
-- Contact forms display an explicit preview-only message instead of submitting
-  to the production Webflow service. The homepage's side CTAs were subsequently
-  removed at the owner's request.
+- Contact forms have been removed entirely; contacting Sheena uses the direct
+  email and LinkedIn links on About Me instead.
 - One inaccessible Webflow stock placeholder (HTTP 403 at capture time) is
   replaced by a neutral SVG; details are in `capture-manifest.json`.
 - No domain or DNS changes have been made. `sheenachan.com` can be connected
