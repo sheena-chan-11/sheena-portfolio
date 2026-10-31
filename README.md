@@ -12,6 +12,15 @@ python3 -m http.server 8000 --directory public
 ```
 
 The VM preview runs as the `sheena-portfolio` systemd service on port 8000.
+Its checkout is `/home/exedev/sheena-portfolio`.
+
+## Verify
+
+```sh
+python3 -m venv .venv
+.venv/bin/pip install -r requirements.txt
+.venv/bin/python -m unittest -v
+```
 
 ## Scope
 
