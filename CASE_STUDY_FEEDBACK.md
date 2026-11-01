@@ -119,3 +119,18 @@ Remaining priorities:
 Suggested overall research question: “How might we help prospective participants find suitable outdoor programs and understand their registration options?” Treat the competitive comparison as a supporting investigation.
 
 No additional online verification was needed for this follow-up: these comments concern the supplied revision and proposed wording, not new claims about the current websites.
+
+## Third-draft review
+
+The latest revision clarifies the research scope and task-based participant sessions, makes the naming finding concrete, and appropriately distinguishes registration states and follow-up validation limits. Remaining edits are primarily framing and precision:
+
+- Replace the rhetorical opening with concise organizational context, or explicitly ground the broader equity context in documented sources; the described study does not investigate those barriers.
+- Use one research question that includes program discovery and registration clarity; remove the generic second question.
+- Describe the initial website review as the researcher's observations, not established emotional effects on visitors. Consider “Initial website review” instead of “Desk research” if that was its full scope.
+- Use “Usability testing and interviews” for the task-based sessions described. Explain actual synthesis steps beyond color coding without inventing methodology.
+- Frame shorter discovery time as an intended benefit to evaluate, not an established effect. Label proposed filtering and registration visuals as untested where applicable.
+- Bring the competitive-analysis waitlist description into alignment with the carefully differentiated registration recommendation; verify its actual purpose rather than imply it applies equally to expired and sold-out events.
+- Keep the limitations honest and scoped: missing parent perspectives matters specifically when youth-program registration was part of the study.
+- Polish sentence case, spell out small numbers consistently, remove “at the end,” and use short finding-oriented headings.
+
+This follow-up evaluates the supplied text only; no new website verification or portfolio-page changes were performed.
