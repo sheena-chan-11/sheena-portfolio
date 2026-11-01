@@ -67,6 +67,10 @@ integrity hashes.
   organization, side by side on desktop and stacked on mobile. Reference device
   chrome covers the red recording badges without changing the media files or
   website interactions. There are no playback buttons or duration displays.
+- Women's Wilderness interview topics link directly to their corresponding
+  findings and recommendations, with native fragment navigation that clears
+  the sticky header. The Background summary focuses on opportunities rather
+  than repeating the overview's research-methods list.
 
 Intentional preview safeguards:
 

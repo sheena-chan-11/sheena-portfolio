@@ -16,6 +16,18 @@
 .ww-copy p { margin-bottom: 20px; }
 .ww-copy ol { padding-left: 1.5em; }
 .ww-copy li { margin-bottom: 14px; padding-left: .2em; }
+.ww-copy .ww-topic-links a {
+  color: #4830e6;
+  font: inherit;
+  letter-spacing: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.ww-copy .ww-topic-links a:focus-visible,
+.ww-copy h4[id]:focus-visible {
+  outline: 3px solid #4830e6;
+  outline-offset: 4px;
+}
 .ww-research-question {
   padding: 20px 24px;
   border-left: 3px solid #4830e6;

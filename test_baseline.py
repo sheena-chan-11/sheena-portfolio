@@ -133,9 +133,10 @@ class BaselineTests(unittest.TestCase):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
         text = soup.get_text(" ", strip=True)
         for phrase in (
-            "girls, women, and LGBTQ+ people in Colorado since 1998",
+            "Colorado nonprofit organization",
+            "girls, women, and LGBTQ+ people find their voice in the outdoors since 1998",
             "collaborated with four other UX researchers",
-            "User Interviews with six potential participants",
+            "Our research highlighted three opportunities to improve program discovery and registration:",
             "Clarify program labels",
             "Improve program filtering",
             "Communicate registration availability clearly",
@@ -171,7 +172,11 @@ class BaselineTests(unittest.TestCase):
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/womens-wilderness.css?v={version}"]'))
         self.assertEqual(len(soup.select(".ww-evidence")), 5)
         for figure in soup.select(".ww-evidence"):
-            self.assertTrue(figure.figcaption.get_text(strip=True))
+            if "ww-program-previews" in figure.get("class", []):
+                self.assertIsNone(figure.figcaption)
+                self.assertEqual(len(figure.select("img")), 2)
+            else:
+                self.assertTrue(figure.figcaption.get_text(strip=True))
             for image in figure.select("img"):
                 self.assertTrue(image["alt"])
                 self.assertIn("width", image.attrs)
@@ -185,6 +190,47 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(visit["href"], "https://womenswilderness.org/")
         previous = next(a for a in soup.select(".project-page a") if a.get_text(strip=True) == "Prev Project")
         self.assertEqual(previous["href"], "/project/step-by-step")
+
+    def test_womens_wilderness_background_refinements(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        background = soup.select(".ww-copy")[0]
+        paragraphs = background.find_all("p", recursive=False)
+        self.assertEqual(
+            paragraphs[1].get_text(),
+            "Women’s Wilderness is a Colorado nonprofit organization that has helped girls, women, and LGBTQ+ people find their voice in the outdoors since 1998.",
+        )
+        self.assertEqual([strong.get_text() for strong in paragraphs[2].select("strong")], ["discovered", "registered"])
+        self.assertEqual(
+            paragraphs[4].get_text(),
+            "Our research highlighted three opportunities to improve program discovery and registration:",
+        )
+        self.assertNotIn("The process involved", background.get_text())
+        self.assertNotIn(
+            "Program previews captured during the competitive review.",
+            soup.get_text(),
+        )
+
+    def test_womens_wilderness_interview_topic_links(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        topics = soup.select_one("#user-interviews").find_next_sibling("ol")
+        expected = [
+            ("Site navigation and other information exploration", "finding-site-navigation"),
+            ("Activities and programs discovery", "finding-program-discovery"),
+            ("Activity Registration", "finding-activity-registration"),
+        ]
+        self.assertEqual(len(topics.select("a")), 3)
+        for link, (label, target) in zip(topics.select("a"), expected):
+            self.assertEqual(link.get_text(), label)
+            self.assertEqual(link["href"], "#" + target)
+            headings = soup.find_all(id=target)
+            self.assertEqual(len(headings), 1)
+            self.assertEqual(headings[0].name, "h4")
+            self.assertEqual(headings[0]["tabindex"], "-1")
+            self.assertTrue(headings[0].get_text().endswith(label))
+        # Let the native fragment action honor sticky-header scroll padding.
+        script = soup.select_one("#ww-topic-navigation").get_text()
+        self.assertIn("stopPropagation", script)
+        self.assertNotIn("preventDefault", script)
 
     def test_womens_wilderness_desk_research_recording(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
