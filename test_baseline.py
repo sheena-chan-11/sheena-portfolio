@@ -210,6 +210,39 @@ class BaselineTests(unittest.TestCase):
             self.assertTrue(asset.is_file())
             self.assertIn("?v=" + hashlib.sha256(asset.read_bytes()).hexdigest()[:12], url)
 
+    def test_womens_wilderness_mobile_walkthroughs(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        points = soup.select(".ww-comparison > li")
+        self.assertEqual(
+            [f["data-recording"] for f in points[0].select(".ww-phone-recording")],
+            ["ww-program-list", "bb-trips-list"],
+        )
+        self.assertEqual(
+            [f.figcaption.get_text(strip=True) for f in points[0].select(".ww-phone-recording")],
+            ["Women’s Wilderness", "Backcountry Beauties"],
+        )
+        self.assertEqual(
+            [f["data-recording"] for f in points[1].select(".ww-phone-recording")],
+            ["bb-waitlist"],
+        )
+        self.assertIsNotNone(points[1].select_one(".ww-phone-single"))
+        self.assertFalse(points[2].select("video"))
+        self.assertEqual(len(soup.select(".ww-phone-recording")), 3)
+        for figure in soup.select(".ww-phone-recording"):
+            self.assertEqual(figure.find_all(recursive=False)[0].name, "figcaption")
+            video = figure.select_one(".ww-phone-frame video")
+            self.assertIsNotNone(video)
+            for attribute in ("autoplay", "loop", "muted", "playsinline"):
+                self.assertIn(attribute, video.attrs)
+            self.assertNotIn("controls", video.attrs)
+            self.assertFalse(figure.select("button"))
+            self.assertTrue(video["aria-label"])
+            self.assertEqual([source["type"] for source in video.select("source")], ["video/webm", "video/mp4"])
+            for url in [source["src"] for source in video.select("source")] + [video["poster"]]:
+                asset = ROOT / urlsplit(url).path.lstrip("/")
+                self.assertTrue(asset.is_file())
+                self.assertIn("?v=" + hashlib.sha256(asset.read_bytes()).hexdigest()[:12], url)
+
     def test_script_integrity_still_matches(self):
         for page in ROOT.rglob("*.html"):
             soup = BeautifulSoup(page.read_text(), "html.parser")

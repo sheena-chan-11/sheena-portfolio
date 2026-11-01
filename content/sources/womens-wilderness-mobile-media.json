@@ -1,0 +1,185 @@
+[
+  {
+    "source_file": "ww-list.MP4",
+    "source_sha256": "60c56790a4c429b5b256ad582fcc1d1d2e19d9d38ae051681d1c3d823fa14c46",
+    "source_metadata": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "hevc",
+          "codec_type": "video",
+          "width": 1170,
+          "height": 2532,
+          "r_frame_rate": "60000/1001"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "43.571667",
+        "size": "76504002"
+      }
+    },
+    "output_basename": "ww-program-list",
+    "poster_time_seconds": 7,
+    "outputs": {
+      "mp4": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 600,
+            "height": 1298,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "43.566667",
+          "size": "5983821"
+        }
+      },
+      "webm": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "vp9",
+            "codec_type": "video",
+            "width": 600,
+            "height": 1298,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "43.566000",
+          "size": "5710340"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "bb-tirps-list.mov",
+    "source_sha256": "8d88c3efc69d27ec17589fde621e5c09d1fa23972b50e08adaccdb53116a8d58",
+    "source_metadata": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "hevc",
+          "codec_type": "video",
+          "width": 1170,
+          "height": 2532,
+          "r_frame_rate": "60000/1001"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "15.006689",
+        "size": "24685207"
+      }
+    },
+    "output_basename": "bb-trips-list",
+    "poster_time_seconds": 9,
+    "outputs": {
+      "mp4": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 600,
+            "height": 1298,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "15.000000",
+          "size": "1683879"
+        }
+      },
+      "webm": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "vp9",
+            "codec_type": "video",
+            "width": 600,
+            "height": 1298,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "15.000000",
+          "size": "1609686"
+        }
+      }
+    }
+  },
+  {
+    "source_file": "bb-waitlist.mov",
+    "source_sha256": "f963eeb2e295484c447195a755cfdbe4bff7f9f3d573c9c37f1b18b32119c6d2",
+    "source_metadata": {
+      "programs": [],
+      "streams": [
+        {
+          "codec_name": "hevc",
+          "codec_type": "video",
+          "width": 1170,
+          "height": 2532,
+          "r_frame_rate": "60000/1001"
+        },
+        {
+          "codec_name": "aac",
+          "codec_type": "audio",
+          "r_frame_rate": "0/0"
+        }
+      ],
+      "format": {
+        "duration": "4.068333",
+        "size": "2669724"
+      }
+    },
+    "output_basename": "bb-waitlist",
+    "poster_time_seconds": 0.3,
+    "outputs": {
+      "mp4": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "codec_type": "video",
+            "width": 600,
+            "height": 1298,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "4.066667",
+          "size": "296447"
+        }
+      },
+      "webm": {
+        "programs": [],
+        "streams": [
+          {
+            "codec_name": "vp9",
+            "codec_type": "video",
+            "width": 600,
+            "height": 1298,
+            "r_frame_rate": "30/1"
+          }
+        ],
+        "format": {
+          "duration": "4.066000",
+          "size": "383464"
+        }
+      }
+    }
+  }
+]

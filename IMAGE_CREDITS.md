@@ -57,3 +57,24 @@ media not included in the supplied PDF; no animations have been fabricated.
   and looping inline. At the owner's request, the recording is unframed with
   no visible caption, pause/play button, native controls, or duration display.
   An accessible video label identifies the recording and its lack of audio.
+
+### Mobile competitive-analysis recordings
+
+The owner supplied these three recordings for the comparison points:
+
+| Supplied file | Website asset basename | Placement |
+| --- | --- | --- |
+| `ww-list.MP4` | `ww-program-list` | Point 1: Women’s Wilderness adult-program navigation |
+| `bb-tirps-list.mov` | `bb-trips-list` | Point 1: Backcountry Beauties trips list |
+| `bb-waitlist.mov` | `bb-waitlist` | Point 2: Backcountry Beauties trip-to-waitlist flow |
+
+Each website recording has a VP9/WebM version and an H.264/fast-start MP4
+fallback at 600×1298 and 30 fps, plus a JPEG poster taken from that recording.
+The complete visual recordings are preserved without trimming or cropping.
+The original audio tracks are omitted from these silent web copies; playback
+is muted, automatic, looping, and inline, with no native controls or pause button.
+
+Organization labels sit above decorative CSS iPhone-style frames. The frames
+do not replace or recreate the recorded interfaces. Exact source hashes,
+metadata, output filenames, and poster times are recorded in
+`content/sources/womens-wilderness-mobile-media.json`.

@@ -82,6 +82,65 @@
   height: auto;
   background: #08082c;
 }
+.ww-phone-recordings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  justify-items: center;
+  gap: 32px;
+  width: 100%;
+  margin: 28px 0 36px;
+}
+.ww-phone-single { grid-template-columns: minmax(0, 1fr); }
+.ww-copy .ww-phone-recording {
+  display: block;
+  float: none;
+  clear: none;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.ww-copy .ww-phone-recording figcaption {
+  display: block;
+  margin: 0 0 14px;
+  color: #08082c;
+  text-align: center;
+  letter-spacing: .2px;
+  font: 700 14px/1.5 "PT Sans", sans-serif;
+}
+.ww-phone-frame {
+  position: relative;
+  width: 100%;
+  max-width: 244px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: clamp(4px, 1vw, 7px) solid #111;
+  border-radius: clamp(16px, 2.5vw, 34px);
+  background: #111;
+  box-shadow: 0 0 0 1px #b9b9bd, 0 4px 12px #08082c14;
+}
+.ww-phone-frame::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 1%;
+  left: 50%;
+  width: 26%;
+  height: 1.6%;
+  border-radius: 999px;
+  background: #080808;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.ww-phone-frame video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #202124;
+}
 .ww-copy .ww-evidence figcaption {
   display: block;
   margin: 18px 0 0;
@@ -91,6 +150,7 @@
   font: 400 14px/1.7 "PT Sans", sans-serif;
 }
 @media (max-width: 600px) {
+  .ww-phone-recordings { grid-template-columns: minmax(0, 1fr); gap: 28px; }
   .ww-evidence-grid { grid-template-columns: 1fr; gap: 20px; }
   .ww-evidence-phones { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
   .ww-copy .ww-evidence { padding: 14px; }
