@@ -5,14 +5,17 @@ This preserves the existing design and content before internship/job-application
 
 ## Preview
 
-Serve `public/` with any static HTTP server:
+Serve `public/` with a static HTTP server that supports byte ranges for video
+seeking. The VM uses BusyBox:
 
 ```sh
-python3 -m http.server 8000 --directory public
+busybox httpd -f -p 8000 -h "$PWD/public" -c "$PWD/deploy/httpd.conf"
 ```
 
 The VM preview runs as the `sheena-portfolio` systemd service on port 8000.
 Its checkout is `/home/exedev/sheena-portfolio`.
+The service definition is tracked in `deploy/sheena-portfolio.service`.
+`deploy/httpd.conf` supplies explicit video/font MIME types.
 
 ## Verify
 
@@ -49,8 +52,10 @@ integrity hashes.
 - Women's Wilderness uses the owner's revised case-study copy, archived at
   `content/sources/womens-wilderness-case-study.pdf`. Relevant original research
   screenshots are reused/cropped, with recommendations explicitly labeled as
-  proposals rather than implemented results. Draft GIF/video notes are not
-  published as content; those media files were not included in the PDF.
+  proposals rather than implemented results. The supplied homepage recording is
+  embedded below Desk Research with native playback controls. Unprovided draft
+  GIF/video notes are not published as content; remaining media is tracked in
+  GitHub issue #8.
 
 Intentional preview safeguards:
 

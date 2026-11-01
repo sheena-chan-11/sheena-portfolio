@@ -1,0 +1,12 @@
+[Unit]
+Description=Sheena Chan portfolio preview
+After=network.target
+
+[Service]
+User=exedev
+WorkingDirectory=/home/exedev/sheena-portfolio
+ExecStart=/usr/bin/busybox httpd -f -p 8000 -h /home/exedev/sheena-portfolio/public -c /home/exedev/sheena-portfolio/deploy/httpd.conf
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

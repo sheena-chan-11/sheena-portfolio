@@ -37,4 +37,22 @@ Captions distinguish original interfaces from proposed filtering and availabilit
 changes. The proposals are not presented as implemented or evaluated outcomes.
 The owner’s source copy is archived at
 `content/sources/womens-wilderness-case-study.pdf`. Its GIF/video notes describe
-media not included in the supplied file; no animations have been fabricated.
+media not included in the supplied PDF; no animations have been fabricated.
+
+### Desk Research screen recording
+
+- Supplied by the owner: `Screen Recording 2026-10-30 at 4.34.50_PM.mov`.
+- Original SHA-256:
+  `9737695238bd8dafe00506e7d737d847373ecc50e471d395a8fa46f0da0e7375`.
+- Original: 3.1 seconds, 2988×1720, 120 fps, H.264, no audio.
+- Website copy: `public/assets/ww-desk-research.mp4`, H.264/yuv420p,
+  1494×860, 30 fps, fast-start MP4, approximately 1.4 MB. The complete
+  duration is retained with no cropping, additional content, or audio.
+- A VP9/WebM version, `public/assets/ww-desk-research.webm`, is offered first
+  for browsers without H.264 support, with MP4 as a compatibility fallback.
+  Both versions use the same dimensions, duration, and 30 fps.
+- Poster: `public/assets/ww-desk-research-poster.jpg`, taken at 0.25 seconds
+  from the website video.
+- Embedded immediately after the Desk Research paragraph with native controls
+  and inline mobile playback, not autoplay. The caption identifies the
+  recording and its lack of audio.

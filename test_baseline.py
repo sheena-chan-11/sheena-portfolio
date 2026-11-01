@@ -159,7 +159,7 @@ class BaselineTests(unittest.TestCase):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
         version = hashlib.sha256((ROOT / "assets/womens-wilderness.css").read_bytes()).hexdigest()[:12]
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/womens-wilderness.css?v={version}"]'))
-        self.assertEqual(len(soup.select(".ww-evidence")), 5)
+        self.assertEqual(len(soup.select(".ww-evidence")), 6)
         for figure in soup.select(".ww-evidence"):
             self.assertTrue(figure.figcaption.get_text(strip=True))
             for image in figure.select("img"):
@@ -175,6 +175,25 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(visit["href"], "https://womenswilderness.org/")
         previous = next(a for a in soup.select(".project-page a") if a.get_text(strip=True) == "Prev Project")
         self.assertEqual(previous["href"], "/project/step-by-step")
+
+    def test_womens_wilderness_desk_research_recording(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        figure = soup.select_one(".ww-desk-recording")
+        desk_text = soup.select_one("#desk-research").find_next_sibling("p")
+        self.assertIs(desk_text.find_next_sibling(), figure)
+        self.assertEqual(figure.find_next_sibling()["id"], "competitive-analysis")
+        video = figure.video
+        self.assertIn("controls", video.attrs)
+        self.assertIn("playsinline", video.attrs)
+        self.assertNotIn("autoplay", video.attrs)
+        self.assertEqual(video["preload"], "metadata")
+        self.assertEqual([source["type"] for source in video.select("source")], ["video/webm", "video/mp4"])
+        self.assertEqual(video["aria-describedby"], figure.figcaption["id"])
+        self.assertIn("no audio", figure.figcaption.get_text())
+        for url in [source["src"] for source in video.select("source")] + [video["poster"]]:
+            asset = ROOT / urlsplit(url).path.lstrip("/")
+            self.assertTrue(asset.is_file())
+            self.assertIn("?v=" + hashlib.sha256(asset.read_bytes()).hexdigest()[:12], url)
 
     def test_script_integrity_still_matches(self):
         for page in ROOT.rglob("*.html"):

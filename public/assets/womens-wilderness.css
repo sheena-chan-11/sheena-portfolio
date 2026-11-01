@@ -67,6 +67,16 @@
   margin: 0 auto;
   object-fit: contain;
 }
+.ww-copy .ww-evidence video {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #08082c;
+}
+.ww-copy .ww-evidence video:focus-visible {
+  outline: 3px solid #4830e6;
+  outline-offset: 5px;
+}
 .ww-copy .ww-evidence figcaption {
   display: block;
   margin: 18px 0 0;
