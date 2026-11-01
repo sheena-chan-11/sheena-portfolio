@@ -243,6 +243,46 @@ class BaselineTests(unittest.TestCase):
                 self.assertTrue(asset.is_file())
                 self.assertIn("?v=" + hashlib.sha256(asset.read_bytes()).hexdigest()[:12], url)
 
+    def test_womens_wilderness_browser_video_frame(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        frame = soup.select_one(".ww-desk-recording .ww-browser-frame")
+        self.assertIsNotNone(frame)
+        self.assertIsNotNone(frame.select_one("video"))
+        chrome = frame.select_one(".ww-browser-chrome")
+        self.assertEqual(chrome["aria-hidden"], "true")
+        self.assertEqual(len(chrome.select(".ww-window-dots > span")), 3)
+        self.assertEqual(chrome.select_one(".ww-browser-url-text").get_text(), "womenswilderness.org")
+        self.assertEqual(chrome.select_one(".ww-browser-tab-title").get_text(), "Women’s Wilderness")
+        self.assertFalse(chrome.select("button, a, input"))
+        icon = chrome.select_one("img")
+        self.assertEqual(icon["alt"], "")
+        asset = ROOT / urlsplit(icon["src"]).path.lstrip("/")
+        self.assertIn("?v=" + hashlib.sha256(asset.read_bytes()).hexdigest()[:12], icon["src"])
+
+    def test_womens_wilderness_reference_phone_frame(self):
+        metadata = json.loads((ROOT.parent / "content/sources/womens-wilderness-video-frames.json").read_text())
+        phone = metadata["phone_overlay"]
+        frame = ROOT.parent / phone["asset"]
+        content = frame.read_bytes()
+        self.assertEqual(hashlib.sha256(content).hexdigest(), phone["overlay_sha256"])
+        self.assertEqual(content[:8], b"\x89PNG\r\n\x1a\n")
+        self.assertEqual(
+            (int.from_bytes(content[16:20], "big"), int.from_bytes(content[20:24], "big")),
+            (440, 903),
+        )
+        self.assertEqual(content[25], 6)  # RGBA, including the transparent live screen.
+        reference = ROOT.parent / phone["reference"]
+        self.assertEqual(hashlib.sha256(reference.read_bytes()).hexdigest(), phone["reference_sha256"])
+        self.assertEqual(phone["clock"]["text"], "12:37")
+        self.assertIn("not recording-time evidence", phone["normalization"])
+        css = ROOT / "assets/womens-wilderness.css"
+        self.assertIn("/assets/ww-iphone-frame.png?v=" + phone["overlay_sha256"][:12], css.read_text())
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        self.assertIn(
+            "?v=" + hashlib.sha256(css.read_bytes()).hexdigest()[:12],
+            soup.select_one('link[href^="/assets/womens-wilderness.css"]')["href"],
+        )
+
     def test_script_integrity_still_matches(self):
         for page in ROOT.rglob("*.html"):
             soup = BeautifulSoup(page.read_text(), "html.parser")

@@ -55,15 +55,18 @@ integrity hashes.
   `content/sources/womens-wilderness-case-study.pdf`. Relevant original research
   screenshots are reused/cropped, with recommendations explicitly labeled as
   proposals rather than implemented results. The supplied homepage recording is
-  embedded unframed below Desk Research, autoplaying muted in a loop without a
+  embedded in a Chrome-style browser frame below Desk Research, autoplaying
+  muted in a loop without a
   visible caption, playback button, or timeline. Unprovided draft
   GIF/video notes are not published as content; remaining media is tracked in
   GitHub issue #8.
 - Competitive-analysis point 1 includes the supplied Women's Wilderness
   program-navigation and Backcountry Beauties trips-list recordings; point 2
   includes the Backcountry Beauties waitlist flow. They autoplay muted in
-  iPhone-style frames, labeled by organization, side by side on desktop and
-  stacked on mobile, without playback buttons or time displays.
+  reference-matched silver-rimmed iPhone frames on pale backgrounds, labeled by
+  organization, side by side on desktop and stacked on mobile. Reference device
+  chrome covers the red recording badges without changing the media files or
+  website interactions. There are no playback buttons or duration displays.
 
 Intentional preview safeguards:
 

@@ -1,0 +1,199 @@
+{
+  "phone_overlay": {
+    "asset": "public/assets/ww-iphone-frame.png",
+    "reference": "public/assets/ww-program-preview.png",
+    "reference_sha256": "f3c1ca3451bc1443d87050ff5a35940be8278112f1eae8ca5dfc9db76d94b4c8",
+    "overlay_sha256": "670717c1ac7da9bfa28f7521b81c72095563d6b65f619f1982beaa382fd48a65",
+    "reference_size": {
+      "width": 530,
+      "height": 905
+    },
+    "crop_source_half_open": [
+      46,
+      1,
+      486,
+      904
+    ],
+    "overlay_size": {
+      "width": 440,
+      "height": 903
+    },
+    "display_box_overlay": {
+      "x": 22,
+      "y": 23,
+      "width": 395,
+      "height": 858
+    },
+    "display_box_source": {
+      "x": 68,
+      "y": 24,
+      "width": 395,
+      "height": 858
+    },
+    "display_css_percent": {
+      "left": 5.0,
+      "top": 2.54706534,
+      "width": 89.77272727,
+      "height": 95.0166113
+    },
+    "video_css": {
+      "object_fit": "fill",
+      "border_radius": "15.18987342% / 6.99300699%",
+      "aspect_ratio": "1170 / 2532",
+      "note": "Place the complete recording in display_box_overlay. fill makes only a 0.4% ratio adjustment; do not crop. Rounded clipping is necessary to prevent live pixels leaking around transparent outer phone corners."
+    },
+    "screen_mask_exact_source": {
+      "left": 68.4,
+      "top": 24,
+      "right": 462.85,
+      "bottom": 882,
+      "radius": 60,
+      "supersampling": 8
+    },
+    "transparent_display_hole": {
+      "source_y_half_open": [
+        73,
+        864
+      ],
+      "overlay_y_half_open": [
+        72,
+        863
+      ],
+      "central_full_alpha_zero_box_overlay": {
+        "x": 30,
+        "y": 75,
+        "width": 380,
+        "height": 745
+      },
+      "description": "Rounded physical display, fully transparent between normalized status and home-indicator strips; no frozen webpage/URL/bottom-toolbar content."
+    },
+    "status_band": {
+      "source_y_half_open": [
+        24,
+        73
+      ],
+      "overlay_y_half_open": [
+        23,
+        72
+      ],
+      "height": 49,
+      "percent_of_display_height": 5.710955710955711,
+      "encoded_600x1298_corresponding_height": 74.12820512820512,
+      "note": "Original source-screen status ends around 5.57%; retained strip is 5.71%, ~1.85 encoded pixels extra, confined to browser chrome, not website UI."
+    },
+    "dynamic_island": {
+      "source_box": {
+        "x": 203,
+        "y": 34,
+        "width": 126,
+        "height": 39
+      },
+      "overlay_box": {
+        "x": 157,
+        "y": 33,
+        "width": 126,
+        "height": 39
+      }
+    },
+    "clock": {
+      "text": "12:37",
+      "source_box": {
+        "x": 110,
+        "y": 42,
+        "width": 45,
+        "height": 16
+      },
+      "overlay_box": {
+        "x": 64,
+        "y": 41,
+        "width": 45,
+        "height": 16
+      }
+    },
+    "home_strip": {
+      "source_y_half_open": [
+        864,
+        882
+      ],
+      "overlay_y_half_open": [
+        863,
+        881
+      ],
+      "height": 18,
+      "percent_of_display_height": 2.097902097902098,
+      "home_indicator_source_box": {
+        "x": 195,
+        "y": 868,
+        "width": 142,
+        "height": 6
+      },
+      "home_indicator_overlay_box": {
+        "x": 149,
+        "y": 867,
+        "width": 142,
+        "height": 6
+      }
+    },
+    "normalization": "Reference screenshot status clock, signal, Wi-Fi, yellow battery, camera, and white home indicator are decorative normalized chrome, not recording-time evidence. Actual website UI remains live through alpha-zero window. Original recordings are unchanged.",
+    "rim_annotation_repairs": [
+      {
+        "source_y_half_open": [
+          147,
+          151
+        ],
+        "method": "linear interpolation from immediate clean rows, turquoise pixels only",
+        "pixels": 1760
+      },
+      {
+        "source_y_half_open": [
+          684,
+          688
+        ],
+        "method": "linear interpolation from immediate clean rows, turquoise pixels only",
+        "pixels": 1760
+      }
+    ],
+    "exterior_alpha": "Per-row white-matte extraction only outside the first/last <220 luminance chrome core; preserved opaque silver highlights inside. Transparent corners and anti-aliased edges, not a white rectangle.",
+    "caveats": [
+      "Original reference is a raster image, so hardware sharpness is limited to its 440px extracted width.",
+      "Two four-pixel turquoise annotation crossings were locally repaired from adjacent reference rim rows.",
+      "Normalized status band is 49px (5.71% of display), with original Dynamic Island retained; normalized bottom home strip is 18px (2.10%).",
+      "A tiny black anti-aliased edge replaces the reference website-white mixed boundary pixels, avoiding frozen-content halos.",
+      "The bb-waitlist recording sometimes collapses browser chrome; the minimal18px bottom home strip overlays a small edge of page imagery there, while original media remains unchanged."
+    ],
+    "checks": {
+      "rgba_mode": true,
+      "all_four_outer_corner_alpha": 0,
+      "central_full_alpha_zero_box_alpha_extrema": [
+        0,
+        0
+      ],
+      "normalized_status_interior_alpha_extrema": [
+        255,
+        255
+      ],
+      "remaining_turquoise_annotation_pixels": 0,
+      "nontransparent_bbox_overlay_half_open": [
+        0,
+        2,
+        439,
+        902
+      ]
+    }
+  },
+  "desktop_browser_frame": {
+    "reference": "public/assets/ww-registration-original.png",
+    "reference_sha256": "9ed660d118d7a6119b37c7f7cc2427bd7860d96792f0fcad3224348a4fd1f4bc",
+    "presentation": "Decorative HTML/CSS Chrome-style frame; tabs, macOS window dots, and address bar are aria-hidden and noninteractive. Original homepage video is unchanged.",
+    "favicon": {
+      "asset": "public/assets/ww-browser-favicon.png",
+      "sha256": "60407f8ac5731d6b2ef26107ccc63955548e5a894dc468da0f332d514347852a",
+      "source_crop_half_open": [
+        95,
+        15,
+        113,
+        33
+      ]
+    }
+  }
+}

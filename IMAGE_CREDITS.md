@@ -54,9 +54,14 @@ media not included in the supplied PDF; no animations have been fabricated.
 - Poster: `public/assets/ww-desk-research-poster.jpg`, taken at 0.25 seconds
   from the website video.
 - Embedded immediately after the Desk Research paragraph, autoplaying muted
-  and looping inline. At the owner's request, the recording is unframed with
-  no visible caption, pause/play button, native controls, or duration display.
-  An accessible video label identifies the recording and its lack of audio.
+  and looping inline, with no visible caption, pause/play button, native
+  controls, or duration display. An accessible video label identifies the
+  recording and its lack of audio.
+- Playback has a decorative HTML/CSS Chrome-style browser frame matching
+  `ww-registration-original.png`, including window dots, a tab, and an address
+  bar. Its small favicon is an 18×18 crop from that reference, not an external
+  asset. The chrome is noninteractive and hidden from screen readers; the
+  video and its existing accessible label are unchanged.
 
 ### Mobile competitive-analysis recordings
 
@@ -74,7 +79,21 @@ The complete visual recordings are preserved without trimming or cropping.
 The original audio tracks are omitted from these silent web copies; playback
 is muted, automatic, looping, and inline, with no native controls or pause button.
 
-Organization labels sit above decorative CSS iPhone-style frames. The frames
-do not replace or recreate the recorded interfaces. Exact source hashes,
+Organization labels sit above reference-matched iPhone frames on pale
+backgrounds. Exact source hashes,
 metadata, output filenames, and poster times are recorded in
 `content/sources/womens-wilderness-mobile-media.json`.
+
+`ww-iphone-frame.png` is a transparent decorative overlay extracted from the
+owner's `ww-program-preview.png`. It retains that reference's silver rim,
+black bezel, camera, normal white `12:37` clock, signal/battery icons, and home
+indicator. The reference status bar covers the red recording badges on all
+three videos. These normalized device details are decoration, **not capture
+timestamps or research evidence**. The website/browser display remains live
+through the transparent window; the underlying media files are unchanged.
+
+The reference's turquoise annotation crossings were removed only from the
+decorative rim using adjacent clean pixels. No website UI or research result
+was redrawn. Frame geometry, source hashes, alpha-mask details, and the minimal
+retained status/home strips are documented in
+`content/sources/womens-wilderness-video-frames.json`.
