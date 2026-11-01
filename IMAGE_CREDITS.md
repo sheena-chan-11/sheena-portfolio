@@ -53,6 +53,7 @@ media not included in the supplied PDF; no animations have been fabricated.
   Both versions use the same dimensions, duration, and 30 fps.
 - Poster: `public/assets/ww-desk-research-poster.jpg`, taken at 0.25 seconds
   from the website video.
-- Embedded immediately after the Desk Research paragraph with native controls
-  and inline mobile playback, not autoplay. The caption identifies the
-  recording and its lack of audio.
+- Embedded immediately after the Desk Research paragraph, autoplaying muted
+  and looping inline. Native controls and the visible duration are hidden;
+  a custom pause/play button keeps the animation controllable. The caption
+  identifies the recording and its lack of audio without showing its length.

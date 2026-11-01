@@ -44,7 +44,8 @@ integrity hashes.
 - Home, Projects, and About's Latest Work list show Step by Step, Women's
   Wilderness, and Small Angel Rescue, in that order.
 - Step by Step's thumbnail has no permanent text label. All three cards share
-  the same padded purple hover/keyboard-focus overlay with wrapping text.
+  the same padded purple hover/keyboard-focus overlay with wrapping text
+  (22px title, 18px description, 16px project type; 21/17/15px on narrow phones).
 - PetPal is unlisted, not access-restricted: `/project/petpal/` remains available.
   Its original YouTube embed URL is restored instead of the captured `.bin`.
 - `/project/step-by-step/` is a coming-soon page; it makes no claims about
@@ -53,7 +54,8 @@ integrity hashes.
   `content/sources/womens-wilderness-case-study.pdf`. Relevant original research
   screenshots are reused/cropped, with recommendations explicitly labeled as
   proposals rather than implemented results. The supplied homepage recording is
-  embedded below Desk Research with native playback controls. Unprovided draft
+  embedded below Desk Research, autoplaying muted in a loop with a pause/play
+  button instead of a native duration/timeline display. Unprovided draft
   GIF/video notes are not published as content; remaining media is tracked in
   GitHub issue #8.
 
