@@ -38,6 +38,7 @@ integrity hashes.
 
 ## Current portfolio
 
+- Top navigation stays visible while scrolling on every page.
 - Homepage side LinkedIn/Email CTAs, bottom contact copy/form, and Contact
   navigation links are removed. About Me now includes direct email and
   LinkedIn links beneath the biography.
@@ -54,8 +55,8 @@ integrity hashes.
   `content/sources/womens-wilderness-case-study.pdf`. Relevant original research
   screenshots are reused/cropped, with recommendations explicitly labeled as
   proposals rather than implemented results. The supplied homepage recording is
-  embedded below Desk Research, autoplaying muted in a loop with a pause/play
-  button instead of a native duration/timeline display. Unprovided draft
+  embedded unframed below Desk Research, autoplaying muted in a loop without a
+  visible caption, playback button, or timeline. Unprovided draft
   GIF/video notes are not published as content; remaining media is tracked in
   GitHub issue #8.
 

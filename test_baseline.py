@@ -64,6 +64,15 @@ class BaselineTests(unittest.TestCase):
             )
             self.assertFalse(soup.select('a[href="/#contact"], a[href="#contact"], a[href="/contact"]'))
 
+    def test_sticky_navigation_stylesheet_on_all_pages(self):
+        css = ROOT / "assets/portfolio.css"
+        version = hashlib.sha256(css.read_bytes()).hexdigest()[:12]
+        self.assertIn("position: sticky", css.read_text())
+        for page in ROOT.rglob("*.html"):
+            soup = BeautifulSoup(page.read_text(), "html.parser")
+            self.assertIsNotNone(soup.select_one(".navbar.w-nav"))
+            self.assertIsNotNone(soup.select_one(f'link[href="/assets/portfolio.css?v={version}"]'))
+
     def test_about_me_contact_links(self):
         soup = BeautifulSoup((ROOT / "aboutme/index.html").read_text(), "html.parser")
         links = soup.select_one(".column-paragraph .about-contact-links")
@@ -160,7 +169,7 @@ class BaselineTests(unittest.TestCase):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
         version = hashlib.sha256((ROOT / "assets/womens-wilderness.css").read_bytes()).hexdigest()[:12]
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/womens-wilderness.css?v={version}"]'))
-        self.assertEqual(len(soup.select(".ww-evidence")), 6)
+        self.assertEqual(len(soup.select(".ww-evidence")), 5)
         for figure in soup.select(".ww-evidence"):
             self.assertTrue(figure.figcaption.get_text(strip=True))
             for image in figure.select("img"):
@@ -190,12 +199,12 @@ class BaselineTests(unittest.TestCase):
             self.assertIn(attribute, video.attrs)
         self.assertEqual(video["preload"], "metadata")
         self.assertEqual([source["type"] for source in video.select("source")], ["video/webm", "video/mp4"])
-        self.assertEqual(video["aria-describedby"], figure.figcaption["id"])
-        self.assertIn("no audio", figure.figcaption.get_text())
-        self.assertNotRegex(figure.figcaption.get_text(), r"\d+(?:\.\d+)?\s*seconds?")
-        button = figure.select_one("button.ww-video-toggle")
-        self.assertEqual(button["aria-controls"], video["id"])
-        self.assertIsNotNone(soup.select_one("#ww-video-controls"))
+        self.assertTrue(video["aria-label"])
+        self.assertNotIn("aria-describedby", video.attrs)
+        self.assertIsNone(figure.figcaption)
+        self.assertNotIn("ww-evidence", figure["class"])
+        self.assertFalse(figure.select("button"))
+        self.assertIsNone(soup.select_one("#ww-video-controls"))
         for url in [source["src"] for source in video.select("source")] + [video["poster"]]:
             asset = ROOT / urlsplit(url).path.lstrip("/")
             self.assertTrue(asset.is_file())
