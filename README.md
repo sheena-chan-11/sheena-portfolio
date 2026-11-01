@@ -46,6 +46,11 @@ integrity hashes.
   Its original YouTube embed URL is restored instead of the captured `.bin`.
 - `/project/step-by-step/` is a coming-soon page; it makes no claims about
   completed research or outcomes. Stock-image provenance is in `IMAGE_CREDITS.md`.
+- Women's Wilderness uses the owner's revised case-study copy, archived at
+  `content/sources/womens-wilderness-case-study.pdf`. Relevant original research
+  screenshots are reused/cropped, with recommendations explicitly labeled as
+  proposals rather than implemented results. Draft GIF/video notes are not
+  published as content; those media files were not included in the PDF.
 
 Intentional preview safeguards:
 

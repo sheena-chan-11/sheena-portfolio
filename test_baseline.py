@@ -119,6 +119,63 @@ class BaselineTests(unittest.TestCase):
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/step-by-step.css?v={version}"]'))
 
+    def test_womens_wilderness_revised_case_study(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        text = soup.get_text(" ", strip=True)
+        for phrase in (
+            "girls, women, and LGBTQ+ people in Colorado since 1998",
+            "collaborated with four other UX researchers",
+            "User Interviews with six potential participants",
+            "Clarify program labels",
+            "Improve program filtering",
+            "Communicate registration availability clearly",
+            "searching for a specific program and event",
+            "price, date, and location",
+            "6 potential participants",
+            "FAQ – Adult Courses",
+            "consistent terminology",
+            "activity, age, and program-type filters",
+            "cancellation waitlist",
+            "completed events or passed deadlines",
+            "notifications about future dates",
+            "Client response",
+            "Kriste + Women’s Wilderness",
+            "We did not conduct follow-up usability testing",
+        ):
+            self.assertIn(phrase, text)
+        self.assertEqual(len(soup.select(".ww-comparison > li")), 3)
+        self.assertEqual(len(soup.select("#challenge .ww-copy > ol > li")), 3)
+        self.assertEqual(len(soup.select(".ww-copy h4")), 3)
+        self.assertEqual(soup.select_one("#challenge h2").get_text(strip=True), "Limitations")
+        self.assertIsNotNone(soup.h1)
+        for obsolete in ("85%", "Age Range:", "Cost Clarity", "Number of Participants", "Involvement - Volunteering"):
+            self.assertNotIn(obsolete, text)
+        self.assertNotIn("***", text)
+        self.assertNotIn("Graphics/ video??", text)
+        self.assertNotIn("GIF to", text)
+        self.assertTrue((ROOT.parent / "content/sources/womens-wilderness-case-study.pdf").is_file())
+
+    def test_womens_wilderness_evidence_and_links(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        version = hashlib.sha256((ROOT / "assets/womens-wilderness.css").read_bytes()).hexdigest()[:12]
+        self.assertIsNotNone(soup.select_one(f'link[href="/assets/womens-wilderness.css?v={version}"]'))
+        self.assertEqual(len(soup.select(".ww-evidence")), 5)
+        for figure in soup.select(".ww-evidence"):
+            self.assertTrue(figure.figcaption.get_text(strip=True))
+            for image in figure.select("img"):
+                self.assertTrue(image["alt"])
+                self.assertIn("width", image.attrs)
+                self.assertIn("height", image.attrs)
+        captions = " ".join(f.get_text() for f in soup.select(".ww-evidence figcaption"))
+        self.assertIn("not a tested outcome", captions)
+        self.assertIn("not evidence of implementation", captions)
+        for link in soup.select('a[target="_blank"]'):
+            self.assertIn("noopener", link.get("rel", []))
+        visit = next(a for a in soup.select("a") if "Visit Website" in a.get_text())
+        self.assertEqual(visit["href"], "https://womenswilderness.org/")
+        previous = next(a for a in soup.select(".project-page a") if a.get_text(strip=True) == "Prev Project")
+        self.assertEqual(previous["href"], "/project/step-by-step")
+
     def test_script_integrity_still_matches(self):
         for page in ROOT.rglob("*.html"):
             soup = BeautifulSoup(page.read_text(), "html.parser")

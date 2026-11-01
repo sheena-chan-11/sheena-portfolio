@@ -1,0 +1,128 @@
+[
+  {
+    "source": "b6560a2547215e0672c4.png",
+    "source_dimensions": [
+      4074,
+      1750
+    ],
+    "output": "ww-program-preview.png",
+    "box_left_top_right_bottom": [
+      538,
+      125,
+      1068,
+      1030
+    ],
+    "output_dimensions": [
+      530,
+      905
+    ]
+  },
+  {
+    "source": "b6560a2547215e0672c4.png",
+    "source_dimensions": [
+      4074,
+      1750
+    ],
+    "output": "ww-competitor-preview.png",
+    "box_left_top_right_bottom": [
+      1184,
+      125,
+      1714,
+      1030
+    ],
+    "output_dimensions": [
+      530,
+      905
+    ]
+  },
+  {
+    "source": "0b3cb56e974af9c81932.png",
+    "source_dimensions": [
+      2127,
+      1332
+    ],
+    "output": "ww-filter-proposal.png",
+    "box_left_top_right_bottom": [
+      1420,
+      0,
+      2025,
+      994
+    ],
+    "output_dimensions": [
+      605,
+      994
+    ]
+  },
+  {
+    "source": "8d2049c5837d6846bace.png",
+    "source_dimensions": [
+      3076,
+      1301
+    ],
+    "output": "ww-registration-original.png",
+    "box_left_top_right_bottom": [
+      48,
+      32,
+      1488,
+      832
+    ],
+    "output_dimensions": [
+      1440,
+      800
+    ]
+  },
+  {
+    "source": "8d2049c5837d6846bace.png",
+    "source_dimensions": [
+      3076,
+      1301
+    ],
+    "output": "ww-registration-proposal.png",
+    "box_left_top_right_bottom": [
+      1588,
+      32,
+      3028,
+      832
+    ],
+    "output_dimensions": [
+      1440,
+      800
+    ]
+  },
+  {
+    "source": "f0e8a0efff1ab7ee78c7.png",
+    "source_dimensions": [
+      4074,
+      1750
+    ],
+    "output": "ww-adult-programs-label.png",
+    "box_left_top_right_bottom": [
+      1186,
+      261,
+      1579,
+      536
+    ],
+    "output_dimensions": [
+      393,
+      275
+    ]
+  },
+  {
+    "source": "24ed8d0e0636eb0b5b6a.png",
+    "source_dimensions": [
+      4074,
+      1750
+    ],
+    "output": "ww-courses-label.png",
+    "box_left_top_right_bottom": [
+      2687,
+      125,
+      3217,
+      1030
+    ],
+    "output_dimensions": [
+      530,
+      905
+    ]
+  }
+]
