@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Offline, screenshot-derived F2 proposed interaction.
 
-Requires Pillow, NumPy, and ffmpeg (libx264 + libvpx-vp9). No network is used.
+Requires Pillow, NumPy, and ffmpeg (libx264 + libvpx-vp9). No network is used;
+the licensed font needed for regeneration is bundled in content/sources/.
 The original uploaded screenshot is never modified. Coordinates below are
 half-open source-screenshot pixels, not reconstructed website coordinates.
 """
@@ -16,7 +17,7 @@ from io import BytesIO
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageCms, ImageDraw
+from PIL import Image, ImageCms, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = Path("/tmp/shelley-uploads/Screenshot 2026-11-01 at 5.01.24_PM.png")
@@ -24,15 +25,16 @@ CROP = (2, 240, 3022, 1800)
 FILM = (888, 862, 1464, 1800)
 HIKE = (1515, 862, 2091, 1800)
 ROW = (329, 928, 775, 982)
-GLYPHS = (388, 937, 501, 971)
-REMOVE_FILTER = (1228, 691, 1390, 716)
+REMOVE_FILTER = (1215, 659, 1405, 728)
 ADULT_LABEL = (1038, 663, 1187, 722)
 ADULT_ROW = (329, 1439, 775, 1482)
 VIDEO_SIZE = (1510, 780)
 FPS, DURATION = 30, 9
-NAVY = (2, 9, 80)
-AMBER = (255, 196, 0)
-PURPLE = (128, 0, 112)
+YELLOW = (255, 218, 0)
+PURPLE = (120, 21, 98)
+CHIP_FONT_PATH = ROOT / "content/sources/merriweather-900.ttf"
+CHIP_FONT_SHA256 = "0d17518d468ebb7bf6be187fe39caf344dd83a51c22618d230bde02dd99f08d2"
+CHIP_FONT_URL = "https://fonts.gstatic.com/s/merriweather/v33/u-4D0qyriQwlOrhSvowK_l5UcA6zuSYEqOzpPe3HOZJ5eX1WtLaQwmYiScCmDxhtNOKl8yDrdyAqEw.ttf"
 
 
 def sha256(path):
@@ -123,16 +125,10 @@ def main():
     film = original.crop(local_box(FILM))
     hike = original.crop(local_box(HIKE))
     white_film = Image.new("RGB", film.size, "white")
-    remove_filter = source.crop(REMOVE_FILTER)
-
-    # Reuse actual screenshot HIKING letterforms; no substitute font or fetch.
-    glyph_pixels = np.asarray(source.crop(GLYPHS), dtype=np.float32)
-    glyph_alpha = np.clip((glyph_pixels[:, :, 0] - NAVY[0]) /
-                         (255 - NAVY[0]), 0, 1)
-    glyph_mask = Image.fromarray(np.round(glyph_alpha * 255).astype("uint8"))
-    glyph_mask = glyph_mask.resize((124, 37), Image.Resampling.LANCZOS)
-    glyph = Image.new("RGBA", glyph_mask.size, PURPLE + (0,))
-    glyph.putalpha(glyph_mask)
+    proposed_base = original.copy()
+    proposed_base.paste("white", local_box(REMOVE_FILTER))
+    assert sha256(CHIP_FONT_PATH) == CHIP_FONT_SHA256
+    chip_font = ImageFont.truetype(str(CHIP_FONT_PATH), 48)
 
     def proposed_overlay(t):
         overlay = Image.new("RGBA", original.size)
@@ -141,28 +137,26 @@ def main():
         selected = ease((t - 2.70) / 0.24)
         if hover:
             draw.rounded_rectangle(local_box(ROW), radius=11,
-                                   fill=AMBER + (round(35 * selected),),
-                                   outline=AMBER + (round(255 * hover),), width=3)
+                                   outline=YELLOW + (round(255 * hover),), width=3)
         if selected:
             # Outline the already-active adult selections without checkmarks.
             draw.rounded_rectangle(local_box(ADULT_ROW), radius=11,
-                                   outline=AMBER + (round(255 * selected),), width=3)
+                                   outline=YELLOW + (round(255 * selected),), width=3)
             draw.rounded_rectangle(local_box(ADULT_LABEL), radius=10,
-                                   outline=AMBER + (round(255 * selected),), width=3)
+                                   outline=YELLOW + (round(255 * selected),), width=3)
 
-            # Preserve the source "Filter: Adult". The Hiking chip occupies the
-            # original Remove Filter location; the source control is moved.
-            draw.rectangle(local_box((1215, 659, 1405, 728)),
-                           fill=(255, 255, 255, round(255 * selected)))
-            draw.rounded_rectangle(local_box((1215, 664, 1447, 722)), radius=14,
-                                   fill=(255, 249, 224, round(255 * selected)),
-                                   outline=AMBER + (round(255 * selected),), width=3)
-            chip_glyph = glyph.copy()
-            chip_glyph.putalpha(glyph_mask.point(lambda a: round(a * selected)))
-            overlay.alpha_composite(chip_glyph, point(1239, 675))
-            moved_remove = remove_filter.convert("RGBA")
-            moved_remove.putalpha(round(255 * selected))
-            overlay.alpha_composite(moved_remove, point(1520, 691))
+            # Adult and Hiking use one consistent transparent yellow outline.
+            draw.rounded_rectangle(local_box((1215, 664, 1447, 722)), radius=10,
+                                   outline=YELLOW + (round(255 * selected),), width=3)
+            ink = PURPLE + (round(255 * selected),)
+            draw.text(point(1235, 667), "Hiking", font=chip_font,
+                      fill=ink, anchor="lt")
+            # A matching × close affordance sits inside the Hiking highlight.
+            close_x, close_y = point(1416, 686)
+            draw.line((close_x, close_y, close_x + 16, close_y + 16),
+                      fill=ink, width=4)
+            draw.line((close_x + 16, close_y, close_x, close_y + 16),
+                      fill=ink, width=4)
 
         # Pointer never covers event details. It approaches the real HIKING row.
         pointer_opacity = ease((t - 1.65) / 0.17) * (1 - ease((t - 2.97) / 0.34))
@@ -175,7 +169,7 @@ def main():
                 pulse = (t - 2.68) / 0.30
                 radius = 12 + 35 * pulse
                 draw.ellipse((px-radius, py-radius, px+radius, py+radius),
-                             outline=AMBER + (round(200 * (1-pulse)),), width=4)
+                             outline=YELLOW + (round(200 * (1-pulse)),), width=4)
             polygon = [(px, py), (px+2, py+43), (px+13, py+33),
                        (px+23, py+52), (px+31, py+48), (px+21, py+29),
                        (px+38, py+27)]
@@ -187,7 +181,7 @@ def main():
 
     def source_frame(t):
         # Exact source card rasters, including all visible event details/pricing.
-        frame = original.copy()
+        frame = proposed_base.copy()
         fade = ease((t - 3.02) / 0.58)
         reflow = ease((t - 3.62) / 0.77)
         if fade > 0 or reflow > 0:
@@ -201,7 +195,7 @@ def main():
         frame = Image.alpha_composite(frame.convert("RGBA"), proposed_overlay(t)).convert("RGB")
         reset = ease((t - 7.82) / 0.43)
         if reset:
-            frame = Image.blend(frame, original, reset)
+            frame = Image.blend(frame, proposed_base, reset)
         return frame
 
     def video_frame(t):
@@ -214,13 +208,18 @@ def main():
         return ImageCms.applyTransform(video_frame(t), display_to_srgb)
 
     # Uncompressed PNG previews also act as deterministic, pixel-level QA.
-    preview_times = {"original": 0.0, "selection": 2.90, "result": 5.4, "reset": 8.6}
+    preview_times = {"initial": 0.0, "selection": 2.90, "result": 5.4, "reset": 8.6}
     for name, t in preview_times.items():
         video_frame(t).save(args.previews / f"{name}.png")
     final = source_frame(5.4)
     assert np.array_equal(np.asarray(final.crop(local_box(FILM))), np.asarray(hike))
     assert np.all(np.asarray(final.crop(local_box(HIKE))) == 255)
-    assert np.array_equal(np.asarray(source_frame(8.6)), np.asarray(original))
+    assert np.array_equal(np.asarray(source_frame(0.0)), np.asarray(proposed_base))
+    assert np.array_equal(np.asarray(source_frame(8.6)), np.asarray(proposed_base))
+    assert np.any(np.asarray(original.crop(local_box(REMOVE_FILTER))) != 255)
+    assert np.all(np.asarray(proposed_base.crop(local_box(REMOVE_FILTER))) == 255)
+    close_pixels = np.asarray(final.crop(local_box((1414, 684, 1434, 704))))
+    assert np.any(np.all(close_pixels == PURPLE, axis=2))
     encoded_frame(5.4).save(
         staging / "ww-filter-hiking-poster.jpg", quality=94, subsampling=0,
         icc_profile=srgb_profile.tobytes(),
@@ -283,7 +282,7 @@ def main():
             "original_filename": args.source.name,
             "sha256": sha256(args.source),
             "dimensions_px": list(source.size),
-            "type": "User-supplied screenshot; only image source; no website or external assets fetched",
+            "type": "User-supplied screenshot; only image source. The locally bundled Merriweather font is separately sourced from Google Fonts.",
             "preserved": True,
             "embedded_icc": {
                 "description": source_profile_description,
@@ -303,6 +302,16 @@ def main():
             "address": "https://womenswilderness.org/programs/",
             "applies_to": ["Original screenshot", "Proposed interaction"],
             "implementation": "CSS/HTML browser chrome surrounds each evidence viewport; no chrome is added to or painted into source screenshot or video pixels.",
+        },
+        "font_source": {
+            "provider": "Google Fonts",
+            "family": "Merriweather",
+            "weight": 900,
+            "url": CHIP_FONT_URL,
+            "file": str(CHIP_FONT_PATH.relative_to(ROOT)),
+            "sha256": sha256(CHIP_FONT_PATH),
+            "license": "SIL Open Font License 1.1",
+            "license_file": "content/sources/Merriweather-OFL.txt",
         },
         "proposed": {
             "duration_seconds": DURATION,
@@ -325,12 +334,26 @@ def main():
             "poster_timestamp_seconds": 5.4,
             "new_ui_only": [
                 "Animated pointer and click ring",
-                "Yellow outlines around All Adult, Hiking, and Adult in the filter summary; no checkmarks",
-                "Persistent HIKING chip beside unchanged source Filter: Adult; no plus sign between the filters",
-                "Original Remove Filter control moved right to make space",
+                "Matching yellow outline rectangles around All Adult, Hiking, and Adult in the filter summary; no selection checkmarks",
+                "Title-case Merriweather 900 Hiking text with a matching × close affordance inside its yellow outline",
+                "The (Remove Filter) text is removed throughout the Proposed view; the Original screenshot is unchanged",
             ],
             "event_content": "All card imagery, titles, dates, locations, audience and pricing are the source screenshot's pixels. No event content invented or retyped.",
-            "font_method": "New HIKING chip reuses screenshot HIKING glyph alpha; no font substitution or network fetch.",
+            "font_method": "Hiking uses Merriweather 900 and sampled source-ink color to match Adult; a bundled local TTF makes regeneration offline and repeatable.",
+            "chip_typography": {
+                "text": "Hiking",
+                "font_family": "Merriweather",
+                "weight": 900,
+                "style": "normal",
+                "size_source_screenshot_px": 48,
+                "source_ink_rgb": list(PURPLE),
+                "font_file": str(CHIP_FONT_PATH.relative_to(ROOT)),
+                "font_sha256": sha256(CHIP_FONT_PATH),
+                "font_download_url": CHIP_FONT_URL,
+                "license": "SIL Open Font License 1.1; see content/sources/Merriweather-OFL.txt",
+                "remove_affordance": "× drawn inside the Hiking outline in the same source-ink color",
+                "selection_highlight": "No fill; matching #FFDA00 outline, 3px stroke, and 10px radius for Adult and Hiking",
+            },
             "source_geometry_xyxy_half_open": {
                 "nonmatching_film_card_mask": list(FILM),
                 "retained_hiking_card_raster": list(HIKE),
@@ -338,11 +361,13 @@ def main():
                 "hiking_sidebar_selection": list(ROW),
                 "all_adult_sidebar_outline": list(ADULT_ROW),
                 "adult_filter_label_outline": list(ADULT_LABEL),
-                "reused_hiking_glyphs": list(GLYPHS),
-                "original_remove_filter_control": list(REMOVE_FILTER),
+                "proposed_remove_filter_text_erased": list(REMOVE_FILTER),
+                "hiking_chip": [1215, 664, 1447, 722],
+                "hiking_text_origin": [1235, 667],
+                "hiking_close_x": [1416, 686, 1432, 702],
             },
             "timeline_seconds": {
-                "initial_original_hold": [0.0, 1.65],
+                "initial_proposed_hold": [0.0, 1.65],
                 "pointer_approach": [1.72, 2.50],
                 "hover": [2.20, 2.70],
                 "click_and_selected_filter": [2.70, 2.94],
@@ -350,18 +375,24 @@ def main():
                 "existing_hiking_card_reflows_left": [3.62, 4.39],
                 "single_result_hold": [4.39, 7.82],
                 "reset_crossfade": [7.82, 8.25],
-                "original_seam_hold": [8.25, 9.0],
+                "proposed_seam_hold": [8.25, 9.0],
             },
             "verification": {
                 "original_pixels_equal_source_crop": True,
                 "final_first_result_pixels_equal_original_hiking_card": True,
                 "final_former_second_slot_all_white": True,
-                "loop_end_pixels_equal_original": True,
+                "loop_end_pixels_equal_proposed_start": True,
                 "nonmatching_film_card_removed": True,
                 "retained_adult_filter": True,
                 "yellow_rectangles_outline_all_adult_hiking_and_adult_label": True,
                 "no_filter_selection_checkmark": True,
                 "no_plus_between_filter_labels": True,
+                "matching_filter_label_typeface_and_highlight": True,
+                "hiking_close_affordance_inside_highlight": True,
+                "remove_filter_text_removed_from_proposed": True,
+                "original_screenshot_unmodified": True,
+                "remove_filter_region_white_at_proposed_start_and_end": True,
+                "close_x_rendered_inside_hiking_highlight": True,
                 "decoded_video_color": color_verification,
             },
         },

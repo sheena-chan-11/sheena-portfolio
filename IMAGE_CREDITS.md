@@ -170,16 +170,22 @@ retained status/home strips are documented in
   address `womenswilderness.org/programs/`.
 - `ww-filter-hiking.webm`, `.mp4`, and `-poster.jpg` illustrate a proposed
   combined filter interaction. Yellow rectangles outline All Adult, Hiking,
-  and the existing Adult filter label. The Adult and Hiking criteria are
-  multi-selected; selecting Hiking removes the film event and reflows the
-  original adult hiking card into the first results slot. All event imagery,
-  titles, dates, audience, locations, and prices are actual source screenshot
-  pixels. No event content is invented or retyped.
-- Only pointer/selection cues, yellow outline rectangles, and the added filter
-  chip are synthesized. There is no selection checkmark or plus sign between
-  filter labels. The chip reuses original HIKING glyphs. The animation is
-  silent, 1510×780, 30fps, 270 frames/9 seconds, with a seamless return to the
-  original view. Poster shows the single-result state at 5.4 seconds.
+  and the existing Adult filter label using a consistent #FFDA00 outline.
+  Hiking now uses Merriweather 900 and the same source-ink color as Adult, with
+  an × close affordance inside the yellow outline. The proposed view removes
+  “(Remove Filter)” throughout; the Original screenshot remains unchanged.
+  The Adult and Hiking criteria are multi-selected; selecting Hiking removes
+  the film event and reflows the original adult hiking card into the first
+  results slot. All event imagery, titles, dates, audience, locations, and
+  prices are actual source screenshot pixels. No event content is invented or
+  retyped.
+- Only pointer/selection cues, yellow outline rectangles, and the Hiking
+  selection chip are synthesized. There is no selection checkmark or plus sign
+  between filter labels. The animation is silent, 1510×780, 30fps, 270
+  frames/9 seconds, with a seamless return to its proposed starting state.
+  Poster shows the single-result state at 5.4 seconds. The bundled
+  `content/sources/merriweather-900.ttf` is licensed under the SIL Open Font
+  License; its full license is in `content/sources/Merriweather-OFL.txt`.
 - The Original PNG retains the screenshot's embedded Display color profile.
   After raw-pixel conservation checks, proposed frames are color-managed to
   sRGB, then explicitly encoded as BT709 limited-range video. The poster is

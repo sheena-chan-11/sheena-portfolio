@@ -8,7 +8,7 @@
       3024,
       1964
     ],
-    "type": "User-supplied screenshot; only image source; no website or external assets fetched",
+    "type": "User-supplied screenshot; only image source. The locally bundled Merriweather font is separately sourced from Google Fonts.",
     "preserved": true,
     "embedded_icc": {
       "description": "Display",
@@ -31,6 +31,24 @@
     "pixel_changes": "None. Lossless rectangular crop only.",
     "boundary_reason": "Website starts at y=240. Two edge columns and bottom rounded browser corners excluded; menu bar, Chrome controls/profile/address bar, desktop and Dock excluded.",
     "already_active_filter": "Adult"
+  },
+  "browser_frame": {
+    "address": "https://womenswilderness.org/programs/",
+    "applies_to": [
+      "Original screenshot",
+      "Proposed interaction"
+    ],
+    "implementation": "CSS/HTML browser chrome surrounds each evidence viewport; no chrome is added to or painted into source screenshot or video pixels."
+  },
+  "font_source": {
+    "provider": "Google Fonts",
+    "family": "Merriweather",
+    "weight": 900,
+    "url": "https://fonts.gstatic.com/s/merriweather/v33/u-4D0qyriQwlOrhSvowK_l5UcA6zuSYEqOzpPe3HOZJ5eX1WtLaQwmYiScCmDxhtNOKl8yDrdyAqEw.ttf",
+    "file": "content/sources/merriweather-900.ttf",
+    "sha256": "0d17518d468ebb7bf6be187fe39caf344dd83a51c22618d230bde02dd99f08d2",
+    "license": "SIL Open Font License 1.1",
+    "license_file": "content/sources/Merriweather-OFL.txt"
   },
   "proposed": {
     "duration_seconds": 9,
@@ -56,12 +74,30 @@
     "poster_timestamp_seconds": 5.4,
     "new_ui_only": [
       "Animated pointer and click ring",
-      "Yellow outline rectangles around All Adult, Hiking, and Adult in the filter summary; no selection checkmarks",
-      "Persistent HIKING chip beside unchanged source Filter: Adult; no plus sign between the filters",
-      "Original Remove Filter control moved right to make space"
+      "Matching yellow outline rectangles around All Adult, Hiking, and Adult in the filter summary; no selection checkmarks",
+      "Title-case Merriweather 900 Hiking text with a matching \u00d7 close affordance inside its yellow outline",
+      "The (Remove Filter) text is removed throughout the Proposed view; the Original screenshot is unchanged"
     ],
     "event_content": "All card imagery, titles, dates, locations, audience and pricing are the source screenshot's pixels. No event content invented or retyped.",
-    "font_method": "New HIKING chip reuses screenshot HIKING glyph alpha; no font substitution or network fetch.",
+    "font_method": "Hiking uses Merriweather 900 and sampled source-ink color to match Adult; a bundled local TTF makes regeneration offline and repeatable.",
+    "chip_typography": {
+      "text": "Hiking",
+      "font_family": "Merriweather",
+      "weight": 900,
+      "style": "normal",
+      "size_source_screenshot_px": 48,
+      "source_ink_rgb": [
+        120,
+        21,
+        98
+      ],
+      "font_file": "content/sources/merriweather-900.ttf",
+      "font_sha256": "0d17518d468ebb7bf6be187fe39caf344dd83a51c22618d230bde02dd99f08d2",
+      "font_download_url": "https://fonts.gstatic.com/s/merriweather/v33/u-4D0qyriQwlOrhSvowK_l5UcA6zuSYEqOzpPe3HOZJ5eX1WtLaQwmYiScCmDxhtNOKl8yDrdyAqEw.ttf",
+      "license": "SIL Open Font License 1.1; see content/sources/Merriweather-OFL.txt",
+      "remove_affordance": "\u00d7 drawn inside the Hiking outline in the same source-ink color",
+      "selection_highlight": "No fill; matching #FFDA00 outline, 3px stroke, and 10px radius for Adult and Hiking"
+    },
     "source_geometry_xyxy_half_open": {
       "nonmatching_film_card_mask": [
         888,
@@ -99,21 +135,31 @@
         1187,
         722
       ],
-      "reused_hiking_glyphs": [
-        388,
-        937,
-        501,
-        971
+      "proposed_remove_filter_text_erased": [
+        1215,
+        659,
+        1405,
+        728
       ],
-      "original_remove_filter_control": [
-        1228,
-        691,
-        1390,
-        716
+      "hiking_chip": [
+        1215,
+        664,
+        1447,
+        722
+      ],
+      "hiking_text_origin": [
+        1235,
+        667
+      ],
+      "hiking_close_x": [
+        1416,
+        686,
+        1432,
+        702
       ]
     },
     "timeline_seconds": {
-      "initial_original_hold": [
+      "initial_proposed_hold": [
         0.0,
         1.65
       ],
@@ -145,7 +191,7 @@
         7.82,
         8.25
       ],
-      "original_seam_hold": [
+      "proposed_seam_hold": [
         8.25,
         9.0
       ]
@@ -154,9 +200,18 @@
       "original_pixels_equal_source_crop": true,
       "final_first_result_pixels_equal_original_hiking_card": true,
       "final_former_second_slot_all_white": true,
-      "loop_end_pixels_equal_original": true,
+      "loop_end_pixels_equal_proposed_start": true,
       "nonmatching_film_card_removed": true,
       "retained_adult_filter": true,
+      "yellow_rectangles_outline_all_adult_hiking_and_adult_label": true,
+      "no_filter_selection_checkmark": true,
+      "no_plus_between_filter_labels": true,
+      "matching_filter_label_typeface_and_highlight": true,
+      "hiking_close_affordance_inside_highlight": true,
+      "remove_filter_text_removed_from_proposed": true,
+      "original_screenshot_unmodified": true,
+      "remove_filter_region_white_at_proposed_start_and_end": true,
+      "close_x_rendered_inside_hiking_highlight": true,
       "decoded_video_color": {
         "webm": {
           "probe": {
@@ -260,10 +315,7 @@
           },
           "all_sample_channel_errors_le_3_of_255": true
         }
-      },
-      "yellow_rectangles_outline_all_adult_hiking_and_adult_label": true,
-      "no_filter_selection_checkmark": true,
-      "no_plus_between_filter_labels": true
+      }
     }
   },
   "reproduce": {
@@ -283,24 +335,16 @@
       "bytes": 1246615
     },
     "public/assets/ww-filter-hiking.webm": {
-      "sha256": "cdb6d0a43e4640d62d416ceb58922d4c44305d4ff1d3525c0ca803960028dd2f",
-      "bytes": 708598
+      "sha256": "c6e9e1401f518df5c861d6e649de2c1adddd7ad4a3f63d7a57cf17bd2a5b82aa",
+      "bytes": 699552
     },
     "public/assets/ww-filter-hiking.mp4": {
-      "sha256": "bdb12889d0b119615ae64e6c174c8297867af7663a2d1b1ae8c80915fb9056df",
-      "bytes": 573438
+      "sha256": "11b9b9ab240bfe84917b9f65b8388cea85589820451d0e2780f4013720ee3caa",
+      "bytes": 565978
     },
     "public/assets/ww-filter-hiking-poster.jpg": {
-      "sha256": "918964acb4ce7d1a41a89b65f86b118e9aaf966f8dc9d8200ee55d345346136b",
-      "bytes": 221894
+      "sha256": "406cdb6ecdb99a5061e50d65d8ec2d0762fe52a9611db713435a7f557ff1f7da",
+      "bytes": 222331
     }
-  },
-  "browser_frame": {
-    "address": "https://womenswilderness.org/programs/",
-    "applies_to": [
-      "Original screenshot",
-      "Proposed interaction"
-    ],
-    "implementation": "CSS/HTML browser chrome surrounds each evidence viewport; no chrome is painted into source screenshot or video pixels."
   }
 }

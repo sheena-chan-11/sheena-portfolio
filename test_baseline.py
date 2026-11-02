@@ -371,6 +371,30 @@ class BaselineTests(unittest.TestCase):
         self.assertTrue(all(metadata["proposed"]["verification"].values()))
         self.assertEqual(metadata["proposed"]["frames"], 270)
         self.assertEqual(metadata["proposed"]["duration_seconds"], 9)
+        verification = metadata["proposed"]["verification"]
+        for key in (
+            "matching_filter_label_typeface_and_highlight",
+            "hiking_close_affordance_inside_highlight",
+            "remove_filter_text_removed_from_proposed",
+            "original_screenshot_unmodified",
+            "remove_filter_region_white_at_proposed_start_and_end",
+            "close_x_rendered_inside_hiking_highlight",
+            "no_plus_between_filter_labels",
+        ):
+            self.assertTrue(verification[key])
+        typography = metadata["proposed"]["chip_typography"]
+        self.assertEqual((typography["text"], typography["font_family"], typography["weight"]),
+                         ("Hiking", "Merriweather", 900))
+        self.assertEqual(typography["source_ink_rgb"], [120, 21, 98])
+        self.assertEqual(
+            typography["selection_highlight"],
+            "No fill; matching #FFDA00 outline, 3px stroke, and 10px radius for Adult and Hiking",
+        )
+        font = ROOT.parent / typography["font_file"]
+        self.assertEqual(hashlib.sha256(font.read_bytes()).hexdigest(), typography["font_sha256"])
+        self.assertEqual(typography["font_sha256"],
+                         "0d17518d468ebb7bf6be187fe39caf344dd83a51c22618d230bde02dd99f08d2")
+        self.assertIn("SIL OPEN FONT LICENSE", (ROOT.parent / "content/sources/Merriweather-OFL.txt").read_text())
         urls = {}
         for name, entry in metadata["outputs"].items():
             asset = ROOT.parent / name
@@ -390,8 +414,9 @@ class BaselineTests(unittest.TestCase):
             [x.get_text(strip=True) for x in figure.select(".ww-browser-url-text")],
             ["womenswilderness.org/programs/"] * 2,
         )
-        self.assertIn("Yellow outline rectangles", metadata["proposed"]["new_ui_only"][1])
-        self.assertIn("no plus sign between the filters", metadata["proposed"]["new_ui_only"][2])
+        self.assertIn("yellow outline rectangles", metadata["proposed"]["new_ui_only"][1])
+        self.assertIn("× close affordance", metadata["proposed"]["new_ui_only"][2])
+        self.assertIn("removed throughout the Proposed view", metadata["proposed"]["new_ui_only"][3])
         self.assertEqual(metadata["proposed"]["source_geometry_xyxy_half_open"]["all_adult_sidebar_outline"],
                          [329, 1439, 775, 1482])
         self.assertEqual(metadata["proposed"]["source_geometry_xyxy_half_open"]["adult_filter_label_outline"],

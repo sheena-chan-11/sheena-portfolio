@@ -93,12 +93,15 @@ integrity hashes.
 - Finding 2 pairs the owner's original desktop screenshot with a proposed
   filter animation, each inside a browser frame showing
   `womenswilderness.org/programs/`. Yellow rectangles outline “All Adult,”
-  “Hiking,” and the existing “Adult” filter label; there is no selection
-  checkmark or plus sign between filters. The pointer selects Hiking, the film
-  event disappears, and the original adult hiking event reflows into the first
-  results position. Browser controls/profile and desktop Dock from the source
-  capture are cropped out. Source pixels, event details, animation timing, and
-  verification are recorded in
+  “Hiking,” and the existing “Adult” filter label with a consistent color and
+  outline style. “Hiking” now uses the same Merriweather typography as “Adult,”
+  with an × close affordance inside its highlight. The proposal removes
+  “(Remove Filter)” while the Original screenshot stays untouched; no
+  selection checkmark or plus sign appears between filters. The pointer
+  selects Hiking, the film event disappears, and the original adult hiking
+  event reflows into the first results position. Browser controls/profile and
+  desktop Dock from the source capture are cropped out. Source pixels, event
+  details, animation timing, and verification are recorded in
   `content/sources/womens-wilderness-filter-animation.json`.
 
 Intentional preview safeguards:
