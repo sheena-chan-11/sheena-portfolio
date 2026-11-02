@@ -293,6 +293,53 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual(entry["checks"]["all_four_corner_alpha"], 0)
             self.assertGreater(entry["checks"]["enclosed_original_pure_white_pixels_retained_opaque"], 10000)
 
+    def test_womens_wilderness_naming_comparison(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        figure = soup.select_one("#finding-site-navigation").find_next("figure")
+        self.assertIn("ww-naming-comparison", figure["class"])
+        self.assertEqual(len(figure.select("video")), 1)  # One shared playback clock.
+        self.assertEqual(figure.find_next_sibling()["id"], "finding-program-discovery")
+        video = figure.video
+        self.assertEqual((video["width"], video["height"]), ("1000", "956"))
+        for attribute in ("autoplay", "muted", "loop", "playsinline"):
+            self.assertIn(attribute, video.attrs)
+        self.assertNotIn("controls", video.attrs)
+        self.assertEqual(video["preload"], "metadata")
+        self.assertEqual(video["aria-describedby"], figure.figcaption["id"])
+        self.assertIn("Original", video["aria-label"])
+        self.assertIn("proposed", video["aria-label"])
+        self.assertIn("Not implemented or usability-tested.", figure.figcaption.get_text())
+        metadata = json.loads((ROOT.parent / "content/sources/womens-wilderness-naming-comparison.json").read_text())
+        self.assertEqual(metadata["labels"], ["Original", "Proposed"])
+        self.assertEqual(metadata["timing"]["frames"], 868)
+        self.assertEqual(metadata["timing"]["fps"], 30)
+        self.assertEqual(metadata["canvas"]["phone_size"], [440, 903])
+        self.assertEqual(metadata["canvas"]["phone_origins"], [[20, 44], [540, 44]])
+        outputs = {}
+        for item in metadata["outputs"]:
+            path = ROOT.parent / item["path"]
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            self.assertEqual(digest, item["sha256"])
+            outputs[path.suffix] = "/assets/" + path.name + "?v=" + digest[:12]
+        sources = video.select("source")
+        self.assertEqual([source["type"] for source in sources], ["video/webm", "video/mp4"])
+        self.assertEqual([source["src"] for source in sources], [outputs[".webm"], outputs[".mp4"]])
+        self.assertEqual(video["poster"], outputs[".jpg"])
+        self.assertEqual(figure.figcaption.a["href"], outputs[".mp4"])
+        media = json.loads((ROOT.parent / "content/sources/womens-wilderness-naming-media.json").read_text())
+        self.assertEqual(media["changes"], {
+            "PARTNERSHIP & CUSTOM PROGRAMS": "PARTNERSHIP & CUSTOM COURSES",
+            "ADULT PROGRAMS": "ADULT COURSES",
+            "YOUTH PROGRAMS": "YOUTH COURSES",
+            "All Adult Programs": "All Adult Courses",
+            "All Youth Programs": "All Youth Courses",
+        })
+        self.assertEqual(media["validation"]["frames_compared"], 868)
+        for key in ("original_website_changed_frames", "proposed_pixels_outside_changed_labels", "faq_changed_frames"):
+            self.assertEqual(media["validation"][key], [])
+        renderer = ROOT.parent / "content/sources/render-womens-wilderness-naming.py"
+        self.assertEqual(hashlib.sha256(renderer.read_bytes()).hexdigest(), media["renderer_sha256"])
+
     def test_womens_wilderness_desk_research_recording(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
         figure = soup.select_one(".ww-desk-recording")

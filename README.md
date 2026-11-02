@@ -81,6 +81,12 @@ integrity hashes.
   phone derivatives. White website UI inside the phones is retained; original
   reference screenshots remain unchanged. Mask geometry and integrity checks
   are in `content/sources/womens-wilderness-transparent-previews.json`.
+- The first finding uses the owner's additional homepage/navigation recording
+  as an “Original” / “Proposed” terminology comparison. Both framed phones and
+  labels are baked into one video, so playback, seeking, buffering, and looping
+  cannot drift. Both views use black browser chrome; proposed “Courses” edits
+  are explicitly an unimplemented, untested illustration. WebM is offered
+  before MP4, with a full-size comparison link for closer inspection.
 
 Intentional preview safeguards:
 

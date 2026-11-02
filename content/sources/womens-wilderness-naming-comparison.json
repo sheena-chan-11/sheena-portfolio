@@ -1,0 +1,77 @@
+{
+  "purpose": "Original / proposed terminology illustration, not a live or tested redesign.",
+  "synchronization": "Both phones are rendered into each frame of ONE video. Zero playback drift is possible, including loops, seeks, and buffering.",
+  "timing": {
+    "fps": 30,
+    "frames": 868,
+    "duration_seconds": 28.933333333333334,
+    "poster_seconds": 28,
+    "speed": "1x, unchanged original recording pace"
+  },
+  "canvas": {
+    "width": 1000,
+    "height": 956,
+    "background": "#faf9fd",
+    "phone_origins": [
+      [
+        20,
+        44
+      ],
+      [
+        540,
+        44
+      ]
+    ],
+    "phone_size": [
+      440,
+      903
+    ],
+    "display_offset": [
+      22,
+      23
+    ],
+    "display_size": [
+      395,
+      858
+    ]
+  },
+  "labels": [
+    "Original",
+    "Proposed"
+  ],
+  "label_rendering": "Baked into each frame, including the poster and full-size media; DejaVu Sans Bold 28px, supersampled 2x.",
+  "working_inputs": [
+    {
+      "name": "ww-naming-original.mkv",
+      "sha256": "f3ba1dd8548b9572fbc830ba30af96e632d8ea248d932798110b9e2b55fd1304"
+    },
+    {
+      "name": "ww-naming-proposed.mkv",
+      "sha256": "4aeffe5b2eed73dd1477459d6a88f4ff0332eb129c970b1f7f6e3d5470e823a2"
+    }
+  ],
+  "phone_frame": {
+    "source": "public/assets/ww-iphone-frame.png",
+    "sha256": "670717c1ac7da9bfa28f7521b81c72095563d6b65f619f1982beaa382fd48a65",
+    "normalization": "Only retained status/home display strips are normalized from #202124 to black; white glyphs and exterior silver hardware remain. Decorative 12:37 clock is not recording-time evidence.",
+    "normalized_intermediate_sha256": "bdb4644efb9f6ce95b1713ba61f7a5ce57a36feca59a423e77e3dae619a1dc5a"
+  },
+  "outputs": [
+    {
+      "path": "public/assets/ww-naming-comparison.mp4",
+      "sha256": "7b576f8984d8ee40a9b7455963330f750c0c9d1f9e48b334ff8e85991b84a023",
+      "bytes": 4841173
+    },
+    {
+      "path": "public/assets/ww-naming-comparison.webm",
+      "sha256": "55310794766a3be18f4dcdd18e11654f0dc1c2b7bf2276a6cf9b053c6611d2dd",
+      "bytes": 4090919
+    },
+    {
+      "path": "public/assets/ww-naming-comparison-poster.jpg",
+      "sha256": "de1546a94a25a872e3e285a0e1377fa9b19ad4afb3f623cbe01ad124db4b83bd",
+      "bytes": 123719
+    }
+  ],
+  "reproduction": "tools/compose_naming_comparison.py ORIGINAL_WORKING_VIDEO PROPOSED_WORKING_VIDEO"
+}

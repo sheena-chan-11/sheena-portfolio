@@ -124,3 +124,29 @@ retained status/home strips are documented in
   `content/sources/womens-wilderness-transparent-previews.json`.
   Optional reproduction helper: `tools/prepare_transparent_previews.py`
   (Pillow 13.0.0; not a website/runtime dependency).
+
+### Original / proposed terminology walkthrough
+
+- Owner recording: `ScreenRecording_11-01-2026 16-47-16_1.MP4`.
+  The full recording is retained at its original pace, normalized to 30fps
+  with audio omitted from the published media.
+- Both versions use the same black browser-chrome treatment. “Original”
+  describes the unchanged website wording, not unmodified browser chrome.
+- The clearly labeled proposed illustration changes homepage
+  “PARTNERSHIP & CUSTOM PROGRAMS” to “PARTNERSHIP & CUSTOM COURSES,” plus the
+  Adult/Youth menu headings and “All Adult/Youth Programs” submenu labels to
+  “Courses.” Existing Courses FAQ labels and other website content remain.
+  This is not evidence of a live implementation or follow-up usability test.
+- `ww-naming-comparison.webm`, `.mp4`, and `-poster.jpg` include both phones
+  and their labels in one 1000×956 canvas. Every frame holds both views at the
+  same point in the recording; they cannot drift independently.
+- Hardware comes from the unchanged `ww-iphone-frame.png` reference overlay.
+  Only its retained status/home display strips are normalized to black.
+  The decorative 12:37 status clock is not recording-time evidence.
+- Final output hashes, timing, geometry, and working-input hashes are in
+  `content/sources/womens-wilderness-naming-comparison.json`.
+  Source hash, font URL/hash, per-frame edit tracking, and pixel-conservation
+  checks are in `content/sources/womens-wilderness-naming-media.json`.
+  Reproduction uses `content/sources/render-womens-wilderness-naming.py`
+  for the edited pair and `tools/compose_naming_comparison.py` for the
+  single frame-locked comparison. These are offline tools, not runtime scripts.

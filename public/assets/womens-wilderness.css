@@ -260,6 +260,24 @@
   object-fit: fill;
   background: #202124;
 }
+.ww-copy .ww-naming-player {
+  width: 100%;
+  max-width: 555px;
+  margin: 0 auto;
+}
+.ww-copy .ww-naming-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1000 / 956;
+  background: #faf9fd;
+}
+.ww-copy .ww-naming-comparison figcaption a {
+  display: inline;
+  color: #4830e6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .ww-copy .ww-evidence figcaption {
   display: block;
   margin: 18px 0 0;
