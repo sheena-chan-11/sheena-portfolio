@@ -288,10 +288,11 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual(digest, entry["output_sha256"])
             self.assertEqual(image["src"], "/assets/" + output.name + "?v=" + digest[:12])
             self.assertEqual(image.parent["href"], image["src"])
-            self.assertEqual((image["width"], image["height"]), ("440", "903"))
+            self.assertEqual((image["width"], image["height"]), ("530", "905"))
             self.assertEqual(output.read_bytes()[25], 6)  # PNG RGBA, not a white matte.
             self.assertEqual(entry["checks"]["all_four_corner_alpha"], 0)
             self.assertGreater(entry["checks"]["enclosed_original_pure_white_pixels_retained_opaque"], 10000)
+            self.assertEqual(entry["checks"]["complete_original_annotation_pixels_retained_exactly"], 8472)
 
     def test_womens_wilderness_naming_comparison(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
@@ -308,7 +309,8 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(video["aria-describedby"], figure.figcaption["id"])
         self.assertIn("Original", video["aria-label"])
         self.assertIn("proposed", video["aria-label"])
-        self.assertIn("Not implemented or usability-tested.", figure.figcaption.get_text())
+        self.assertNotIn("Not implemented or usability-tested.", soup.get_text())
+        self.assertIn("Proposed terminology", figure.figcaption.get_text())
         metadata = json.loads((ROOT.parent / "content/sources/womens-wilderness-naming-comparison.json").read_text())
         self.assertEqual(metadata["labels"], ["Original", "Proposed"])
         self.assertEqual(metadata["timing"]["frames"], 868)

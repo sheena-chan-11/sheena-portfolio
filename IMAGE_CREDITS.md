@@ -114,11 +114,12 @@ retained status/home strips are documented in
 ### Transparent program-preview phones
 
 - `ww-program-preview-transparent.png` and
-  `ww-competitor-preview-transparent.png` are 440×903 RGBA derivatives of the
+  `ww-competitor-preview-transparent.png` are 530×905 RGBA derivatives of the
   corresponding original preview screenshots.
-- Only exterior white matte and exterior annotation segments were removed.
-  Enclosed website/browser UI, including white areas and existing annotations,
-  is preserved pixel-for-pixel. Original reference files are unchanged.
+- Only the exterior white matte is removed. Complete green rectangles,
+  including all four sides outside the hardware, are retained on the full
+  original canvas. Enclosed website/browser UI and all annotation strokes
+  remain pixel-for-pixel unchanged. Original reference files are unchanged.
 - Source/output hashes, crop geometry, edge-alpha method, white-pixel integrity
   checks, and limitations are archived in
   `content/sources/womens-wilderness-transparent-previews.json`.

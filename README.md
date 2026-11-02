@@ -79,13 +79,14 @@ integrity hashes.
   Both images open full-size.
 - The two competitive program-preview screenshots use exterior-transparent
   phone derivatives. White website UI inside the phones is retained; original
-  reference screenshots remain unchanged. Mask geometry and integrity checks
+  green annotation rectangles are retained in full, including their sides
+  outside the hardware. Reference screenshots remain unchanged. Mask geometry and integrity checks
   are in `content/sources/womens-wilderness-transparent-previews.json`.
 - The first finding uses the owner's additional homepage/navigation recording
   as an “Original” / “Proposed” terminology comparison. Both framed phones and
   labels are baked into one video, so playback, seeking, buffering, and looping
   cannot drift. Both views use black browser chrome; proposed “Courses” edits
-  are explicitly an unimplemented, untested illustration. WebM is offered
+  are labeled as proposed. WebM is offered
   before MP4, with a full-size comparison link for closer inspection.
 
 Intentional preview safeguards:
