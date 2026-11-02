@@ -86,16 +86,20 @@ integrity hashes.
 - The first finding uses the owner's additional homepage/navigation recording
   as an “Original” / “Proposed” terminology comparison. Both framed phones and
   labels are baked into one video, so playback, seeking, buffering, and looping
-  cannot drift. Both views use black browser chrome; amber outlines identify
-  only the updated “Courses” words in the proposed view, not existing FAQ
-  labels. WebM is offered before MP4, with a full-size comparison link for
-  closer inspection.
-- Finding 2 pairs the owner's original desktop screenshot with an autoplaying
-  proposed filter animation. “Adult” stays selected while “Hiking” is added;
-  the film event disappears and the original hiking card reflows into the
-  first results position. Browser/profile controls and the desktop Dock are
-  cropped out. Source pixels, event details, animation timing, and verification
-  are recorded in `content/sources/womens-wilderness-filter-animation.json`.
+  cannot drift. Both views use black browser chrome; prominent yellow
+  rectangles identify only the updated “Courses” words in the proposed view,
+  not existing FAQ labels. WebM is offered before MP4, with a full-size
+  comparison link for closer inspection.
+- Finding 2 pairs the owner's original desktop screenshot with a proposed
+  filter animation, each inside a browser frame showing
+  `womenswilderness.org/programs/`. Yellow rectangles outline “All Adult,”
+  “Hiking,” and the existing “Adult” filter label; there is no selection
+  checkmark or plus sign between filters. The pointer selects Hiking, the film
+  event disappears, and the original adult hiking event reflows into the first
+  results position. Browser controls/profile and desktop Dock from the source
+  capture are cropped out. Source pixels, event details, animation timing, and
+  verification are recorded in
+  `content/sources/womens-wilderness-filter-animation.json`.
 
 Intentional preview safeguards:
 

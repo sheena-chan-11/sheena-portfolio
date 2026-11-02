@@ -114,6 +114,24 @@
   background: transparent;
 }
 .ww-copy .ww-filter-comparison > figure + figure { margin-top: 32px; }
+.ww-copy .ww-filter-view .ww-browser-frame {
+  margin: 0;
+  border-color: #b7b8bb;
+  border-radius: 8px;
+}
+.ww-copy .ww-filter-view .ww-browser-chrome {
+  box-sizing: border-box;
+}
+.ww-copy .ww-filter-view .ww-browser-tab {
+  max-width: 320px;
+}
+.ww-copy .ww-filter-view .ww-browser-tab-title {
+  display: block;
+}
+.ww-copy .ww-filter-view .ww-filter-original-image,
+.ww-copy .ww-filter-view .ww-filter-video {
+  display: block;
+}
 .ww-copy .ww-filter-comparison .ww-filter-view > figcaption {
   margin: 0 0 14px;
   color: #08082c;
@@ -335,4 +353,12 @@
   .ww-copy h3 { font-size: 22px; }
   .ww-copy h4 { font-size: 19px; }
   .ww-research-question, .ww-copy blockquote { padding: 18px; }
+}
+@media (max-width: 479px) {
+  .section.narrow.process {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    overflow-x: clip;
+  }
 }

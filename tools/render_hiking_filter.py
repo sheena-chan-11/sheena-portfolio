@@ -26,6 +26,8 @@ HIKE = (1515, 862, 2091, 1800)
 ROW = (329, 928, 775, 982)
 GLYPHS = (388, 937, 501, 971)
 REMOVE_FILTER = (1228, 691, 1390, 716)
+ADULT_LABEL = (1038, 663, 1187, 722)
+ADULT_ROW = (329, 1439, 775, 1482)
 VIDEO_SIZE = (1510, 780)
 FPS, DURATION = 30, 9
 NAVY = (2, 9, 80)
@@ -142,25 +144,22 @@ def main():
                                    fill=AMBER + (round(35 * selected),),
                                    outline=AMBER + (round(255 * hover),), width=3)
         if selected:
-            # Persistent check at the end of the original sidebar row.
-            p = [point(730, 951), point(740, 961), point(759, 941)]
-            draw.line(p, fill=AMBER + (round(255 * selected),), width=5, joint="curve")
+            # Outline the already-active adult selections without checkmarks.
+            draw.rounded_rectangle(local_box(ADULT_ROW), radius=11,
+                                   outline=AMBER + (round(255 * selected),), width=3)
+            draw.rounded_rectangle(local_box(ADULT_LABEL), radius=10,
+                                   outline=AMBER + (round(255 * selected),), width=3)
 
-            # Preserve the source "Filter: Adult". The additional chip occupies
-            # the original Remove Filter location; the source control is moved.
+            # Preserve the source "Filter: Adult". The Hiking chip occupies the
+            # original Remove Filter location; the source control is moved.
             draw.rectangle(local_box((1215, 659, 1405, 728)),
                            fill=(255, 255, 255, round(255 * selected)))
-            plus_color = PURPLE + (round(255 * selected),)
-            draw.line([point(1201, 694), point(1225, 694)], fill=plus_color, width=4)
-            draw.line([point(1213, 682), point(1213, 706)], fill=plus_color, width=4)
-            draw.rounded_rectangle(local_box((1243, 664, 1475, 722)), radius=14,
+            draw.rounded_rectangle(local_box((1215, 664, 1447, 722)), radius=14,
                                    fill=(255, 249, 224, round(255 * selected)),
                                    outline=AMBER + (round(255 * selected),), width=3)
             chip_glyph = glyph.copy()
             chip_glyph.putalpha(glyph_mask.point(lambda a: round(a * selected)))
-            overlay.alpha_composite(chip_glyph, point(1267, 675))
-            draw.line([point(1428, 684), point(1447, 703)], fill=plus_color, width=3)
-            draw.line([point(1447, 684), point(1428, 703)], fill=plus_color, width=3)
+            overlay.alpha_composite(chip_glyph, point(1239, 675))
             moved_remove = remove_filter.convert("RGBA")
             moved_remove.putalpha(round(255 * selected))
             overlay.alpha_composite(moved_remove, point(1520, 691))
@@ -300,6 +299,11 @@ def main():
             "boundary_reason": "Website starts at y=240. Two edge columns and bottom rounded browser corners excluded; menu bar, Chrome controls/profile/address bar, desktop and Dock excluded.",
             "already_active_filter": "Adult",
         },
+        "browser_frame": {
+            "address": "https://womenswilderness.org/programs/",
+            "applies_to": ["Original screenshot", "Proposed interaction"],
+            "implementation": "CSS/HTML browser chrome surrounds each evidence viewport; no chrome is added to or painted into source screenshot or video pixels.",
+        },
         "proposed": {
             "duration_seconds": DURATION,
             "fps": FPS,
@@ -321,8 +325,8 @@ def main():
             "poster_timestamp_seconds": 5.4,
             "new_ui_only": [
                 "Animated pointer and click ring",
-                "Amber outlined HIKING sidebar selection and check",
-                "Persistent HIKING chip and plus next to unchanged source Filter: Adult",
+                "Yellow outlines around All Adult, Hiking, and Adult in the filter summary; no checkmarks",
+                "Persistent HIKING chip beside unchanged source Filter: Adult; no plus sign between the filters",
                 "Original Remove Filter control moved right to make space",
             ],
             "event_content": "All card imagery, titles, dates, locations, audience and pricing are the source screenshot's pixels. No event content invented or retyped.",
@@ -332,6 +336,8 @@ def main():
                 "retained_hiking_card_raster": list(HIKE),
                 "final_hiking_destination": list(FILM),
                 "hiking_sidebar_selection": list(ROW),
+                "all_adult_sidebar_outline": list(ADULT_ROW),
+                "adult_filter_label_outline": list(ADULT_LABEL),
                 "reused_hiking_glyphs": list(GLYPHS),
                 "original_remove_filter_control": list(REMOVE_FILTER),
             },
@@ -353,6 +359,9 @@ def main():
                 "loop_end_pixels_equal_original": True,
                 "nonmatching_film_card_removed": True,
                 "retained_adult_filter": True,
+                "yellow_rectangles_outline_all_adult_hiking_and_adult_label": True,
+                "no_filter_selection_checkmark": True,
+                "no_plus_between_filter_labels": True,
                 "decoded_video_color": color_verification,
             },
         },

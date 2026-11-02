@@ -47,7 +47,7 @@
     },
     {
       "name": "ww-naming-proposed-highlighted.mkv",
-      "sha256": "6203851b4e09775eca12b15e527c49f2616249288066830acaad0b65224b8e0c"
+      "sha256": "b38904f4670319b09e0fe18426a7906a4aa0194da289e6c105688569159c81dd"
     }
   ],
   "phone_frame": {
@@ -58,25 +58,25 @@
   },
   "outputs": [
     {
-      "path": "public/assets/ww-naming-highlighted-comparison.mp4",
-      "sha256": "da03478994f7a2dfb5d70cbf259f49bd5ae36b4e2a9fdeccb3794a3a40f07b45",
-      "bytes": 4829684
+      "path": "public/assets/ww-naming-yellow-comparison.mp4",
+      "sha256": "6a4cac31618a6289aed401e5a9656c7eea0b98e1ff29cb71467b0d2ad9cd7c67",
+      "bytes": 4831282
     },
     {
-      "path": "public/assets/ww-naming-highlighted-comparison.webm",
-      "sha256": "a8179eddfdf42b4928973d60dcf9a8788623f27ec6ae460bc1617dd0eeeff75e",
-      "bytes": 4118362
+      "path": "public/assets/ww-naming-yellow-comparison.webm",
+      "sha256": "70a193332fc070284f021e2522b3d59bd49d1a85fa8a2b2144ecb64bda004cb0",
+      "bytes": 4118778
     },
     {
-      "path": "public/assets/ww-naming-highlighted-comparison-poster.jpg",
-      "sha256": "0c2eba6c0bddfdc08369b226cfed807ad11fa77da7a226ca48116fabd517ad45",
-      "bytes": 126474
+      "path": "public/assets/ww-naming-yellow-comparison-poster.jpg",
+      "sha256": "28a7b355ee631b9345272c67df34bbdde7ea29341e1f174a49aff66448fe3e09",
+      "bytes": 126955
     }
   ],
-  "reproduction": "tools/compose_naming_comparison.py ORIGINAL_WORKING_VIDEO PROPOSED_WORKING_VIDEO --basename ww-naming-highlighted-comparison --highlights-provenance content/sources/womens-wilderness-naming-highlights.json",
+  "reproduction": "tools/compose_naming_comparison.py ORIGINAL_WORKING_VIDEO PROPOSED_WORKING_VIDEO --basename ww-naming-yellow-comparison --highlights-provenance content/sources/womens-wilderness-naming-highlights.json",
   "annotations": {
     "path": "content/sources/womens-wilderness-naming-highlights.json",
-    "sha256": "eb334d1a03b31360bc27dd87b313826d71ff560a3db30dc85600d51c85a2e1d1",
-    "description": "Amber outlines identify only the newly updated Courses labels in the proposed view."
+    "sha256": "1da6bea17b18628036654dde5fca5266d2d81c5cf6aafbe0e3125040b20ac3a9",
+    "description": "Prominent yellow rectangles identify only the newly updated Courses labels in the proposed view."
   }
 }

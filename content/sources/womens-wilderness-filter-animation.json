@@ -56,8 +56,8 @@
     "poster_timestamp_seconds": 5.4,
     "new_ui_only": [
       "Animated pointer and click ring",
-      "Amber outlined HIKING sidebar selection and check",
-      "Persistent HIKING chip and plus next to unchanged source Filter: Adult",
+      "Yellow outline rectangles around All Adult, Hiking, and Adult in the filter summary; no selection checkmarks",
+      "Persistent HIKING chip beside unchanged source Filter: Adult; no plus sign between the filters",
       "Original Remove Filter control moved right to make space"
     ],
     "event_content": "All card imagery, titles, dates, locations, audience and pricing are the source screenshot's pixels. No event content invented or retyped.",
@@ -86,6 +86,18 @@
         928,
         775,
         982
+      ],
+      "all_adult_sidebar_outline": [
+        329,
+        1439,
+        775,
+        1482
+      ],
+      "adult_filter_label_outline": [
+        1038,
+        663,
+        1187,
+        722
       ],
       "reused_hiking_glyphs": [
         388,
@@ -248,7 +260,10 @@
           },
           "all_sample_channel_errors_le_3_of_255": true
         }
-      }
+      },
+      "yellow_rectangles_outline_all_adult_hiking_and_adult_label": true,
+      "no_filter_selection_checkmark": true,
+      "no_plus_between_filter_labels": true
     }
   },
   "reproduce": {
@@ -268,16 +283,24 @@
       "bytes": 1246615
     },
     "public/assets/ww-filter-hiking.webm": {
-      "sha256": "d84a3a625d6ea983791a41df87f281eb9c52d3cfb25f0ea2f23d4068258bc5f4",
-      "bytes": 684738
+      "sha256": "cdb6d0a43e4640d62d416ceb58922d4c44305d4ff1d3525c0ca803960028dd2f",
+      "bytes": 708598
     },
     "public/assets/ww-filter-hiking.mp4": {
-      "sha256": "d457c447b6a9025455da51da1bc737aa0f42da4e89bc93f2c8fe7555b2c4d2cd",
-      "bytes": 564992
+      "sha256": "bdb12889d0b119615ae64e6c174c8297867af7663a2d1b1ae8c80915fb9056df",
+      "bytes": 573438
     },
     "public/assets/ww-filter-hiking-poster.jpg": {
-      "sha256": "3236d7e5e234549b3f766799cf2bebd0400a182f7b4a75b5245387532114edb4",
-      "bytes": 218050
+      "sha256": "918964acb4ce7d1a41a89b65f86b118e9aaf966f8dc9d8200ee55d345346136b",
+      "bytes": 221894
     }
+  },
+  "browser_frame": {
+    "address": "https://womenswilderness.org/programs/",
+    "applies_to": [
+      "Original screenshot",
+      "Proposed interaction"
+    ],
+    "implementation": "CSS/HTML browser chrome surrounds each evidence viewport; no chrome is painted into source screenshot or video pixels."
   }
 }

@@ -18,7 +18,9 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 W, H, FPS, SS = 600, 1298, 30, 4
-AMBER, KEYLINE, WASH = (255, 202, 84), (88, 50, 0), (255, 217, 106)
+YELLOW, KEYLINE = (255, 218, 0), (88, 50, 0)
+OUTLINE_WIDTH, VERTICAL_PAD = 6, 9
+HOME_HORIZONTAL_PAD, MENU_HORIZONTAL_PAD = 10, 9
 SPECS = {
     "adult-nav": (115, 5, "COURSES"),
     "youth-nav": (124, 5, "COURSES"),
@@ -64,9 +66,11 @@ def annotate(im, ink_box, scale, clip, bg):
         return None
     # The opening menu's vertical geometry, including padding/radius/stroke,
     # scales with its recorded scaleY rather than popping to full height.
-    horizontal_pad = 5 if bg[0] == 255 else 3
-    rect = [ix0 - horizontal_pad, iy0 - 5 * scale,
-            ix1 + horizontal_pad, iy1 + 5 * scale]
+    # Pillow strokes inward. Leave a 3px clear gap between the 6px stroke
+    # and the word so the stronger outline never consumes label glyphs.
+    horizontal_pad = HOME_HORIZONTAL_PAD if bg[0] == 255 else MENU_HORIZONTAL_PAD
+    rect = [ix0 - horizontal_pad, iy0 - VERTICAL_PAD * scale,
+            ix1 + horizontal_pad, iy1 + VERTICAL_PAD * scale]
     x0 = max(0, math.floor(rect[0] - 4))
     x1 = min(W, math.ceil(rect[2] + 4))
     y0 = max(top, math.floor(rect[1] - 4))
@@ -80,16 +84,14 @@ def annotate(im, ink_box, scale, clip, bg):
     tall_size = (size[0], max(1, round(size[1] / shape_scale)))
     local = [(rect[0] - x0) * SS, (rect[1] - y0) * SS / shape_scale,
              (rect[2] - x0) * SS, (rect[3] - y0) * SS / shape_scale]
-    fill = Image.new("L", tall_size)
-    ImageDraw.Draw(fill).rounded_rectangle(local, radius=6 * SS, fill=255)
     edge = Image.new("L", tall_size)
     ImageDraw.Draw(edge).rounded_rectangle(local, radius=6 * SS,
-                                          outline=255, width=round(2.5 * SS))
+                                          outline=255, width=OUTLINE_WIDTH * SS)
     shadow = edge.filter(ImageFilter.GaussianBlur(1.1 * SS))
     masks = [
         np.asarray(m.resize((x1 - x0, y1 - y0), Image.Resampling.LANCZOS),
                    dtype=np.float32) / 255
-        for m in (fill, shadow, edge)
+        for m in (shadow, edge)
     ]
     patch = im[y0:y1, x0:x1]
     # Preserve glyph pixels including all AA; permit near-background recording
@@ -101,11 +103,9 @@ def annotate(im, ink_box, scale, clip, bg):
     clean_background[gy0-y0:gy1-y0, gx0-x0:gx1-x0] = exact_background[
         gy0-y0:gy1-y0, gx0-x0:gx1-x0]
     result = patch.astype(np.float32)
-    wash_alpha = .08 if bg[0] == 255 else 0.
-    for n, (mask, color, alpha) in enumerate(
-            zip(masks, (WASH, KEYLINE, AMBER), (wash_alpha, .90, 1.))):
-        allowed = exact_background if n == 0 else clean_background
-        a = (mask * alpha * opacity * allowed)[..., None]
+    # Outline only: no interior wash/fill, and no text rasterization.
+    for mask, color, alpha in zip(masks, (KEYLINE, YELLOW), (.90, 1.)):
+        a = (mask * alpha * opacity * clean_background)[..., None]
         result = result * (1 - a) + np.array(color) * a
     patch[:] = np.clip(np.rint(result), 0, 255).astype(np.uint8)
     return {
@@ -149,7 +149,9 @@ def main():
     records, counts = [], Counter()
     preview_dir = root / "highlight-previews"
     preview_dir.mkdir(exist_ok=True)
-    for track in metadata["tracking"]:
+    assert len(metadata["tracking"]) == metadata["output"]["frames"] == 868
+    for frame, track in enumerate(metadata["tracking"]):
+        assert track["frame"] == frame
         ok, raw = cap.read()
         assert ok
         im = cv2.cvtColor(raw, cv2.COLOR_BGR2RGB)
@@ -206,9 +208,13 @@ def main():
         "input_tracking": {"file": str(args.tracking), "sha256": sha(args.tracking)},
         "output": {"file": target.name, "bytes": target.stat().st_size,
                    "sha256": sha(target), **metadata["output"]},
-        "style": {"name": "amber", "outline_rgb": AMBER, "outline_width_px": 2.5,
-                  "soft_dark_keyline_rgb": KEYLINE, "background_wash_rgb": WASH,
-                  "homepage_background_wash_opacity": .08,
+        "style": {"name": "prominent-yellow", "outline_hex": "#FFDA00",
+                  "outline_rgb": YELLOW, "outline_width_px": OUTLINE_WIDTH,
+                  "horizontal_padding_homepage_px": HOME_HORIZONTAL_PAD,
+                  "horizontal_padding_menu_px": MENU_HORIZONTAL_PAD,
+                  "vertical_padding_px": VERTICAL_PAD,
+                  "soft_dark_keyline_rgb": KEYLINE,
+                  "homepage_background_wash_opacity": 0,
                   "menu_background_wash_opacity": 0,
                   "text_preservation": "All non-background pixels within changed-word glyph bounds, including antialiased edges, remain byte-for-byte unchanged."},
         "geometry": "Changed word only. Original renderer's source glyph bounds, fractional per-frame y, scaleY and viewport/reveal clips. Full box is cropped at clips; no artificial border caps. Last partial-letter frames fade with visible height under 12px.",
@@ -218,6 +224,10 @@ def main():
                        "browser_chrome_pixel_identical": True,
                        "changed_word_foreground_pixel_identical": True},
         "highlight_frames_by_label": dict(counts),
+        "reproduction": (
+            "python3 tools/highlight_naming_changes.py"
+            f" --working-dir {root} --tracking {args.tracking} --report {args.report}"
+        ),
         "tracking": records,
     }
     args.report.write_text(json.dumps(report, indent=2) + "\n")

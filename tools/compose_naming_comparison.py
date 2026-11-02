@@ -157,7 +157,7 @@ def main():
         output["annotations"] = {
             "path": str(provenance.relative_to(ROOT)),
             "sha256": sha(provenance),
-            "description": "Amber outlines identify only the newly updated Courses labels in the proposed view.",
+            "description": "Prominent yellow rectangles identify only the newly updated Courses labels in the proposed view.",
         }
         output["reproduction"] += (
             " --basename " + args.basename +
