@@ -68,9 +68,13 @@ integrity hashes.
   chrome covers the red recording badges without changing the media files or
   website interactions. There are no playback buttons or duration displays.
 - Women's Wilderness interview topics link directly to their corresponding
-  findings and recommendations, with native fragment navigation that clears
-  the sticky header. The Background summary focuses on opportunities rather
-  than repeating the overview's research-methods list.
+  findings and recommendations, with an explanatory note and smooth scrolling
+  that clears the sticky header. URL fragments and heading focus are preserved;
+  reduced-motion users get an immediate jump. The Background summary focuses on
+  opportunities rather than repeating the overview's research-methods list.
+- The color-coded interview synthesis image is followed by the owner's
+  data-trends table. Its caption explains how shared participant thoughts,
+  actions, and feelings informed the findings. Both images open full-size.
 
 Intentional preview safeguards:
 

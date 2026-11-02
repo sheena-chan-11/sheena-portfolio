@@ -16,6 +16,11 @@
 .ww-copy p { margin-bottom: 20px; }
 .ww-copy ol { padding-left: 1.5em; }
 .ww-copy li { margin-bottom: 14px; padding-left: .2em; }
+.ww-copy .ww-topic-note {
+  margin-bottom: 14px;
+  color: #49475c;
+  font: 400 15px/1.6 "PT Sans", sans-serif;
+}
 .ww-copy .ww-topic-links a {
   color: #4830e6;
   font: inherit;
@@ -78,6 +83,11 @@
   max-height: 460px;
   margin: 0 auto;
   object-fit: contain;
+}
+.ww-copy .ww-color-coded img,
+.ww-copy .ww-data-trends img {
+  width: 100%;
+  max-height: none;
 }
 .ww-copy .ww-desk-recording {
   display: block;

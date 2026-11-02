@@ -170,7 +170,7 @@ class BaselineTests(unittest.TestCase):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
         version = hashlib.sha256((ROOT / "assets/womens-wilderness.css").read_bytes()).hexdigest()[:12]
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/womens-wilderness.css?v={version}"]'))
-        self.assertEqual(len(soup.select(".ww-evidence")), 5)
+        self.assertEqual(len(soup.select(".ww-evidence")), 6)
         for figure in soup.select(".ww-evidence"):
             if "ww-program-previews" in figure.get("class", []):
                 self.assertIsNone(figure.figcaption)
@@ -227,10 +227,46 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual(headings[0].name, "h4")
             self.assertEqual(headings[0]["tabindex"], "-1")
             self.assertTrue(headings[0].get_text().endswith(label))
-        # Let the native fragment action honor sticky-header scroll padding.
+        note = topics.find_previous_sibling()
+        self.assertIn("ww-topic-note", note.get("class", []))
+        self.assertEqual(
+            note.get_text(),
+            "Select a topic below to scroll to the corresponding findings and recommendations.",
+        )
+        # Scoped native smooth scrolling honors sticky-header scroll padding.
         script = soup.select_one("#ww-topic-navigation").get_text()
         self.assertIn("stopPropagation", script)
-        self.assertNotIn("preventDefault", script)
+        self.assertIn("preventDefault", script)
+        self.assertIn("scrollIntoView", script)
+        self.assertIn("'smooth'", script)
+        self.assertIn("prefers-reduced-motion: reduce", script)
+        self.assertIn("preventScroll: true", script)
+        self.assertIn("history.pushState", script)
+        self.assertIn("event.ctrlKey", script)
+
+    def test_womens_wilderness_data_trends_synthesis(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        color = soup.select_one(".ww-color-coded")
+        trends = soup.select_one(".ww-data-trends")
+        self.assertIs(color.find_next_sibling(), trends)
+        self.assertEqual(trends.find_next_sibling()["id"], "findings")
+        self.assertEqual(
+            color.figcaption.get_text(),
+            "The color-coded interview responses and category legend helped us identify data trends and count how many participants expressed similar thoughts, actions, or feelings. This analysis informed our research findings.",
+        )
+        image = trends.img
+        self.assertEqual((image["width"], image["height"]), ("1007", "617"))
+        self.assertEqual(image["loading"], "lazy")
+        self.assertTrue(image["alt"])
+        self.assertEqual(image.parent["href"], image["src"])
+        self.assertEqual(image.parent["target"], "_blank")
+        metadata = json.loads((ROOT.parent / "content/sources/womens-wilderness-data-trends.json").read_text())
+        asset = ROOT.parent / metadata["asset"]
+        digest = hashlib.sha256(asset.read_bytes()).hexdigest()
+        self.assertEqual(digest, metadata["sha256"])
+        self.assertEqual(digest, "94884cf7759dfbc3413055250fae7a0198a05e730f66e73754425ed9644d2b74")
+        self.assertEqual(image["src"], "/assets/ww-data-trends.png?v=" + digest[:12])
+        self.assertTrue(trends.figcaption.get_text(strip=True))
 
     def test_womens_wilderness_desk_research_recording(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")

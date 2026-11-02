@@ -97,3 +97,16 @@ decorative rim using adjacent clean pixels. No website UI or research result
 was redrawn. Frame geometry, source hashes, alpha-mask details, and the minimal
 retained status/home strips are documented in
 `content/sources/womens-wilderness-video-frames.json`.
+
+### Data-trends synthesis table
+
+- Owner-supplied Webflow image:
+  `https://cdn.prod.website-files.com/60beeb75072e337b4bc61933/687800752955607047fa01e6_data-trend.png`.
+- Local copy: `public/assets/ww-data-trends.png`, 1007×617, preserved
+  byte-for-byte. No table entries, participant counts, or interpretations were
+  regenerated. The supplied source itself ends partway through its final row.
+- SHA-256:
+  `94884cf7759dfbc3413055250fae7a0198a05e730f66e73754425ed9644d2b74`.
+- Shown immediately below the color-coded synthesis figure, with a local
+  full-size link rather than a runtime dependency on Webflow's CDN.
+  Source metadata is in `content/sources/womens-wilderness-data-trends.json`.
