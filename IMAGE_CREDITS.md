@@ -110,3 +110,17 @@ retained status/home strips are documented in
 - Shown immediately below the color-coded synthesis figure, with a local
   full-size link rather than a runtime dependency on Webflow's CDN.
   Source metadata is in `content/sources/womens-wilderness-data-trends.json`.
+
+### Transparent program-preview phones
+
+- `ww-program-preview-transparent.png` and
+  `ww-competitor-preview-transparent.png` are 440×903 RGBA derivatives of the
+  corresponding original preview screenshots.
+- Only exterior white matte and exterior annotation segments were removed.
+  Enclosed website/browser UI, including white areas and existing annotations,
+  is preserved pixel-for-pixel. Original reference files are unchanged.
+- Source/output hashes, crop geometry, edge-alpha method, white-pixel integrity
+  checks, and limitations are archived in
+  `content/sources/womens-wilderness-transparent-previews.json`.
+  Optional reproduction helper: `tools/prepare_transparent_previews.py`
+  (Pillow 13.0.0; not a website/runtime dependency).

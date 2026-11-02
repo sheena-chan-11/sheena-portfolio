@@ -170,7 +170,7 @@ class BaselineTests(unittest.TestCase):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
         version = hashlib.sha256((ROOT / "assets/womens-wilderness.css").read_bytes()).hexdigest()[:12]
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/womens-wilderness.css?v={version}"]'))
-        self.assertEqual(len(soup.select(".ww-evidence")), 6)
+        self.assertEqual(len(soup.select(".ww-evidence")), 5)
         for figure in soup.select(".ww-evidence"):
             if "ww-program-previews" in figure.get("class", []):
                 self.assertIsNone(figure.figcaption)
@@ -231,8 +231,10 @@ class BaselineTests(unittest.TestCase):
         self.assertIn("ww-topic-note", note.get("class", []))
         self.assertEqual(
             note.get_text(),
-            "Select a topic below to scroll to the corresponding findings and recommendations.",
+            "(Select a topic below to scroll to the corresponding findings and recommendations.)",
         )
+        self.assertEqual(note.em.get_text(), note.get_text())
+        self.assertEqual(soup.select_one("#user-interviews").get_text(), "User Interview and Analysis")
         # Scoped native smooth scrolling honors sticky-header scroll padding.
         script = soup.select_one("#ww-topic-navigation").get_text()
         self.assertIn("stopPropagation", script)
@@ -249,10 +251,15 @@ class BaselineTests(unittest.TestCase):
         color = soup.select_one(".ww-color-coded")
         trends = soup.select_one(".ww-data-trends")
         self.assertIs(color.find_next_sibling(), trends)
-        self.assertEqual(trends.find_next_sibling()["id"], "findings")
+        group = soup.select_one(".ww-synthesis")
+        self.assertIs(color.parent, group)
+        self.assertIs(trends.parent, group)
+        self.assertEqual(group.find_next_sibling()["id"], "findings")
+        self.assertEqual(len(group.select(":scope > figure")), 2)
+        self.assertEqual(len(group.select(".ww-evidence")), 0)
         self.assertEqual(
             color.figcaption.get_text(),
-            "The color-coded interview responses and category legend helped us identify data trends and count how many participants expressed similar thoughts, actions, or feelings. This analysis informed our research findings.",
+            "The color-coded interview responses and category legend helped us identify participants who expressed similar thoughts, actions, or feelings.",
         )
         image = trends.img
         self.assertEqual((image["width"], image["height"]), ("1007", "617"))
@@ -267,6 +274,24 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(digest, "94884cf7759dfbc3413055250fae7a0198a05e730f66e73754425ed9644d2b74")
         self.assertEqual(image["src"], "/assets/ww-data-trends.png?v=" + digest[:12])
         self.assertTrue(trends.figcaption.get_text(strip=True))
+
+    def test_womens_wilderness_transparent_phone_previews(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        metadata = json.loads((ROOT.parent / "content/sources/womens-wilderness-transparent-previews.json").read_text())
+        images = soup.select(".ww-program-previews img")
+        self.assertEqual(len(images), 2)
+        for image, entry in zip(images, metadata["assets"]):
+            source = ROOT.parent / entry["source"]
+            output = ROOT.parent / entry["output"]
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), entry["source_sha256"])
+            digest = hashlib.sha256(output.read_bytes()).hexdigest()
+            self.assertEqual(digest, entry["output_sha256"])
+            self.assertEqual(image["src"], "/assets/" + output.name + "?v=" + digest[:12])
+            self.assertEqual(image.parent["href"], image["src"])
+            self.assertEqual((image["width"], image["height"]), ("440", "903"))
+            self.assertEqual(output.read_bytes()[25], 6)  # PNG RGBA, not a white matte.
+            self.assertEqual(entry["checks"]["all_four_corner_alpha"], 0)
+            self.assertGreater(entry["checks"]["enclosed_original_pure_white_pixels_retained_opaque"], 10000)
 
     def test_womens_wilderness_desk_research_recording(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")

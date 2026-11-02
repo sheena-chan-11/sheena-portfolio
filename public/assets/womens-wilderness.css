@@ -89,6 +89,19 @@
   width: 100%;
   max-height: none;
 }
+.ww-copy .ww-synthesis > figure {
+  display: block;
+  float: none;
+  clear: both;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.ww-copy .ww-synthesis > figure + figure { margin-top: 32px; }
+.ww-copy .ww-synthesis .ww-data-trends img { max-width: 520px; }
 .ww-copy .ww-desk-recording {
   display: block;
   width: 100%;

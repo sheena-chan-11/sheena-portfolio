@@ -1,0 +1,129 @@
+{
+  "purpose": "Transparent exterior-only derivatives of the two original annotated mobile preview screenshots. Original reference PNGs are intentionally untouched.",
+  "method": {
+    "software": "Python 3.12 with Pillow 13.0.0",
+    "silhouette": "For each source y, first and last pixel with minimum RGB component <220 within hardware x range [46,486) define the fully opaque interval; every enclosed RGB pixel is copied unchanged. Exterior annotation rectangles are excluded from silhouette detection. No global white-key operation or replacement is applied to the website/browser UI.",
+    "annotation_crossings": "On each screenshot\u2019s four-pixel turquoise horizontal rules, derive the silhouette and edge coverage from the other original screenshot at the same y, where its hardware is unannotated. Preserve the current screenshot\u2019s original turquoise pixels inside the silhouette. Remove the rectangle\u2019s exterior segments along with the white background.",
+    "edge_antialias": "Outside each opaque interval, use the nearest core hardware edge RGB as foreground. Alpha = clamp(round(255 * (255 - mean(exterior RGB)) / (255 - mean(edge RGB))),0,255), with white matte 255. For neutral unannotated edges, save that edge RGB and recovered alpha; for turquoise crossing rows, retain the current source RGB under the same recovered alpha. Fully white exterior becomes alpha zero.",
+    "faint_bottom_edge": "Source y902 contains only faint neutral gray matte antialias. Recover alpha against the matching source x at nearest hardware-core row y901, restricted to its opaque interval. All other no-core rows become transparent.",
+    "crop": "Source half-open rectangle [46,1,486,904] = 440x903. Matches the existing extracted phone frame footprint, removes lateral white margins without resampling, and retains transparent padding at top/bottom.",
+    "interior_integrity": "No blur, resampling, screen erasure, screenshot replacement, UI recoloring, rim interpolation, or hardware repainting. All pixels from the row\u2019s first through last core edge retain the exact original RGB with alpha 255."
+  },
+  "caveats": [
+    "The original screenshots were flattened on white, so true subpixel foreground colors/coverage cannot be uniquely recovered. Only exterior fringe pixels use the documented nearest-edge foreground estimate; enclosed hardware and all screenshot pixels remain exact.",
+    "The original turquoise annotations are intentionally retained inside the physical phone, including their existing crossings over hardware. Only the portions outside the silhouette disappear.",
+    "Derivative crop dimensions differ from original 530x905. Source and output coordinate geometry are documented per asset."
+  ],
+  "assets": [
+    {
+      "source": "public/assets/ww-program-preview.png",
+      "source_sha256": "f3c1ca3451bc1443d87050ff5a35940be8278112f1eae8ca5dfc9db76d94b4c8",
+      "output": "public/assets/ww-program-preview-transparent.png",
+      "output_sha256": "d2c579b9f26c47e9b4bc88c036fdde65afe4c2d68c6deede468a04e27f7ab714",
+      "source_dimensions": [
+        530,
+        905
+      ],
+      "output_dimensions": [
+        440,
+        903
+      ],
+      "output_mode": "RGBA",
+      "crop_source_half_open": [
+        46,
+        1,
+        486,
+        904
+      ],
+      "nontransparent_bbox_output_half_open": [
+        0,
+        2,
+        439,
+        902
+      ],
+      "nontransparent_bbox_source_half_open": [
+        46,
+        3,
+        485,
+        903
+      ],
+      "annotation_source_y_half_open": [
+        [
+          147,
+          151
+        ],
+        [
+          684,
+          688
+        ]
+      ],
+      "checks": {
+        "all_four_corner_alpha": 0,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "enclosed_pixels_retained_exactly": 387473,
+        "enclosed_original_pure_white_pixels_retained_opaque": 14743,
+        "partially_transparent_pixel_count": 1367,
+        "antialiased_exterior_pixels": 1089,
+        "original_source_unchanged": true
+      }
+    },
+    {
+      "source": "public/assets/ww-competitor-preview.png",
+      "source_sha256": "fdb34d34a0520883839558313205feb1e91ac2f8c92d1c67d009cfd39aade6bb",
+      "output": "public/assets/ww-competitor-preview-transparent.png",
+      "output_sha256": "920697b65e017243da82e5991ea8d5fbb3225d1748cf049d1d8fe1ff4c54efb8",
+      "source_dimensions": [
+        530,
+        905
+      ],
+      "output_dimensions": [
+        440,
+        903
+      ],
+      "output_mode": "RGBA",
+      "crop_source_half_open": [
+        46,
+        1,
+        486,
+        904
+      ],
+      "nontransparent_bbox_output_half_open": [
+        0,
+        2,
+        439,
+        902
+      ],
+      "nontransparent_bbox_source_half_open": [
+        46,
+        3,
+        485,
+        903
+      ],
+      "annotation_source_y_half_open": [
+        [
+          255,
+          259
+        ],
+        [
+          792,
+          796
+        ]
+      ],
+      "checks": {
+        "all_four_corner_alpha": 0,
+        "alpha_extrema": [
+          0,
+          255
+        ],
+        "enclosed_pixels_retained_exactly": 387473,
+        "enclosed_original_pure_white_pixels_retained_opaque": 129647,
+        "partially_transparent_pixel_count": 1367,
+        "antialiased_exterior_pixels": 1089,
+        "original_source_unchanged": true
+      }
+    }
+  ]
+}

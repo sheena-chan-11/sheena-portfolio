@@ -72,9 +72,15 @@ integrity hashes.
   that clears the sticky header. URL fragments and heading focus are preserved;
   reduced-motion users get an immediate jump. The Background summary focuses on
   opportunities rather than repeating the overview's research-methods list.
-- The color-coded interview synthesis image is followed by the owner's
-  data-trends table. Its caption explains how shared participant thoughts,
-  actions, and feelings informed the findings. Both images open full-size.
+- “User Interview and Analysis” includes a parenthesized, italic navigation
+  note. The color-coded synthesis and data-trends table share one evidence
+  panel; the table is capped at 520px wide. The first caption explains how the
+  coding identified participants with similar thoughts, actions, or feelings.
+  Both images open full-size.
+- The two competitive program-preview screenshots use exterior-transparent
+  phone derivatives. White website UI inside the phones is retained; original
+  reference screenshots remain unchanged. Mask geometry and integrity checks
+  are in `content/sources/womens-wilderness-transparent-previews.json`.
 
 Intentional preview safeguards:
 
