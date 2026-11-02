@@ -79,6 +79,8 @@ def main():
     parser.add_argument("original", type=Path)
     parser.add_argument("proposed", type=Path)
     parser.add_argument("--work", type=Path)
+    parser.add_argument("--basename", default="ww-naming-comparison")
+    parser.add_argument("--highlights-provenance", type=Path)
     args = parser.parse_args()
     work = args.work or Path(tempfile.mkdtemp(prefix="ww-naming-composite-"))
     work.mkdir(parents=True, exist_ok=True)
@@ -89,9 +91,10 @@ def main():
     source_frame, frame, layer, mask = prepare_frame(work)
     duration = frames / 30
     assets = ROOT / "public/assets"
-    mp4 = assets / "ww-naming-comparison.mp4"
-    webm = assets / "ww-naming-comparison.webm"
-    poster = assets / "ww-naming-comparison-poster.jpg"
+    assert Path(args.basename).name == args.basename
+    mp4 = assets / (args.basename + ".mp4")
+    webm = assets / (args.basename + ".webm")
+    poster = assets / (args.basename + "-poster.jpg")
     graph = (
         f"color=c=0xfaf9fd:s=1000x956:r=30:d={duration},format=rgba[bg];"
         "[0:v]setpts=PTS-STARTPTS,scale=395:858:flags=lanczos,format=rgba[left];"
@@ -149,6 +152,17 @@ def main():
         ],
         "reproduction": "tools/compose_naming_comparison.py ORIGINAL_WORKING_VIDEO PROPOSED_WORKING_VIDEO",
     }
+    if args.highlights_provenance:
+        provenance = args.highlights_provenance.resolve()
+        output["annotations"] = {
+            "path": str(provenance.relative_to(ROOT)),
+            "sha256": sha(provenance),
+            "description": "Amber outlines identify only the newly updated Courses labels in the proposed view.",
+        }
+        output["reproduction"] += (
+            " --basename " + args.basename +
+            " --highlights-provenance " + str(provenance.relative_to(ROOT))
+        )
     (ROOT / "content/sources/womens-wilderness-naming-comparison.json").write_text(
         json.dumps(output, indent=2) + "\n"
     )

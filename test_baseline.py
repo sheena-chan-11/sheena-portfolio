@@ -182,7 +182,7 @@ class BaselineTests(unittest.TestCase):
                 self.assertIn("width", image.attrs)
                 self.assertIn("height", image.attrs)
         captions = " ".join(f.get_text() for f in soup.select(".ww-evidence figcaption"))
-        self.assertIn("not a tested outcome", captions)
+        self.assertIsNotNone(soup.select_one(".ww-filter-comparison .ww-filter-proposed"))
         self.assertIn("not evidence of implementation", captions)
         for link in soup.select('a[target="_blank"]'):
             self.assertIn("noopener", link.get("rel", []))
@@ -341,6 +341,56 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual(media["validation"][key], [])
         renderer = ROOT.parent / "content/sources/render-womens-wilderness-naming.py"
         self.assertEqual(hashlib.sha256(renderer.read_bytes()).hexdigest(), media["renderer_sha256"])
+        annotation = ROOT.parent / metadata["annotations"]["path"]
+        self.assertEqual(hashlib.sha256(annotation.read_bytes()).hexdigest(), metadata["annotations"]["sha256"])
+        highlights = json.loads(annotation.read_text())
+        self.assertEqual(highlights["output"]["frames"], 868)
+        self.assertEqual(highlights["style"]["outline_rgb"], [255, 202, 84])
+        for key in ("original_input_unmodified", "proposed_input_unmodified", "all_input_frames_retained",
+                    "unchanged_frames_pixel_identical", "browser_chrome_pixel_identical",
+                    "changed_word_foreground_pixel_identical"):
+            self.assertTrue(highlights["invariants"][key])
+        self.assertEqual(len(highlights["highlight_frames_by_label"]), 5)
+        self.assertIn("Amber highlights", figure.figcaption.get_text())
+
+    def test_womens_wilderness_hiking_filter_animation(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        figure = soup.select_one(".ww-filter-comparison")
+        self.assertEqual(figure.find_previous("h4")["id"], "finding-program-discovery")
+        self.assertEqual([x.get_text() for x in figure.select(".ww-filter-view > figcaption")],
+                         ["Original", "Proposed interaction"])
+        metadata = json.loads((ROOT.parent / "content/sources/womens-wilderness-filter-animation.json").read_text())
+        self.assertEqual(metadata["source"]["sha256"],
+                         "d114ef437e0ff8a22e1d8ccb1dfd033ce735f654f5ecd4cb8e5730fd56c9796c")
+        self.assertEqual(metadata["original"]["crop_source_xyxy_half_open"], [2, 240, 3022, 1800])
+        self.assertTrue(all(metadata["proposed"]["verification"].values()))
+        self.assertEqual(metadata["proposed"]["frames"], 270)
+        self.assertEqual(metadata["proposed"]["duration_seconds"], 9)
+        urls = {}
+        for name, entry in metadata["outputs"].items():
+            asset = ROOT.parent / name
+            self.assertEqual(hashlib.sha256(asset.read_bytes()).hexdigest(), entry["sha256"])
+            urls[asset.name] = "/assets/" + asset.name + "?v=" + entry["sha256"][:12]
+        image = figure.select_one(".ww-filter-original img")
+        self.assertEqual(image["src"], urls["ww-filter-original.png"])
+        self.assertEqual(image.parent["href"], image["src"])
+        self.assertEqual((image["width"], image["height"]), ("3020", "1560"))
+        self.assertIn(b"iCCP", (ROOT / "assets/ww-filter-original.png").read_bytes())
+        self.assertIn(b"ICC_PROFILE\x00", (ROOT / "assets/ww-filter-hiking-poster.jpg").read_bytes())
+        video = figure.video
+        for attribute in ("autoplay", "muted", "loop", "playsinline"):
+            self.assertTrue(video.has_attr(attribute))
+        self.assertFalse(video.has_attr("controls"))
+        self.assertEqual((video["width"], video["height"]), ("1510", "780"))
+        self.assertEqual(video["poster"], urls["ww-filter-hiking-poster.jpg"])
+        self.assertEqual([x["type"] for x in video.select("source")], ["video/webm", "video/mp4"])
+        for source in video.select("source"):
+            self.assertEqual(source["src"], urls["ww-filter-hiking." + source["type"].split("/")[1]])
+        caption = figure.select_one("#ww-filter-caption")
+        self.assertEqual(video["aria-describedby"], caption["id"])
+        self.assertIn("“Adult”", caption.get_text())
+        self.assertIn("“Hiking”", caption.get_text())
+        self.assertEqual(caption.a["href"], urls["ww-filter-hiking.mp4"])
 
     def test_womens_wilderness_desk_research_recording(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")

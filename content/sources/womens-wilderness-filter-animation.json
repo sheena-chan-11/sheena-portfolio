@@ -1,0 +1,283 @@
+{
+  "title": "Women's Wilderness F2 \u2014 screenshot-derived proposed Hiking filter",
+  "status": "Proposed interaction visualization, not evidence of a client-implemented interaction",
+  "source": {
+    "original_filename": "Screenshot 2026-11-01 at 5.01.24_PM.png",
+    "sha256": "d114ef437e0ff8a22e1d8ccb1dfd033ce735f654f5ecd4cb8e5730fd56c9796c",
+    "dimensions_px": [
+      3024,
+      1964
+    ],
+    "type": "User-supplied screenshot; only image source; no website or external assets fetched",
+    "preserved": true,
+    "embedded_icc": {
+      "description": "Display",
+      "bytes": 4064,
+      "sha256": "b8c8d404ea5126cffef01c03f1824913856086ba78ab64c636c4c6b276a7206a",
+      "preserved_in_original_png": true
+    }
+  },
+  "original": {
+    "crop_source_xyxy_half_open": [
+      2,
+      240,
+      3022,
+      1800
+    ],
+    "dimensions_px": [
+      3020,
+      1560
+    ],
+    "pixel_changes": "None. Lossless rectangular crop only.",
+    "boundary_reason": "Website starts at y=240. Two edge columns and bottom rounded browser corners excluded; menu bar, Chrome controls/profile/address bar, desktop and Dock excluded.",
+    "already_active_filter": "Adult"
+  },
+  "proposed": {
+    "duration_seconds": 9,
+    "fps": 30,
+    "frames": 270,
+    "dimensions_px": [
+      1510,
+      780
+    ],
+    "audio": false,
+    "video_color": {
+      "source_rgb_profile": "Display",
+      "pre_encoding_color_management": "Cached Pillow ImageCms embedded source Display ICC to sRGB transform, after raw screenshot-pixel conservation QA and after resize, before RGB to BT709 YUV conversion.",
+      "poster_profile": "sRGB; identical managed source colors as video before encoding",
+      "verification_reference": "ICC-managed sRGB source frame, not untagged raw display-profile RGB",
+      "rgb_to_yuv_conversion": "scale=iw:ih:in_range=full:out_range=tv:out_color_matrix=bt709",
+      "color_space": "bt709",
+      "color_primaries": "bt709",
+      "color_transfer": "bt709",
+      "color_range": "tv",
+      "reason": "Explicit matrix and matching tags avoid ambiguous BT601/BT709 interpretation in HD browser playback."
+    },
+    "poster_timestamp_seconds": 5.4,
+    "new_ui_only": [
+      "Animated pointer and click ring",
+      "Amber outlined HIKING sidebar selection and check",
+      "Persistent HIKING chip and plus next to unchanged source Filter: Adult",
+      "Original Remove Filter control moved right to make space"
+    ],
+    "event_content": "All card imagery, titles, dates, locations, audience and pricing are the source screenshot's pixels. No event content invented or retyped.",
+    "font_method": "New HIKING chip reuses screenshot HIKING glyph alpha; no font substitution or network fetch.",
+    "source_geometry_xyxy_half_open": {
+      "nonmatching_film_card_mask": [
+        888,
+        862,
+        1464,
+        1800
+      ],
+      "retained_hiking_card_raster": [
+        1515,
+        862,
+        2091,
+        1800
+      ],
+      "final_hiking_destination": [
+        888,
+        862,
+        1464,
+        1800
+      ],
+      "hiking_sidebar_selection": [
+        329,
+        928,
+        775,
+        982
+      ],
+      "reused_hiking_glyphs": [
+        388,
+        937,
+        501,
+        971
+      ],
+      "original_remove_filter_control": [
+        1228,
+        691,
+        1390,
+        716
+      ]
+    },
+    "timeline_seconds": {
+      "initial_original_hold": [
+        0.0,
+        1.65
+      ],
+      "pointer_approach": [
+        1.72,
+        2.5
+      ],
+      "hover": [
+        2.2,
+        2.7
+      ],
+      "click_and_selected_filter": [
+        2.7,
+        2.94
+      ],
+      "film_card_fades_out": [
+        3.02,
+        3.6
+      ],
+      "existing_hiking_card_reflows_left": [
+        3.62,
+        4.39
+      ],
+      "single_result_hold": [
+        4.39,
+        7.82
+      ],
+      "reset_crossfade": [
+        7.82,
+        8.25
+      ],
+      "original_seam_hold": [
+        8.25,
+        9.0
+      ]
+    },
+    "verification": {
+      "original_pixels_equal_source_crop": true,
+      "final_first_result_pixels_equal_original_hiking_card": true,
+      "final_former_second_slot_all_white": true,
+      "loop_end_pixels_equal_original": true,
+      "nonmatching_film_card_removed": true,
+      "retained_adult_filter": true,
+      "decoded_video_color": {
+        "webm": {
+          "probe": {
+            "codec_name": "vp9",
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_transfer": "bt709",
+            "color_primaries": "bt709"
+          },
+          "flat_color_samples": {
+            "navy_header": {
+              "source_rgb": [
+                0.0,
+                37.0,
+                84.0
+              ],
+              "decoded_rgb": [
+                0.0,
+                35.0,
+                82.0
+              ],
+              "max_channel_error_of_255": 2.0
+            },
+            "navy_sidebar": {
+              "source_rgb": [
+                0.0,
+                9.0,
+                84.0
+              ],
+              "decoded_rgb": [
+                0.0,
+                7.0,
+                83.0
+              ],
+              "max_channel_error_of_255": 2.0
+            },
+            "teal_donate": {
+              "source_rgb": [
+                110.0,
+                206.0,
+                178.0
+              ],
+              "decoded_rgb": [
+                109.4,
+                204.4,
+                176.4
+              ],
+              "max_channel_error_of_255": 1.5999999999999943
+            }
+          },
+          "all_sample_channel_errors_le_3_of_255": true
+        },
+        "mp4": {
+          "probe": {
+            "codec_name": "h264",
+            "color_range": "tv",
+            "color_space": "bt709",
+            "color_transfer": "bt709",
+            "color_primaries": "bt709"
+          },
+          "flat_color_samples": {
+            "navy_header": {
+              "source_rgb": [
+                0.0,
+                37.0,
+                84.0
+              ],
+              "decoded_rgb": [
+                0.0,
+                35.0,
+                82.0
+              ],
+              "max_channel_error_of_255": 2.0
+            },
+            "navy_sidebar": {
+              "source_rgb": [
+                0.0,
+                9.0,
+                84.0
+              ],
+              "decoded_rgb": [
+                0.0,
+                7.0,
+                83.0
+              ],
+              "max_channel_error_of_255": 2.0
+            },
+            "teal_donate": {
+              "source_rgb": [
+                110.0,
+                206.0,
+                178.0
+              ],
+              "decoded_rgb": [
+                109.0,
+                204.0,
+                176.0
+              ],
+              "max_channel_error_of_255": 2.0
+            }
+          },
+          "all_sample_channel_errors_le_3_of_255": true
+        }
+      }
+    }
+  },
+  "reproduce": {
+    "script": "tools/render_hiking_filter.py",
+    "dependencies": [
+      "Python 3",
+      "Pillow",
+      "NumPy",
+      "ffmpeg with libx264 and libvpx-vp9"
+    ],
+    "command": "python tools/render_hiking_filter.py --source '/path/to/Screenshot 2026-11-01 at 5.01.24_PM.png'",
+    "network_required": false
+  },
+  "outputs": {
+    "public/assets/ww-filter-original.png": {
+      "sha256": "a89c79d49b82c7dcc3ec73d1054a35e77bf5cb63bcd12d40a3336d7c578aea41",
+      "bytes": 1246615
+    },
+    "public/assets/ww-filter-hiking.webm": {
+      "sha256": "d84a3a625d6ea983791a41df87f281eb9c52d3cfb25f0ea2f23d4068258bc5f4",
+      "bytes": 684738
+    },
+    "public/assets/ww-filter-hiking.mp4": {
+      "sha256": "d457c447b6a9025455da51da1bc737aa0f42da4e89bc93f2c8fe7555b2c4d2cd",
+      "bytes": 564992
+    },
+    "public/assets/ww-filter-hiking-poster.jpg": {
+      "sha256": "3236d7e5e234549b3f766799cf2bebd0400a182f7b4a75b5245387532114edb4",
+      "bytes": 218050
+    }
+  }
+}

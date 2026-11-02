@@ -138,7 +138,7 @@ retained status/home strips are documented in
   Adult/Youth menu headings and “All Adult/Youth Programs” submenu labels to
   “Courses.” Existing Courses FAQ labels and other website content remain.
   This is not evidence of a live implementation or follow-up usability test.
-- `ww-naming-comparison.webm`, `.mp4`, and `-poster.jpg` include both phones
+- `ww-naming-highlighted-comparison.webm`, `.mp4`, and `-poster.jpg` include both phones
   and their labels in one 1000×956 canvas. Every frame holds both views at the
   same point in the recording; they cannot drift independently.
 - Hardware comes from the unchanged `ww-iphone-frame.png` reference overlay.
@@ -149,5 +149,40 @@ retained status/home strips are documented in
   Source hash, font URL/hash, per-frame edit tracking, and pixel-conservation
   checks are in `content/sources/womens-wilderness-naming-media.json`.
   Reproduction uses `content/sources/render-womens-wilderness-naming.py`
-  for the edited pair and `tools/compose_naming_comparison.py` for the
-  single frame-locked comparison. These are offline tools, not runtime scripts.
+  for the edited pair, `tools/highlight_naming_changes.py` for the tracked
+  amber outlines, and `tools/compose_naming_comparison.py` for the single
+  frame-locked comparison. These are offline tools, not runtime scripts.
+- Amber outlines mark only newly changed “Courses” words, following their
+  motion, menu reveals, and viewport clipping. Existing Courses FAQ labels
+  and foreground text pixels are unchanged. Style, per-frame geometry, source
+  hashes, and invariants are in
+  `content/sources/womens-wilderness-naming-highlights.json`.
+  The earlier unhighlighted comparison files remain unchanged.
+
+### Original Adult results and proposed Hiking filtering
+
+- Owner screenshot: `Screenshot 2026-11-01 at 5.01.24_PM.png`, SHA-256
+  `d114ef437e0ff8a22e1d8ccb1dfd033ce735f654f5ecd4cb8e5730fd56c9796c`.
+- `ww-filter-original.png` is an unchanged-pixel, lossless website-only crop:
+  `[2,240,3022,1800)`, 3020×1560. Mac menu, Chrome tabs/profile/address controls,
+  browser edges, desktop wallpaper, and Dock are excluded.
+- `ww-filter-hiking.webm`, `.mp4`, and `-poster.jpg` illustrate a proposed
+  combined filter interaction. The existing Adult selection stays active;
+  selecting Hiking removes the film event and reflows the original hiking
+  card into the first results slot. All event imagery, titles, dates, audience,
+  locations, and prices are actual source screenshot pixels. No event content
+  is invented or retyped.
+- Only pointer/selection cues and the added filter chip are synthesized.
+  The chip reuses original HIKING glyphs. The animation is silent, 1510×780,
+  30fps, 270 frames/9 seconds, with a seamless return to the original view.
+  Poster shows the single-result state at 5.4 seconds.
+- The Original PNG retains the screenshot's embedded Display color profile.
+  After raw-pixel conservation checks, proposed frames are color-managed to
+  sRGB, then explicitly encoded as BT709 limited-range video. The poster is
+  tagged sRGB. This preserves visual colors rather than misinterpreting the
+  screenshot's wide-gamut RGB values.
+- Source/output hashes, crop and animation geometry, timing, and pixel
+  conservation proofs are in
+  `content/sources/womens-wilderness-filter-animation.json`.
+  Reproduction: `tools/render_hiking_filter.py` (Pillow, NumPy, ffmpeg;
+  no network, application dependency, or runtime script).

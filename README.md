@@ -80,14 +80,22 @@ integrity hashes.
 - The two competitive program-preview screenshots use exterior-transparent
   phone derivatives. White website UI inside the phones is retained; original
   green annotation rectangles are retained in full, including their sides
-  outside the hardware. Reference screenshots remain unchanged. Mask geometry and integrity checks
-  are in `content/sources/womens-wilderness-transparent-previews.json`.
+  outside the hardware. Reference screenshots remain unchanged. Mask geometry
+  and integrity checks are in
+  `content/sources/womens-wilderness-transparent-previews.json`.
 - The first finding uses the owner's additional homepage/navigation recording
   as an “Original” / “Proposed” terminology comparison. Both framed phones and
   labels are baked into one video, so playback, seeking, buffering, and looping
-  cannot drift. Both views use black browser chrome; proposed “Courses” edits
-  are labeled as proposed. WebM is offered
-  before MP4, with a full-size comparison link for closer inspection.
+  cannot drift. Both views use black browser chrome; amber outlines identify
+  only the updated “Courses” words in the proposed view, not existing FAQ
+  labels. WebM is offered before MP4, with a full-size comparison link for
+  closer inspection.
+- Finding 2 pairs the owner's original desktop screenshot with an autoplaying
+  proposed filter animation. “Adult” stays selected while “Hiking” is added;
+  the film event disappears and the original hiking card reflows into the
+  first results position. Browser/profile controls and the desktop Dock are
+  cropped out. Source pixels, event details, animation timing, and verification
+  are recorded in `content/sources/womens-wilderness-filter-animation.json`.
 
 Intentional preview safeguards:
 

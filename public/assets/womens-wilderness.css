@@ -102,6 +102,46 @@
 }
 .ww-copy .ww-synthesis > figure + figure { margin-top: 32px; }
 .ww-copy .ww-synthesis .ww-data-trends img { max-width: 520px; }
+.ww-copy .ww-filter-comparison > figure {
+  display: block;
+  float: none;
+  clear: both;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.ww-copy .ww-filter-comparison > figure + figure { margin-top: 32px; }
+.ww-copy .ww-filter-comparison .ww-filter-view > figcaption {
+  margin: 0 0 14px;
+  color: #08082c;
+  text-align: center;
+  font: 700 14px/1.5 "PT Sans", sans-serif;
+}
+.ww-copy .ww-filter-comparison img {
+  width: 100%;
+  max-height: none;
+}
+.ww-copy .ww-filter-original > a { display: block; }
+.ww-copy .ww-filter-comparison a:focus-visible {
+  outline: 3px solid #4830e6;
+  outline-offset: 4px;
+}
+.ww-copy .ww-filter-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1510 / 780;
+  background: #fff;
+}
+.ww-copy .ww-filter-comparison > figcaption a {
+  display: inline;
+  color: #4830e6;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .ww-copy .ww-desk-recording {
   display: block;
   width: 100%;

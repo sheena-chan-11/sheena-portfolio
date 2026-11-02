@@ -46,8 +46,8 @@
       "sha256": "f3ba1dd8548b9572fbc830ba30af96e632d8ea248d932798110b9e2b55fd1304"
     },
     {
-      "name": "ww-naming-proposed.mkv",
-      "sha256": "4aeffe5b2eed73dd1477459d6a88f4ff0332eb129c970b1f7f6e3d5470e823a2"
+      "name": "ww-naming-proposed-highlighted.mkv",
+      "sha256": "6203851b4e09775eca12b15e527c49f2616249288066830acaad0b65224b8e0c"
     }
   ],
   "phone_frame": {
@@ -58,20 +58,25 @@
   },
   "outputs": [
     {
-      "path": "public/assets/ww-naming-comparison.mp4",
-      "sha256": "7b576f8984d8ee40a9b7455963330f750c0c9d1f9e48b334ff8e85991b84a023",
-      "bytes": 4841173
+      "path": "public/assets/ww-naming-highlighted-comparison.mp4",
+      "sha256": "da03478994f7a2dfb5d70cbf259f49bd5ae36b4e2a9fdeccb3794a3a40f07b45",
+      "bytes": 4829684
     },
     {
-      "path": "public/assets/ww-naming-comparison.webm",
-      "sha256": "55310794766a3be18f4dcdd18e11654f0dc1c2b7bf2276a6cf9b053c6611d2dd",
-      "bytes": 4090919
+      "path": "public/assets/ww-naming-highlighted-comparison.webm",
+      "sha256": "a8179eddfdf42b4928973d60dcf9a8788623f27ec6ae460bc1617dd0eeeff75e",
+      "bytes": 4118362
     },
     {
-      "path": "public/assets/ww-naming-comparison-poster.jpg",
-      "sha256": "de1546a94a25a872e3e285a0e1377fa9b19ad4afb3f623cbe01ad124db4b83bd",
-      "bytes": 123719
+      "path": "public/assets/ww-naming-highlighted-comparison-poster.jpg",
+      "sha256": "0c2eba6c0bddfdc08369b226cfed807ad11fa77da7a226ca48116fabd517ad45",
+      "bytes": 126474
     }
   ],
-  "reproduction": "tools/compose_naming_comparison.py ORIGINAL_WORKING_VIDEO PROPOSED_WORKING_VIDEO"
+  "reproduction": "tools/compose_naming_comparison.py ORIGINAL_WORKING_VIDEO PROPOSED_WORKING_VIDEO --basename ww-naming-highlighted-comparison --highlights-provenance content/sources/womens-wilderness-naming-highlights.json",
+  "annotations": {
+    "path": "content/sources/womens-wilderness-naming-highlights.json",
+    "sha256": "eb334d1a03b31360bc27dd87b313826d71ff560a3db30dc85600d51c85a2e1d1",
+    "description": "Amber outlines identify only the newly updated Courses labels in the proposed view."
+  }
 }
