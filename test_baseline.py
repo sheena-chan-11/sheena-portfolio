@@ -373,6 +373,10 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(metadata["proposed"]["duration_seconds"], 9)
         verification = metadata["proposed"]["verification"]
         for key in (
+            "adult_selection_highlight_visible_from_first_frame",
+            "adult_close_affordance_inside_highlight",
+            "original_adult_text_unchanged",
+            "font_family_and_settings_match_original",
             "matching_filter_label_typeface_and_highlight",
             "hiking_close_affordance_inside_highlight",
             "remove_filter_text_removed_from_proposed",
@@ -383,18 +387,41 @@ class BaselineTests(unittest.TestCase):
         ):
             self.assertTrue(verification[key])
         typography = metadata["proposed"]["chip_typography"]
-        self.assertEqual((typography["text"], typography["font_family"], typography["weight"]),
-                         ("Hiking", "Merriweather", 900))
+        self.assertEqual((typography["text"], typography["font_family"], typography["weight"],
+                          typography["size_css_px"], typography["line_height_css_px"]),
+                         ("Hiking", "Windsor Roman", 500, 24, 24))
+        self.assertEqual((typography["style"], typography["letter_spacing"],
+                          typography["text_transform"]), ("normal", "normal", "none"))
         self.assertEqual(typography["source_ink_rgb"], [120, 21, 98])
         self.assertEqual(
             typography["selection_highlight"],
             "No fill; matching #FFDA00 outline, 3px stroke, and 10px radius for Adult and Hiking",
         )
-        font = ROOT.parent / typography["font_file"]
-        self.assertEqual(hashlib.sha256(font.read_bytes()).hexdigest(), typography["font_sha256"])
-        self.assertEqual(typography["font_sha256"],
-                         "0d17518d468ebb7bf6be187fe39caf344dd83a51c22618d230bde02dd99f08d2")
-        self.assertIn("SIL OPEN FONT LICENSE", (ROOT.parent / "content/sources/Merriweather-OFL.txt").read_text())
+        font_source = metadata["font_source"]
+        self.assertEqual(font_source["font_resource_url"],
+                         "https://womenswilderness.org/wp-content/uploads/2025/10/Windsor-BT-Roman.ttf")
+        self.assertEqual(font_source["family"], "Windsor Roman")
+        self.assertEqual(font_source["computed_css"], {
+            "weight": "500",
+            "font_size": "24px",
+            "line_height": "24px",
+            "font_style": "normal",
+            "letter_spacing": "normal",
+            "text_transform": "none",
+        })
+        self.assertEqual(font_source["adult_reference_ink_bbox_xyxy"], [1045, 677, 1175, 712])
+        self.assertEqual(font_source["browser_canvas_adult_metrics"], {
+            "advance_width_px": 128,
+            "actual_bounding_box_left_px": 0,
+            "actual_bounding_box_right_px": 130,
+            "actual_bounding_box_ascent_px": 35,
+            "actual_bounding_box_descent_px": 0,
+        })
+        label = ROOT.parent / font_source["hiking_label_raster"]["file"]
+        self.assertEqual(hashlib.sha256(label.read_bytes()).hexdigest(),
+                         font_source["hiking_label_raster"]["sha256"])
+        self.assertEqual(font_source["hiking_label_raster"]["dimensions_px"], [154, 43])
+        self.assertTrue(font_source["hiking_label_raster"]["font_file_not_redistributed"])
         urls = {}
         for name, entry in metadata["outputs"].items():
             asset = ROOT.parent / name
@@ -414,13 +441,22 @@ class BaselineTests(unittest.TestCase):
             [x.get_text(strip=True) for x in figure.select(".ww-browser-url-text")],
             ["womenswilderness.org/programs/"] * 2,
         )
-        self.assertIn("yellow outline rectangles", metadata["proposed"]["new_ui_only"][1])
-        self.assertIn("× close affordance", metadata["proposed"]["new_ui_only"][2])
-        self.assertIn("removed throughout the Proposed view", metadata["proposed"]["new_ui_only"][3])
+        self.assertIn("highlighted from the first frame", metadata["proposed"]["new_ui_only"][1])
+        self.assertIn("Adult has its own ×", metadata["proposed"]["new_ui_only"][2])
+        self.assertIn("identical CSS font settings", metadata["proposed"]["new_ui_only"][3])
+        self.assertIn("removed throughout the Proposed view", metadata["proposed"]["new_ui_only"][4])
         self.assertEqual(metadata["proposed"]["source_geometry_xyxy_half_open"]["all_adult_sidebar_outline"],
                          [329, 1439, 775, 1482])
         self.assertEqual(metadata["proposed"]["source_geometry_xyxy_half_open"]["adult_filter_label_outline"],
-                         [1038, 663, 1187, 722])
+                         [1038, 663, 1208, 722])
+        self.assertEqual(metadata["proposed"]["source_geometry_xyxy_half_open"]["adult_close_x"],
+                         [1186, 686, 1202, 702])
+        self.assertEqual(metadata["proposed"]["source_geometry_xyxy_half_open"]["hiking_chip"],
+                         [1220, 664, 1414, 722])
+        self.assertEqual(metadata["proposed"]["source_geometry_xyxy_half_open"]["hiking_text_origin"],
+                         [1227, 677])
+        self.assertEqual(metadata["proposed"]["source_geometry_xyxy_half_open"]["hiking_close_x"],
+                         [1392, 686, 1408, 702])
         for attribute in ("autoplay", "muted", "loop", "playsinline"):
             self.assertTrue(video.has_attr(attribute))
         self.assertFalse(video.has_attr("controls"))

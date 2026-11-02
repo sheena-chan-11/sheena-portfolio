@@ -17,7 +17,7 @@ from io import BytesIO
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageCms, ImageDraw, ImageFont
+from PIL import Image, ImageCms, ImageDraw
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = Path("/tmp/shelley-uploads/Screenshot 2026-11-01 at 5.01.24_PM.png")
@@ -26,15 +26,20 @@ FILM = (888, 862, 1464, 1800)
 HIKE = (1515, 862, 2091, 1800)
 ROW = (329, 928, 775, 982)
 REMOVE_FILTER = (1215, 659, 1405, 728)
-ADULT_LABEL = (1038, 663, 1187, 722)
+ADULT_LABEL = (1038, 663, 1208, 722)
+ADULT_TEXT = (1045, 677, 1175, 712)
 ADULT_ROW = (329, 1439, 775, 1482)
+ADULT_CLOSE_X = (1186, 686, 1202, 702)
+HIKING_CLOSE_X = (1392, 686, 1408, 702)
+HIKING_CHIP = (1220, 664, 1414, 722)
+HIKING_TEXT_ORIGIN = (1227, 677)
 VIDEO_SIZE = (1510, 780)
 FPS, DURATION = 30, 9
 YELLOW = (255, 218, 0)
 PURPLE = (120, 21, 98)
-CHIP_FONT_PATH = ROOT / "content/sources/merriweather-900.ttf"
-CHIP_FONT_SHA256 = "0d17518d468ebb7bf6be187fe39caf344dd83a51c22618d230bde02dd99f08d2"
-CHIP_FONT_URL = "https://fonts.gstatic.com/s/merriweather/v33/u-4D0qyriQwlOrhSvowK_l5UcA6zuSYEqOzpPe3HOZJ5eX1WtLaQwmYiScCmDxhtNOKl8yDrdyAqEw.ttf"
+CHIP_LABEL_PATH = ROOT / "content/sources/womens-wilderness-windsor-hiking-label.png"
+CHIP_LABEL_SHA256 = "68e4a28c0c83fe30ddb49229075ff60252884a61df99beb36d691583881e2e10"
+WINDSOR_FONT_URL = "https://womenswilderness.org/wp-content/uploads/2025/10/Windsor-BT-Roman.ttf"
 
 
 def sha256(path):
@@ -127,8 +132,22 @@ def main():
     white_film = Image.new("RGB", film.size, "white")
     proposed_base = original.copy()
     proposed_base.paste("white", local_box(REMOVE_FILTER))
-    assert sha256(CHIP_FONT_PATH) == CHIP_FONT_SHA256
-    chip_font = ImageFont.truetype(str(CHIP_FONT_PATH), 48)
+    assert sha256(CHIP_LABEL_PATH) == CHIP_LABEL_SHA256
+    chip_label = Image.open(CHIP_LABEL_PATH).convert("RGBA")
+    assert chip_label.size == (154, 43)
+    assert np.any(np.asarray(original.crop(local_box(ADULT_TEXT))) != 255)
+    adult_selection = Image.new("RGBA", original.size)
+    adult_draw = ImageDraw.Draw(adult_selection)
+    adult_draw.rounded_rectangle(local_box(ADULT_ROW), radius=11,
+                                 outline=YELLOW + (255,), width=3)
+    adult_draw.rounded_rectangle(local_box(ADULT_LABEL), radius=10,
+                                 outline=YELLOW + (255,), width=3)
+    adult_x, adult_y = point(ADULT_CLOSE_X[0], ADULT_CLOSE_X[1])
+    adult_draw.line((adult_x, adult_y, adult_x + 16, adult_y + 16),
+                    fill=PURPLE + (255,), width=4)
+    adult_draw.line((adult_x + 16, adult_y, adult_x, adult_y + 16),
+                    fill=PURPLE + (255,), width=4)
+    proposed_base = Image.alpha_composite(proposed_base.convert("RGBA"), adult_selection).convert("RGB")
 
     def proposed_overlay(t):
         overlay = Image.new("RGBA", original.size)
@@ -139,20 +158,13 @@ def main():
             draw.rounded_rectangle(local_box(ROW), radius=11,
                                    outline=YELLOW + (round(255 * hover),), width=3)
         if selected:
-            # Outline the already-active adult selections without checkmarks.
-            draw.rounded_rectangle(local_box(ADULT_ROW), radius=11,
-                                   outline=YELLOW + (round(255 * selected),), width=3)
-            draw.rounded_rectangle(local_box(ADULT_LABEL), radius=10,
-                                   outline=YELLOW + (round(255 * selected),), width=3)
-
-            # Adult and Hiking use one consistent transparent yellow outline.
-            draw.rounded_rectangle(local_box((1215, 664, 1447, 722)), radius=10,
+            # The preselected Adult filter is already outlined in proposed_base.
+            # Add a matching Hiking selection after the user clicks its row.
+            draw.rounded_rectangle(local_box(HIKING_CHIP), radius=10,
                                    outline=YELLOW + (round(255 * selected),), width=3)
             ink = PURPLE + (round(255 * selected),)
-            draw.text(point(1235, 667), "Hiking", font=chip_font,
-                      fill=ink, anchor="lt")
-            # A matching × close affordance sits inside the Hiking highlight.
-            close_x, close_y = point(1416, 686)
+            overlay.alpha_composite(chip_label, dest=point(*HIKING_TEXT_ORIGIN))
+            close_x, close_y = point(HIKING_CLOSE_X[0], HIKING_CLOSE_X[1])
             draw.line((close_x, close_y, close_x + 16, close_y + 16),
                       fill=ink, width=4)
             draw.line((close_x + 16, close_y, close_x, close_y + 16),
@@ -218,8 +230,15 @@ def main():
     assert np.array_equal(np.asarray(source_frame(8.6)), np.asarray(proposed_base))
     assert np.any(np.asarray(original.crop(local_box(REMOVE_FILTER))) != 255)
     assert np.all(np.asarray(proposed_base.crop(local_box(REMOVE_FILTER))) == 255)
-    close_pixels = np.asarray(final.crop(local_box((1414, 684, 1434, 704))))
-    assert np.any(np.all(close_pixels == PURPLE, axis=2))
+    adult_close_pixels = np.asarray(source_frame(0.0).crop(local_box(ADULT_CLOSE_X)))
+    hiking_close_pixels = np.asarray(final.crop(local_box(HIKING_CLOSE_X)))
+    assert np.any(np.all(adult_close_pixels == PURPLE, axis=2))
+    assert np.any(np.all(hiking_close_pixels == PURPLE, axis=2))
+    initial = np.asarray(source_frame(0.0))
+    for box in (ADULT_ROW, ADULT_LABEL):
+        roi = initial[box[1] - CROP[1]:box[3] - CROP[1],
+                      box[0] - CROP[0]:box[2] - CROP[0]]
+        assert np.any(np.all(roi == YELLOW, axis=2))
     encoded_frame(5.4).save(
         staging / "ww-filter-hiking-poster.jpg", quality=94, subsampling=0,
         icc_profile=srgb_profile.tobytes(),
@@ -282,7 +301,7 @@ def main():
             "original_filename": args.source.name,
             "sha256": sha256(args.source),
             "dimensions_px": list(source.size),
-            "type": "User-supplied screenshot; only image source. The locally bundled Merriweather font is separately sourced from Google Fonts.",
+            "type": "User-supplied screenshot; only image source. The Hiking label is separately rasterized from the Programs page's loaded Windsor Roman font; the font file is not redistributed.",
             "preserved": True,
             "embedded_icc": {
                 "description": source_profile_description,
@@ -304,14 +323,35 @@ def main():
             "implementation": "CSS/HTML browser chrome surrounds each evidence viewport; no chrome is added to or painted into source screenshot or video pixels.",
         },
         "font_source": {
-            "provider": "Google Fonts",
-            "family": "Merriweather",
-            "weight": 900,
-            "url": CHIP_FONT_URL,
-            "file": str(CHIP_FONT_PATH.relative_to(ROOT)),
-            "sha256": sha256(CHIP_FONT_PATH),
-            "license": "SIL Open Font License 1.1",
-            "license_file": "content/sources/Merriweather-OFL.txt",
+            "provider": "Women’s Wilderness Programs page",
+            "style_reference": "Computed h4 Filter: style on the source Programs URL",
+            "url": "https://womenswilderness.org/programs/",
+            "font_resource_url": WINDSOR_FONT_URL,
+            "family": "Windsor Roman",
+            "computed_css": {
+                "weight": "500",
+                "font_size": "24px",
+                "line_height": "24px",
+                "font_style": "normal",
+                "letter_spacing": "normal",
+                "text_transform": "none",
+            },
+            "source_screenshot_scale": 2,
+            "adult_reference_ink_bbox_xyxy": list(ADULT_TEXT),
+            "adult_reference_ink_rgb": list(PURPLE),
+            "browser_canvas_adult_metrics": {
+                "advance_width_px": 128,
+                "actual_bounding_box_left_px": 0,
+                "actual_bounding_box_right_px": 130,
+                "actual_bounding_box_ascent_px": 35,
+                "actual_bounding_box_descent_px": 0,
+            },
+            "hiking_label_raster": {
+                "file": str(CHIP_LABEL_PATH.relative_to(ROOT)),
+                "sha256": sha256(CHIP_LABEL_PATH),
+                "dimensions_px": list(chip_label.size),
+                "font_file_not_redistributed": True,
+            },
         },
         "proposed": {
             "duration_seconds": DURATION,
@@ -334,23 +374,27 @@ def main():
             "poster_timestamp_seconds": 5.4,
             "new_ui_only": [
                 "Animated pointer and click ring",
-                "Matching yellow outline rectangles around All Adult, Hiking, and Adult in the filter summary; no selection checkmarks",
-                "Title-case Merriweather 900 Hiking text with a matching × close affordance inside its yellow outline",
+                "The already-selected All Adult row and Adult filter chip are highlighted from the first frame and remain selected",
+                "Adult has its own × close affordance; selecting Hiking adds a matching highlighted chip with its own ×",
+                "Adult and Hiking use the source Windsor Roman typography, with identical CSS font settings",
                 "The (Remove Filter) text is removed throughout the Proposed view; the Original screenshot is unchanged",
             ],
             "event_content": "All card imagery, titles, dates, locations, audience and pricing are the source screenshot's pixels. No event content invented or retyped.",
-            "font_method": "Hiking uses Merriweather 900 and sampled source-ink color to match Adult; a bundled local TTF makes regeneration offline and repeatable.",
+            "font_method": "Hiking is a transparent text raster rendered by the Programs page's loaded Windsor Roman font using the computed Filter heading settings. The font itself is not redistributed; the frozen label raster supports offline video regeneration.",
             "chip_typography": {
                 "text": "Hiking",
-                "font_family": "Merriweather",
-                "weight": 900,
+                "font_family": "Windsor Roman",
+                "weight": 500,
                 "style": "normal",
+                "size_css_px": 24,
                 "size_source_screenshot_px": 48,
+                "line_height_css_px": 24,
+                "letter_spacing": "normal",
+                "text_transform": "none",
                 "source_ink_rgb": list(PURPLE),
-                "font_file": str(CHIP_FONT_PATH.relative_to(ROOT)),
-                "font_sha256": sha256(CHIP_FONT_PATH),
-                "font_download_url": CHIP_FONT_URL,
-                "license": "SIL Open Font License 1.1; see content/sources/Merriweather-OFL.txt",
+                "raster_file": str(CHIP_LABEL_PATH.relative_to(ROOT)),
+                "raster_sha256": sha256(CHIP_LABEL_PATH),
+                "raster_dimensions_px": list(chip_label.size),
                 "remove_affordance": "× drawn inside the Hiking outline in the same source-ink color",
                 "selection_highlight": "No fill; matching #FFDA00 outline, 3px stroke, and 10px radius for Adult and Hiking",
             },
@@ -361,10 +405,12 @@ def main():
                 "hiking_sidebar_selection": list(ROW),
                 "all_adult_sidebar_outline": list(ADULT_ROW),
                 "adult_filter_label_outline": list(ADULT_LABEL),
+                "original_adult_filter_text": list(ADULT_TEXT),
+                "adult_close_x": list(ADULT_CLOSE_X),
                 "proposed_remove_filter_text_erased": list(REMOVE_FILTER),
-                "hiking_chip": [1215, 664, 1447, 722],
-                "hiking_text_origin": [1235, 667],
-                "hiking_close_x": [1416, 686, 1432, 702],
+                "hiking_chip": list(HIKING_CHIP),
+                "hiking_text_origin": list(HIKING_TEXT_ORIGIN),
+                "hiking_close_x": list(HIKING_CLOSE_X),
             },
             "timeline_seconds": {
                 "initial_proposed_hold": [0.0, 1.65],
@@ -384,6 +430,10 @@ def main():
                 "loop_end_pixels_equal_proposed_start": True,
                 "nonmatching_film_card_removed": True,
                 "retained_adult_filter": True,
+                "adult_selection_highlight_visible_from_first_frame": True,
+                "adult_close_affordance_inside_highlight": True,
+                "original_adult_text_unchanged": True,
+                "font_family_and_settings_match_original": True,
                 "yellow_rectangles_outline_all_adult_hiking_and_adult_label": True,
                 "no_filter_selection_checkmark": True,
                 "no_plus_between_filter_labels": True,

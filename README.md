@@ -94,10 +94,12 @@ integrity hashes.
   filter animation, each inside a browser frame showing
   `womenswilderness.org/programs/`. Yellow rectangles outline “All Adult,”
   “Hiking,” and the existing “Adult” filter label with a consistent color and
-  outline style. “Hiking” now uses the same Merriweather typography as “Adult,”
-  with an × close affordance inside its highlight. The proposal removes
-  “(Remove Filter)” while the Original screenshot stays untouched; no
-  selection checkmark or plus sign appears between filters. The pointer
+  outline style. The already-selected Adult label and All Adult row are
+  highlighted from the first frame. Adult and Hiking use the source page's
+  Windsor Roman 500, 24px typography and each has an × close affordance inside
+  its highlight. The proposal removes “(Remove Filter)” while the Original
+  screenshot stays untouched; no selection checkmark or plus sign appears
+  between filters. The pointer
   selects Hiking, the film event disappears, and the original adult hiking
   event reflows into the first results position. Browser controls/profile and
   desktop Dock from the source capture are cropped out. Source pixels, event

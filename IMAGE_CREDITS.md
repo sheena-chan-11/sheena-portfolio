@@ -171,21 +171,26 @@ retained status/home strips are documented in
 - `ww-filter-hiking.webm`, `.mp4`, and `-poster.jpg` illustrate a proposed
   combined filter interaction. Yellow rectangles outline All Adult, Hiking,
   and the existing Adult filter label using a consistent #FFDA00 outline.
-  Hiking now uses Merriweather 900 and the same source-ink color as Adult, with
-  an × close affordance inside the yellow outline. The proposed view removes
-  “(Remove Filter)” throughout; the Original screenshot remains unchanged.
+  The already-selected Adult label and All Adult row are highlighted from the
+  first frame. Adult's original screenshot glyphs remain unchanged; Hiking's
+  `content/sources/womens-wilderness-windsor-hiking-label.png` raster uses the
+  source Programs page's Windsor Roman 500, 24px style (24px line-height,
+  normal style/letter-spacing), scaled 2× to match the screenshot. Each chip
+  has its own × affordance inside the yellow outline. The proposed view removes
+  “(Remove Filter)” throughout; the
+  Original screenshot remains unchanged.
   The Adult and Hiking criteria are multi-selected; selecting Hiking removes
   the film event and reflows the original adult hiking card into the first
   results slot. All event imagery, titles, dates, audience, locations, and
   prices are actual source screenshot pixels. No event content is invented or
   retyped.
-- Only pointer/selection cues, yellow outline rectangles, and the Hiking
-  selection chip are synthesized. There is no selection checkmark or plus sign
-  between filter labels. The animation is silent, 1510×780, 30fps, 270
-  frames/9 seconds, with a seamless return to its proposed starting state.
-  Poster shows the single-result state at 5.4 seconds. The bundled
-  `content/sources/merriweather-900.ttf` is licensed under the SIL Open Font
-  License; its full license is in `content/sources/Merriweather-OFL.txt`.
+- Only pointer/selection cues, yellow outline rectangles, close affordances,
+  and the Hiking selection label are synthesized. The licensed font file is
+  not bundled; the rendered transparent Hiking-label raster and its exact
+  computed source style are documented in the animation provenance. There is
+  no selection checkmark or plus sign between filter labels. The animation is
+  silent, 1510×780, 30fps, 270 frames/9 seconds, with a seamless return to its
+  proposed starting state. Poster shows the single-result state at 5.4 seconds.
 - The Original PNG retains the screenshot's embedded Display color profile.
   After raw-pixel conservation checks, proposed frames are color-managed to
   sRGB, then explicitly encoded as BT709 limited-range video. The poster is
