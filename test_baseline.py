@@ -102,9 +102,12 @@ class BaselineTests(unittest.TestCase):
             self.assertNotIn("height", links[0].select_one("img").attrs)
             self.assertIn("Step by Step", links[0].get_text())
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
-        self.assertEqual(soup.h1.get_text(), "Step by Step")
         for phrase in ("coming soon", "U.S. college students", "quick movement breaks"):
             self.assertIn(phrase, soup.get_text())
+        self.assertEqual(
+            soup.h1.get_text(),
+            "Help U.S. college students break up a sedentary lifestyle and build quick movement breaks into their everyday routine.",
+        )
         self.assertEqual(soup.select_one(".step-back")["href"], "/latestprojects")
 
     def test_requested_project_order(self):
@@ -250,10 +253,24 @@ class BaselineTests(unittest.TestCase):
         layout = soup.select_one(".step-layout")
         self.assertEqual([child.name for child in layout.find_all(recursive=False)], ["section", "figure"])
         self.assertEqual(layout.select_one(".step-figure img")["src"], "/assets/step-by-step-movement.jpg")
+        self.assertEqual(
+            soup.select_one("#step-title").get_text(),
+            "Help U.S. college students break up a sedentary lifestyle and build quick movement breaks into their everyday routine.",
+        )
+        facts = soup.select(".step-facts")
+        self.assertEqual(
+            [item.get_text(" ", strip=True) for item in facts[0].find_all(["dt", "dd"], recursive=False)],
+            [
+                "Class project", "Step by Step",
+                "My Role", "UX Designer (team of 4 UX designers)",
+                "Research Methods", "Desk Research, Survey, Ethnography, User Interview",
+                "Duration", "3 months",
+            ],
+        )
         css = (ROOT / "assets/step-by-step.css").read_text()
         self.assertIn("grid-template-columns: minmax(0, .86fr) minmax(0, 1fr)", css)
         self.assertIn('grid-template-areas: "image overview"', css)
-        self.assertIn('font: 400 clamp(36px, 4vw, 48px)/1.2 "PT Sans", sans-serif', css)
+        self.assertIn('font: 400 clamp(34px, 3.5vw, 42px)/1.2 "PT Sans", sans-serif', css)
         self.assertIn('font: 400 18px/1.75 "PT Sans", sans-serif', css)
         self.assertIn("@media (max-width: 767px)", css)
         self.assertIn('grid-template-areas: "overview" "image"', css)
