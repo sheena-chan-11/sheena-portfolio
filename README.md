@@ -105,6 +105,11 @@ integrity hashes.
   desktop Dock from the source capture are cropped out. Source pixels, event
   details, animation timing, and verification are recorded in
   `content/sources/womens-wilderness-filter-animation.json`.
+- The Original program cards and Proposed availability label screenshots are
+  stacked vertically at the same full width as the browser screens above.
+  Each unmodified 1440×800 source screenshot already includes its own browser
+  chrome and address bar, so no extra frame is added; both retain the same
+  display size and aspect ratio as they scale responsively.
 
 Intentional preview safeguards:
 

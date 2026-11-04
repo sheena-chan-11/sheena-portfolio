@@ -59,11 +59,24 @@
   border: 1px solid #e6e3f2;
   background: #faf9fd;
 }
-.ww-evidence-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  gap: 24px;
+.ww-registration-screens {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.ww-registration-screen { min-width: 0; }
+.ww-copy .ww-evidence .ww-registration-screen img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: none;
+  margin: 0;
+  object-fit: contain;
+}
+.ww-registration-screen a:focus-visible {
+  outline: 3px solid #4830e6;
+  outline-offset: 4px;
 }
 .ww-evidence-item { min-width: 0; }
 .ww-evidence-label {

@@ -62,6 +62,11 @@ media not included in the supplied PDF; no animations have been fabricated.
   bar. Its small favicon is an 18×18 crop from that reference, not an external
   asset. The chrome is noninteractive and hidden from screen readers; the
   video and its existing accessible label are unchanged.
+- The Original program cards and Proposed availability label screenshots are
+  stacked vertically at the same full display width as the browser screens
+  above. Each original 1440×800 screenshot already contains its own browser
+  chrome and address bar; the source assets are unchanged and no extra browser
+  frame is layered over them.
 
 ### Mobile competitive-analysis recordings
 

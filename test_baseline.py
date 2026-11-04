@@ -193,6 +193,46 @@ class BaselineTests(unittest.TestCase):
         previous = next(a for a in soup.select(".project-page a") if a.get_text(strip=True) == "Prev Project")
         self.assertEqual(previous["href"], "/project/step-by-step")
 
+    def test_womens_wilderness_registration_screens_are_stacked_at_matching_size(self):
+        soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
+        figure = soup.select_one(".ww-registration-comparison")
+        self.assertIsNotNone(figure)
+        screens = figure.select(".ww-registration-screens > .ww-registration-screen")
+        self.assertEqual(len(screens), 2)
+        self.assertEqual(
+            [screen.select_one(".ww-evidence-label").get_text(strip=True) for screen in screens],
+            ["Original program cards", "Proposed availability label"],
+        )
+        self.assertIsNone(figure.select_one(".ww-evidence-grid"))
+        hashes = (
+            "9ed660d118d7a6119b37c7f7cc2427bd7860d96792f0fcad3224348a4fd1f4bc",
+            "eb1828e433788789cb656f4c44ba23f039189c2f7c514057b05c3f6d69e8f2f8",
+        )
+        dimensions = []
+        for screen, filename, digest in zip(
+            screens,
+            ("ww-registration-original.png", "ww-registration-proposal.png"),
+            hashes,
+        ):
+            self.assertIsNone(screen.select_one(".ww-browser-frame"))
+            image = screen.select_one("img.ww-registration-image")
+            self.assertEqual(Path(image["src"].split("?")[0]).name, filename)
+            self.assertEqual(image.parent["href"], image["src"])
+            self.assertEqual((image["width"], image["height"]), ("1440", "800"))
+            source = ROOT / "assets" / filename
+            self.assertEqual(source.read_bytes()[16:24], (1440).to_bytes(4, "big") + (800).to_bytes(4, "big"))
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), digest)
+            dimensions.append((image["width"], image["height"]))
+        self.assertEqual(dimensions[0], dimensions[1])
+        css = (ROOT / "assets/womens-wilderness.css").read_text()
+        self.assertRegex(
+            css,
+            r"\.ww-registration-screens\s*\{\s*display:\s*flex;\s*flex-direction:\s*column;\s*gap:\s*32px;",
+        )
+        self.assertIn(".ww-copy .ww-evidence .ww-registration-screen img", css)
+        self.assertRegex(css, r"\.ww-copy \.ww-evidence \.ww-registration-screen img\s*\{[^}]*width:\s*100%;[^}]*max-height:\s*none;")
+        self.assertIn("not evidence of implementation", figure.figcaption.get_text())
+
     def test_womens_wilderness_background_refinements(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
         background = soup.select(".ww-copy")[0]
