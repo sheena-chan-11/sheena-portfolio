@@ -245,8 +245,14 @@ class BaselineTests(unittest.TestCase):
                 for selector in (".project-title", ".product-description", ".project-type"):
                     self.assertTrue(overlay.select_one(selector).get_text(strip=True))
                 self.assertFalse(card.select(".step-card-label"))
+            step_card = soup.select_one('a.step-card[href="/project/step-by-step"]')
+            self.assertEqual(step_card.select_one(".step-coming-badge").get_text(strip=True), "Coming soon")
+            self.assertNotIn("Coming soon", step_card.select_one(".project-type").get_text())
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/step-by-step.css?v={version}"]'))
+        css = (ROOT / "assets/step-by-step.css").read_text()
+        self.assertIn(".step-card .step-coming-badge", css)
+        self.assertIn("background: #fff", css)
 
     def test_step_by_step_overview_matches_womens_wilderness_layout(self):
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")

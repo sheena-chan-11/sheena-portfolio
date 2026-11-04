@@ -57,6 +57,18 @@
   font-size: 16px;
   line-height: 24px;
 }
+.project-list-wrapper .step-card .step-coming-badge {
+  order: 1;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #fff;
+  color: #3521c2;
+  font: 700 13px/1.4 "PT Sans", sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.project-list-wrapper .step-card .product-description { order: 2; }
+.project-list-wrapper .step-card .project-type { order: 3; }
 @media (max-width: 359px) {
   .project-list-wrapper .project-img-overlay > .project-title {
     font-size: 21px;
