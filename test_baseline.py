@@ -130,7 +130,7 @@ class BaselineTests(unittest.TestCase):
             "As I was new to the animal rescue platform, I conducted a competitive analysis",
             "After I had some basic understanding of the animal rescue platforms, I brainstormed different potential solutions to address the user pain points",
             "How might we make it easier for first-time pet owners",
-            "more than 68% of visitors browsed on mobile",
+            "Since the data on GA showed that over 68% of our users use mobile to browse the site",
             "pet-care page views had doubled",
             "engagement time was 5% longer",
             "transparent navbar in the desktop mode",
@@ -165,7 +165,10 @@ class BaselineTests(unittest.TestCase):
         usability = soup.find("h4", string="Usability testing")
         introduction = usability.find_next_sibling()
         self.assertEqual(introduction.name, "p")
-        self.assertEqual(introduction.get_text(), "GA showed that more than 68% of visitors browsed on mobile, so I used a mobile-first approach and developed four homepage directions. I shared them with volunteers in usability tests and asked them to:")
+        self.assertEqual(
+            introduction.get_text(),
+            "Since the data on GA showed that over 68% of our users use mobile to browse the site, I decided to use a mobile-first approach to create three different designs. I shared them with volunteers in usability tests and asked them to choose the version they prefer:",
+        )
         self.assertEqual(introduction.find_next_sibling().name, "ul")
         tasks = introduction.find_next_sibling("ul").find_all("li", recursive=False)
         for task, label, image in (
