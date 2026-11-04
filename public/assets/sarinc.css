@@ -189,18 +189,6 @@
   height: auto;
   max-width: none;
 }
-.project-info-value.content .sarinc-scroll-hint {
-  display: table;
-  margin: 13px auto 0;
-  padding: 5px 10px;
-  border-radius: 20px;
-  background: #f1eeff;
-  color: #4830b8;
-  font: 600 12px/1.3 Arial, sans-serif;
-  letter-spacing: normal;
-  white-space: nowrap;
-}
-.sarinc-scroll-hint span { font-size: 16px; vertical-align: -1px; }
 @media (max-width: 767px) {
   .project-info-value.content figure.sarinc-competitive-analysis { max-width: 100%; }
   .sarinc-centered-caption,

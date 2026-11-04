@@ -31,7 +31,7 @@ independently. The original graphic limits the available detail, especially
 for the mobile preview; no extra resolution has been invented.
 The desktop uses the same decorative browser chrome as the original-homepage
 preview, the tablet frame is CSS artwork, and the phone reuses the
-`ww-iphone-frame.png` overlay described below. Scroll hints identify the
+`ww-iphone-frame.png` overlay described below. A note identifies the
 independently scrollable screens.
 
 ## Women’s Wilderness research screenshots

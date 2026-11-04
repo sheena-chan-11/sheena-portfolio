@@ -133,7 +133,9 @@ class BaselineTests(unittest.TestCase):
             "more than 68% of visitors browsed on mobile",
             "pet-care page views had doubled",
             "engagement time was 5% longer",
-            "transparent desktop navigation",
+            "transparent navbar in the desktop mode",
+            "I missed collaborating with a broader team",
+            "think more holistically about the experience",
         ):
             self.assertIn(phrase, text)
         self.assertNotIn("How we worked together", text)
@@ -169,7 +171,8 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual(image["src"], f"/assets/sarinc-redesign-{device}.png")
             self.assertTrue(image.get("alt"))
             self.assertEqual((ROOT / image["src"].lstrip("/")).read_bytes()[16:24], width.to_bytes(4, "big") + height.to_bytes(4, "big"))
-            self.assertIn("Scroll inside", showcase.select_one(f".sarinc-device-{device} .sarinc-scroll-hint").get_text())
+            self.assertIsNone(showcase.select_one(f".sarinc-device-{device} .sarinc-scroll-hint"))
+        self.assertEqual(len(soup.find_all(string=lambda value: value and "💭 Reflection" in value)), 1)
         homepage = soup.select_one(".sarinc-browser-figure")
         self.assertIsNotNone(homepage)
         self.assertEqual(homepage.select_one(".sarinc-browser-address").get_text(strip=True), "www.smallangelsrescue.org")
