@@ -4,7 +4,7 @@
   object-fit: cover;
 }
 /* One text layout for every card: long titles/descriptions must wrap, not overlap. */
-.project-list-wrapper a.project-img > .project-img-overlay {
+.project-list-wrapper :is(a.project-img, .step-card) > .project-img-overlay {
   z-index: 1;
   box-sizing: border-box;
   width: 100% !important;
@@ -21,8 +21,8 @@
   overflow: hidden;
   transition: opacity .2s, visibility .2s;
 }
-.project-list-wrapper a.project-img:hover > .project-img-overlay,
-.project-list-wrapper a.project-img:focus-visible > .project-img-overlay {
+.project-list-wrapper :is(a.project-img, .step-card):hover > .project-img-overlay,
+.project-list-wrapper :is(a.project-img, .step-card):focus-visible > .project-img-overlay {
   opacity: 1 !important;
   visibility: visible;
 }
@@ -83,12 +83,12 @@
     line-height: 23px;
   }
 }
-.project-list-wrapper a.project-img:focus-visible {
+.project-list-wrapper :is(a.project-img, .step-card):focus-visible {
   outline: 3px solid #4830e6;
   outline-offset: 5px;
 }
 @media (prefers-reduced-motion: reduce) {
-  .project-list-wrapper a.project-img > .project-img-overlay { transition: none; }
+  .project-list-wrapper :is(a.project-img, .step-card) > .project-img-overlay { transition: none; }
 }
 .step-coming-soon {
   box-sizing: border-box;

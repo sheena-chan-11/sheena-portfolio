@@ -47,7 +47,8 @@ integrity hashes.
 - Step by Step's thumbnail has no permanent text label. All three cards share
   the same padded purple hover/keyboard-focus overlay with wrapping text
   (22px title, 18px description, 16px project type; 21/17/15px on narrow phones).
-  Step by Step's overlay includes a contrasting “Coming soon” badge.
+  Step by Step's non-clickable, keyboard-focusable card includes a contrasting
+  “Coming soon” badge in its overlay.
 - PetPal is unlisted, not access-restricted: `/project/petpal/` remains available.
   Its original YouTube embed URL is restored instead of the captured `.bin`.
 - `/project/step-by-step/` is a coming-soon page; it makes no claims about

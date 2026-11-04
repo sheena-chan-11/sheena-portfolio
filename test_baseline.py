@@ -96,11 +96,15 @@ class BaselineTests(unittest.TestCase):
     def test_new_project_available_in_all_lists(self):
         for name in ("index.html", "latestprojects/index.html", "aboutme/index.html"):
             soup = BeautifulSoup((ROOT / name).read_text(), "html.parser")
-            links = soup.select('a.project-img[href="/project/step-by-step"]')
-            self.assertEqual(len(links), 1)
-            self.assertTrue(links[0].select_one("img")["alt"])
-            self.assertNotIn("height", links[0].select_one("img").attrs)
-            self.assertIn("Step by Step", links[0].get_text())
+            cards = soup.select(".step-card")
+            self.assertEqual(len(cards), 1)
+            self.assertEqual(cards[0].name, "div")
+            self.assertEqual(cards[0].get("tabindex"), "0")
+            self.assertEqual(cards[0].get("role"), "group")
+            self.assertIsNone(cards[0].find("a"))
+            self.assertTrue(cards[0].select_one("img")["alt"])
+            self.assertNotIn("height", cards[0].select_one("img").attrs)
+            self.assertIn("Step by Step", cards[0].get_text())
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
         for phrase in ("coming soon", "U.S. College Students", "Movement Breaks"):
             self.assertIn(phrase, soup.get_text())
@@ -111,10 +115,11 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(soup.select_one(".step-back")["href"], "/latestprojects")
 
     def test_requested_project_order(self):
-        expected = ["/project/step-by-step", "/project/womens-wilderness", "/project/sarinc"]
+        expected = ["Step by Step", "/project/womens-wilderness", "/project/sarinc"]
         for name in ("index.html", "latestprojects/index.html", "aboutme/index.html"):
             soup = BeautifulSoup((ROOT / name).read_text(), "html.parser")
-            self.assertEqual([a["href"] for a in soup.select("a.project-img")], expected)
+            cards = soup.select(".project-wrapper > :is(a.project-img, .step-card)")
+            self.assertEqual([c.get("href", "Step by Step") for c in cards], expected)
 
     def test_small_angel_rescue_case_study_graphics_and_original_homepage(self):
         page = ROOT / "project/sarinc/index.html"
@@ -240,12 +245,12 @@ class BaselineTests(unittest.TestCase):
             self.assertIsNotNone(soup.select_one(
                 f'link[href="/assets/step-by-step.css?v={version}"]'
             ))
-            for card in soup.select("a.project-img"):
+            for card in soup.select(".project-wrapper > :is(a.project-img, .step-card)"):
                 overlay = card.select_one(".project-img-overlay")
                 for selector in (".project-title", ".product-description", ".project-type"):
                     self.assertTrue(overlay.select_one(selector).get_text(strip=True))
                 self.assertFalse(card.select(".step-card-label"))
-            step_card = soup.select_one('a.step-card[href="/project/step-by-step"]')
+            step_card = soup.select_one(".step-card")
             self.assertEqual(step_card.select_one(".step-coming-badge").get_text(strip=True), "Coming soon")
             self.assertNotIn("Coming soon", step_card.select_one(".project-type").get_text())
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
