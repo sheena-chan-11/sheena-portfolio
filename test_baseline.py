@@ -185,7 +185,7 @@ class BaselineTests(unittest.TestCase):
                 self.assertIn("height", image.attrs)
         captions = " ".join(f.get_text() for f in soup.select(".ww-evidence figcaption"))
         self.assertIsNotNone(soup.select_one(".ww-filter-comparison .ww-filter-proposed"))
-        self.assertIn("not evidence of implementation", captions)
+        self.assertNotIn("This is a recommendation concept, not evidence of implementation.", captions)
         for link in soup.select('a[target="_blank"]'):
             self.assertIn("noopener", link.get("rel", []))
         visit = next(a for a in soup.select("a") if "Visit Website" in a.get_text())
@@ -231,7 +231,8 @@ class BaselineTests(unittest.TestCase):
         )
         self.assertIn(".ww-copy .ww-evidence .ww-registration-screen img", css)
         self.assertRegex(css, r"\.ww-copy \.ww-evidence \.ww-registration-screen img\s*\{[^}]*width:\s*100%;[^}]*max-height:\s*none;")
-        self.assertIn("not evidence of implementation", figure.figcaption.get_text())
+        self.assertIn("proposed “Full - Waitlist Only” label", figure.figcaption.get_text())
+        self.assertNotIn("This is a recommendation concept, not evidence of implementation.", figure.figcaption.get_text())
 
     def test_womens_wilderness_background_refinements(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
@@ -511,7 +512,8 @@ class BaselineTests(unittest.TestCase):
             caption.find(string=True, recursive=False).strip(),
             "Multi-select “Adult” and “Hiking” in the filter to show only the adult hiking event.",
         )
-        self.assertEqual(caption.a["href"], urls["ww-filter-hiking.mp4"])
+        self.assertEqual(caption.a["href"], urls["ww-filter-hiking.webm"])
+        self.assertEqual(caption.a.get_text(strip=True), "View full-size animation (WebM)")
 
     def test_womens_wilderness_desk_research_recording(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")

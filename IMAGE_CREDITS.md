@@ -184,6 +184,8 @@ retained status/home strips are documented in
   has its own × affordance inside the yellow outline. The proposed view removes
   “(Remove Filter)” throughout; the
   Original screenshot remains unchanged.
+  The full-size animation link opens the VP9/WebM version, which was verified
+  to play directly; the embedded browser player retains MP4 as a fallback.
   The Adult and Hiking criteria are multi-selected; selecting Hiking removes
   the film event and reflows the original adult hiking card into the first
   results slot. All event imagery, titles, dates, audience, locations, and

@@ -104,7 +104,8 @@ integrity hashes.
   event reflows into the first results position. Browser controls/profile and
   desktop Dock from the source capture are cropped out. Source pixels, event
   details, animation timing, and verification are recorded in
-  `content/sources/womens-wilderness-filter-animation.json`.
+  `content/sources/womens-wilderness-filter-animation.json`. The full-size
+  link opens the VP9/WebM copy; the embedded player retains MP4 as a fallback.
 - The Original program cards and Proposed availability label screenshots are
   stacked vertically at the same full width as the browser screens above.
   Each unmodified 1440×800 source screenshot already includes its own browser
