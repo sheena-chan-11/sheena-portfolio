@@ -241,6 +241,19 @@ class BaselineTests(unittest.TestCase):
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/step-by-step.css?v={version}"]'))
 
+    def test_step_by_step_overview_matches_womens_wilderness_layout(self):
+        soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
+        layout = soup.select_one(".step-layout")
+        self.assertEqual([child.name for child in layout.find_all(recursive=False)], ["section", "figure"])
+        self.assertEqual(layout.select_one(".step-figure img")["src"], "/assets/step-by-step-movement.jpg")
+        css = (ROOT / "assets/step-by-step.css").read_text()
+        self.assertIn("grid-template-columns: minmax(0, .86fr) minmax(0, 1fr)", css)
+        self.assertIn('grid-template-areas: "image overview"', css)
+        self.assertIn('font: 400 clamp(36px, 4vw, 48px)/1.2 "PT Sans", sans-serif', css)
+        self.assertIn('font: 400 18px/1.75 "PT Sans", sans-serif', css)
+        self.assertIn("@media (max-width: 767px)", css)
+        self.assertIn('grid-template-areas: "overview" "image"', css)
+
     def test_womens_wilderness_revised_case_study(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")
         text = soup.get_text(" ", strip=True)
