@@ -119,6 +119,14 @@ class BaselineTests(unittest.TestCase):
         text = soup.get_text(" ", strip=True)
         for phrase in (
             "Maryland area",
+            "Quantitative and qualitative research",
+            "In my previous job, I used GA to pull site reports.",
+            "I’ve also interviewed the volunteers",
+            "After receiving all the responses, I gathered and analyzed the data through affinity mapping",
+            "(It is a great technique for stakeholders to digest complex data in an easy-to-understand overview.)",
+            "Original Small Angels Rescue homepage.",
+            "As I was new to the animal rescue platform, I conducted a competitive analysis",
+            "After I had some basic understanding of the animal rescue platform, I was ready to brainstorm",
             "How might we make it easier for first-time pet owners",
             "more than 68% of visitors browsed on mobile",
             "pet-care page views had doubled",
@@ -126,6 +134,20 @@ class BaselineTests(unittest.TestCase):
             "transparent desktop navigation",
         ):
             self.assertIn(phrase, text)
+        self.assertNotIn("How we worked together", text)
+        infographic = soup.select_one('img[src="/assets/82f4e85c35d74c5103d7.png"]')
+        self.assertEqual(
+            infographic.find_parent("figure").find_next_sibling("p").get_text(strip=True),
+            "(It is a great technique for stakeholders to digest complex data in an easy-to-understand overview.)",
+        )
+        analysis = soup.find("h5", string="Exploring solutions")
+        first = analysis.find_next_sibling("p")
+        table = first.find_next_sibling("figure").select_one("img")
+        self.assertEqual(table["src"], "/assets/4bb2262b74a8b8255b70.png")
+        self.assertIn("competitive analysis table", table["alt"].lower())
+        self.assertIn("After I had some basic understanding", table.find_parent("figure").find_next_sibling("p").get_text())
+        hmw = soup.find("h5", string=lambda value: value and "How might we make it easier for first-time pet owners" in value)
+        self.assertIsNotNone(hmw)
         figure = soup.select_one(".sarinc-original-homepage")
         self.assertIsNotNone(figure)
         self.assertEqual(figure.select_one("img")["src"], "/assets/sarinc-original-homepage.png")
@@ -141,6 +163,7 @@ class BaselineTests(unittest.TestCase):
         version = hashlib.sha256(css.read_bytes()).hexdigest()[:12]
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/sarinc.css?v={version}"]'))
         self.assertIn("height: auto", css.read_text())
+        self.assertIn("max-width: 900px", css.read_text())
 
     def test_project_overlay_content_and_stylesheet_version(self):
         version = hashlib.sha256((ROOT / "assets/step-by-step.css").read_bytes()).hexdigest()[:12]
