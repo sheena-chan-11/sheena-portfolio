@@ -230,3 +230,10 @@ retained status/home strips are documented in
   `content/sources/womens-wilderness-filter-animation.json`.
   Reproduction: `tools/render_hiking_filter.py` (Pillow, NumPy, ffmpeg;
   no network, application dependency, or runtime script).
+# Portfolio link-preview image
+
+`public/assets/sheena-chan-social-preview.jpg` combines the existing
+owner-supplied homepage photograph (`28f837a14e625e87e471.jpg`) with portfolio
+typography and colors on a 1200×630 canvas. It is used only in share metadata;
+the visible homepage photo and layout are unchanged. Reproduction:
+`tools/render_social_preview.py` (Pillow and system DejaVu Sans).

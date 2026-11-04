@@ -38,6 +38,13 @@ integrity hashes.
 
 ## Current portfolio
 
+- All seven pages provide explicit link-preview titles, descriptions, canonical
+  `sheenachan.com` URLs, and a 1200×630 social image. Rebuild the image with
+  `tools/render_social_preview.py` (Pillow), then run
+  `python3 tools/update_link_previews.py` to refresh metadata/image hashes.
+  Existing previews can remain cached by the sharing app; replace old
+  `sheenachan.webflow.io` links with `https://sheenachan.com/` and refresh the
+  preview in the app where it was originally pasted.
 - Top navigation stays visible while scrolling on every page.
 - Homepage side LinkedIn/Email CTAs, bottom contact copy/form, and Contact
   navigation links are removed. About Me now includes direct email and
