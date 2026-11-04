@@ -78,10 +78,10 @@ integrity hashes.
   coding identified participants with similar thoughts, actions, or feelings.
   Both images open full-size.
 - The two competitive program-preview screenshots use exterior-transparent
-  phone derivatives. White website UI inside the phones is retained; original
-  green annotation rectangles are retained in full, including their sides
-  outside the hardware. Reference screenshots remain unchanged. Mask geometry
-  and integrity checks are in
+  phone derivatives placed side by side. White website UI inside the phones is
+  retained; original green annotation rectangles are retained in full,
+  including their sides outside the hardware. Reference screenshots remain
+  unchanged. Mask geometry and integrity checks are in
   `content/sources/womens-wilderness-transparent-previews.json`.
 - The first finding uses the owner's additional homepage/navigation recording
   as an “Original” / “Proposed” terminology comparison. Both framed phones and

@@ -59,6 +59,12 @@
   border: 1px solid #e6e3f2;
   background: #faf9fd;
 }
+.ww-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+}
 .ww-registration-screens {
   display: flex;
   flex-direction: column;

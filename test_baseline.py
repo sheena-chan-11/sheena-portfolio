@@ -425,6 +425,18 @@ class BaselineTests(unittest.TestCase):
         metadata = json.loads((ROOT.parent / "content/sources/womens-wilderness-transparent-previews.json").read_text())
         images = soup.select(".ww-program-previews img")
         self.assertEqual(len(images), 2)
+        grid = soup.select_one(".ww-program-previews .ww-evidence-grid")
+        self.assertIsNotNone(grid)
+        self.assertEqual(len(grid.select(":scope > .ww-evidence-item")), 2)
+        css = (ROOT / "assets/womens-wilderness.css").read_text()
+        self.assertRegex(
+            css,
+            r"\.ww-evidence-grid\s*\{\s*display:\s*grid;\s*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)",
+        )
+        self.assertRegex(
+            css,
+            r"\.ww-evidence-phones\s*\{\s*grid-template-columns:\s*repeat\(2,\s*minmax\(0,\s*1fr\)\)",
+        )
         for image, entry in zip(images, metadata["assets"]):
             source = ROOT.parent / entry["source"]
             output = ROOT.parent / entry["output"]
