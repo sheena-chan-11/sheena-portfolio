@@ -139,6 +139,10 @@ class BaselineTests(unittest.TestCase):
         ):
             self.assertIn(phrase, text)
         self.assertNotIn("How we worked together", text)
+        background = soup.select_one("section.process .ww-copy")
+        paragraphs = background.find_all("p", recursive=False)
+        self.assertEqual(len(paragraphs), 2)
+        self.assertEqual(paragraphs[1].get_text(strip=True), "In this project, I worked with them to redesign the homepage so they could use it to educate pet owners about proper animal care.")
         infographic = soup.select_one('img[src="/assets/82f4e85c35d74c5103d7.png"]')
         summary_figure = infographic.find_parent("figure")
         self.assertEqual(
