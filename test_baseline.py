@@ -154,16 +154,20 @@ class BaselineTests(unittest.TestCase):
         homepage = soup.select_one(".sarinc-browser-figure")
         self.assertIsNotNone(homepage)
         self.assertEqual(homepage.select_one(".sarinc-browser-address").get_text(strip=True), "www.smallangelsrescue.org")
-        self.assertEqual(homepage.select_one("img")["src"], "/assets/sarinc-original-homepage-window.png")
+        image_url = homepage.select_one("img")["src"]
+        self.assertEqual(urlsplit(image_url).path, "/assets/sarinc-original-homepage-window.png")
         self.assertEqual(homepage.figcaption.get_text(strip=True), "Original Small Angels Rescue homepage.")
         self.assertEqual(homepage.figcaption["class"], ["sarinc-centered-caption"])
         image = ROOT / "assets/sarinc-original-homepage-window.png"
-        self.assertEqual(image.read_bytes()[16:24], (903).to_bytes(4, "big") + (650).to_bytes(4, "big"))
+        self.assertEqual(image.read_bytes()[16:24], (2080).to_bytes(4, "big") + (1380).to_bytes(4, "big"))
+        self.assertIn("?v=" + hashlib.sha256(image.read_bytes()).hexdigest()[:12], image_url)
         provenance = json.loads((ROOT.parent / "content/sources/sarinc-original-homepage.json").read_text())
-        self.assertEqual(provenance["source_filename"], "Screenshot 2026-11-03 at 5.02.56_PM.png")
+        self.assertEqual(provenance["archive_timestamp_utc"], "2020-02-14T11:30:09Z")
         self.assertEqual(provenance["asset_sha256"], hashlib.sha256(image.read_bytes()).hexdigest())
-        source = ROOT.parent / provenance["source_copy"]
-        self.assertEqual(provenance["source_sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+        source = ROOT.parent / provenance["reference_source_copy"]
+        self.assertEqual(provenance["reference_source_sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
+        capture = ROOT.parent / provenance["rendered_screenshot"]
+        self.assertEqual(provenance["rendered_screenshot_sha256"], hashlib.sha256(capture.read_bytes()).hexdigest())
         css = ROOT / "assets/sarinc.css"
         version = hashlib.sha256(css.read_bytes()).hexdigest()[:12]
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/sarinc.css?v={version}"]'))

@@ -1,12 +1,17 @@
 {
-  "source": "Owner-provided screenshot attachment",
-  "source_filename": "Screenshot 2026-11-03 at 5.02.56_PM.png",
-  "source_dimensions_px": [964, 1208],
-  "source_sha256": "a4526cfa93055ca7abd710a77f104e42543be5dd5f9a1cae9953e1019c619375",
-  "source_copy": "content/sources/sarinc-original-homepage-source.png",
-  "crop_xywh_px": [19, 14, 903, 650],
+  "source": "Internet Archive Wayback Machine capture of the original Small Angels Rescue homepage",
+  "archive_url": "https://web.archive.org/web/20200214113009/http://www.smallangelsrescue.org/",
+  "archive_timestamp_utc": "2020-02-14T11:30:09Z",
+  "reference_source": "Owner-provided screenshot attachment, Screenshot 2026-11-03 at 5.02.56_PM.png",
+  "reference_source_copy": "content/sources/sarinc-original-homepage-source.png",
+  "reference_source_sha256": "a4526cfa93055ca7abd710a77f104e42543be5dd5f9a1cae9953e1019c619375",
+  "rendered_screenshot": "content/sources/sarinc-wayback-2020-screenshot.png",
+  "rendered_screenshot_sha256": "b86bff1a578652b7e20e26e636a90abf1a421301fff55fb30114a8d9720c912c",
+  "rendered_screenshot_dimensions_px": [2880, 2000],
+  "rendering": "Wayback page rendered at a 1440x1000 CSS-pixel desktop viewport with a 2x device scale factor; stylesheet, header and visible images loaded from the archive.",
+  "crop_xywh_px": [400, 230, 2080, 1380],
   "asset": "public/assets/sarinc-original-homepage-window.png",
-  "asset_dimensions_px": [903, 650],
-  "asset_sha256": "350c677db308b8912ccf049a18c65c8b4121382f14f56eb0f2c7a80fd7c3f995",
-  "presentation": "Cropped viewport displayed inside a decorative browser frame; the full source image is retained separately."
+  "asset_dimensions_px": [2080, 1380],
+  "asset_sha256": "3217318886bac1179d131d7aeb8730812d61b521bf94fd6a224dc52dafb717b9",
+  "presentation": "An unmodified-pixel crop from the archived page, displayed inside a decorative browser frame."
 }
