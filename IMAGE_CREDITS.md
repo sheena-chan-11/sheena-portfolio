@@ -29,6 +29,10 @@ graphic. Crop coordinates (x, y, width, height) are desktop
 `1952, 145, 129, 1376`. The frames are decorative; each image scrolls
 independently. The original graphic limits the available detail, especially
 for the mobile preview; no extra resolution has been invented.
+The desktop uses the same decorative browser chrome as the original-homepage
+preview, the tablet frame is CSS artwork, and the phone reuses the
+`ww-iphone-frame.png` overlay described below. Scroll hints identify the
+independently scrollable screens.
 
 ## Women’s Wilderness research screenshots
 

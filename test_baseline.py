@@ -158,6 +158,8 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(usability.find_next_sibling().name, "ul")
         showcase = soup.select_one(".sarinc-device-showcase")
         self.assertEqual(showcase.find_previous_sibling("p").get_text().strip().split(".")[0], "The site was managed by stakeholders who were unfamiliar with WordPress")
+        self.assertIn("Scroll or swipe", showcase.select_one(".sarinc-device-instruction").get_text())
+        self.assertEqual(showcase.select_one(".sarinc-desktop-frame .sarinc-browser-address").get_text(strip=True), "www.smallangelsrescue.org")
         for device, width, height in (("desktop", 475, 1144), ("tablet", 488, 1238), ("mobile", 129, 1376)):
             screen = showcase.select_one(f".sarinc-device-{device} .sarinc-device-screen")
             self.assertEqual(screen.get("role"), "region")
@@ -167,6 +169,7 @@ class BaselineTests(unittest.TestCase):
             self.assertEqual(image["src"], f"/assets/sarinc-redesign-{device}.png")
             self.assertTrue(image.get("alt"))
             self.assertEqual((ROOT / image["src"].lstrip("/")).read_bytes()[16:24], width.to_bytes(4, "big") + height.to_bytes(4, "big"))
+            self.assertIn("Scroll inside", showcase.select_one(f".sarinc-device-{device} .sarinc-scroll-hint").get_text())
         homepage = soup.select_one(".sarinc-browser-figure")
         self.assertIsNotNone(homepage)
         self.assertEqual(homepage.select_one(".sarinc-browser-address").get_text(strip=True), "www.smallangelsrescue.org")
@@ -192,6 +195,7 @@ class BaselineTests(unittest.TestCase):
         self.assertIn("figure.sarinc-competitive-analysis", css.read_text())
         self.assertIn("border-left: 3px solid #4830e6", css.read_text())
         self.assertIn("overflow-y: auto", css.read_text())
+        self.assertIn("/assets/ww-iphone-frame.png?v=670717c1ac7d", css.read_text())
 
     def test_project_overlay_content_and_stylesheet_version(self):
         version = hashlib.sha256((ROOT / "assets/step-by-step.css").read_bytes()).hexdigest()[:12]
