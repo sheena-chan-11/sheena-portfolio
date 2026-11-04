@@ -11,7 +11,19 @@
 }
 .project-info-value.content figure.sarinc-competitive-analysis {
   width: 100%;
-  max-width: 80%;
+  max-width: 100%;
+}
+.ww-copy figure.sarinc-evidence {
+  float: none;
+  clear: both;
+  box-sizing: border-box;
+}
+.project-info-value.content figure.sarinc-evidence img {
+  width: 100%;
+  max-height: none;
+}
+.ww-copy .sarinc-research-summary figcaption {
+  text-align: center;
 }
 .sarinc-browser-figure {
   width: 100%;
@@ -188,6 +200,9 @@
   width: 100%;
   height: auto;
   max-width: none;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  .sarinc-device-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
 }
 @media (max-width: 767px) {
   .project-info-value.content figure.sarinc-competitive-analysis { max-width: 100%; }

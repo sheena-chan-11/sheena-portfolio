@@ -145,7 +145,14 @@ class BaselineTests(unittest.TestCase):
             summary_figure.figcaption.get_text(strip=True),
             "It is a great technique for stakeholders to digest complex data in an easy-to-understand overview.",
         )
-        analysis = soup.find("h5", string="Exploring solutions")
+        self.assertEqual(soup.select_one("h1.process-section-title.title").get_text(strip=True), "Driving Traffic to Pet Care Resources Through Homepage Redesign")
+        self.assertEqual(len(soup.select("section.process .ww-copy")), 2)
+        self.assertIsNotNone(soup.select_one("section.takeaway .ww-copy"))
+        ww_version = hashlib.sha256((ROOT / "assets/womens-wilderness.css").read_bytes()).hexdigest()[:12]
+        self.assertIsNotNone(soup.select_one(f'link[href="/assets/womens-wilderness.css?v={ww_version}"]'))
+        for label in ("My Role", "My deliverables", "Duration"):
+            self.assertIsNotNone(soup.find("h6", string=lambda value: value and value.strip() == label).find("strong"))
+        analysis = soup.find("h3", string="Exploring solutions")
         first = analysis.find_next_sibling("p")
         table = first.find_next_sibling("figure").select_one("img")
         self.assertEqual(table["src"], "/assets/4bb2262b74a8b8255b70.png")
@@ -155,7 +162,7 @@ class BaselineTests(unittest.TestCase):
         self.assertIn("After I had some basic understanding", table.find_parent("figure").find_next_sibling("p").get_text())
         hmw = soup.select_one("p.sarinc-hmw")
         self.assertIn("How might we make it easier for first-time pet owners", hmw.get_text())
-        usability = soup.find("h5", string="Usability testing")
+        usability = soup.find("h4", string="Usability testing")
         self.assertIn("more than 68% of visitors browsed on mobile", usability.find_previous_sibling("p").get_text())
         self.assertEqual(usability.find_next_sibling().name, "ul")
         showcase = soup.select_one(".sarinc-device-showcase")
@@ -196,6 +203,8 @@ class BaselineTests(unittest.TestCase):
         self.assertIn("height: auto", css.read_text())
         self.assertIn("max-width: 640px", css.read_text())
         self.assertIn("figure.sarinc-competitive-analysis", css.read_text())
+        self.assertEqual(len(soup.select("figure.sarinc-evidence.ww-evidence")), 6)
+        self.assertIn(".ww-copy .sarinc-research-summary figcaption", css.read_text())
         self.assertIn("border-left: 3px solid #4830e6", css.read_text())
         self.assertIn("overflow-y: auto", css.read_text())
         self.assertIn("/assets/ww-iphone-frame.png?v=670717c1ac7d", css.read_text())
