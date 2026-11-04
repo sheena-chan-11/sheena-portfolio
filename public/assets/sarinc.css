@@ -1,14 +1,25 @@
-/* Historical homepage evidence used in the Small Angel Rescue case study. */
-.sarinc-archive-figure {
+/* Keep Small Angel Rescue research graphics proportional and easy to inspect. */
+.project-info-value.content figure > a,
+.project-info-value.content figure > a > div {
+  display: block !important;
+  width: 100%;
+}
+.project-info-value.content figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.sarinc-original-homepage {
+  width: 100%;
+  max-width: 620px !important;
+  margin-left: auto;
+  margin-right: auto;
   overflow: hidden;
   border-radius: 8px;
   background: #fff;
   box-shadow: 0 10px 28px rgba(34, 36, 32, .12);
 }
-.sarinc-archive-figure > a,
-.sarinc-archive-figure > a > div { display: block !important; }
-.sarinc-archive-figure img { display: block; width: 100%; height: auto; }
-.sarinc-archive-figure figcaption {
+.sarinc-original-homepage figcaption {
   padding: 12px 16px;
   color: #59594f;
   font-size: 14px;
@@ -16,5 +27,5 @@
   text-align: left;
 }
 @media (max-width: 767px) {
-  .sarinc-archive-figure figcaption { padding: 10px 12px; font-size: 12px; }
+  .sarinc-original-homepage figcaption { padding: 10px 12px; font-size: 12px; }
 }

@@ -113,7 +113,7 @@ class BaselineTests(unittest.TestCase):
             soup = BeautifulSoup((ROOT / name).read_text(), "html.parser")
             self.assertEqual([a["href"] for a in soup.select("a.project-img")], expected)
 
-    def test_small_angel_rescue_case_study_and_archived_homepage(self):
+    def test_small_angel_rescue_case_study_graphics_and_original_homepage(self):
         page = ROOT / "project/sarinc/index.html"
         soup = BeautifulSoup(page.read_text(), "html.parser")
         text = soup.get_text(" ", strip=True)
@@ -126,20 +126,21 @@ class BaselineTests(unittest.TestCase):
             "transparent desktop navigation",
         ):
             self.assertIn(phrase, text)
-        figure = soup.select_one(".sarinc-archive-figure")
+        figure = soup.select_one(".sarinc-original-homepage")
         self.assertIsNotNone(figure)
-        self.assertEqual(figure.select_one("img")["src"], "/assets/sarinc-archived-homepage-2022.png")
+        self.assertEqual(figure.select_one("img")["src"], "/assets/sarinc-original-homepage.png")
         self.assertTrue(figure.select_one("img")["alt"])
-        archive = figure.select_one('a[href^="https://web.archive.org/web/20220204041006/"]')
-        self.assertIsNotNone(archive)
-        image = ROOT / "assets/sarinc-archived-homepage-2022.png"
-        self.assertEqual(image.read_bytes()[16:24], (1280).to_bytes(4, "big") + (552).to_bytes(4, "big"))
-        provenance = json.loads((ROOT.parent / "content/sources/sarinc-archived-homepage.json").read_text())
-        self.assertEqual(provenance["archive_timestamp_utc"], "2022-02-04T04:10:06Z")
+        image = ROOT / "assets/sarinc-original-homepage.png"
+        self.assertEqual(image.read_bytes()[16:24], (903).to_bytes(4, "big") + (1170).to_bytes(4, "big"))
+        provenance = json.loads((ROOT.parent / "content/sources/sarinc-original-homepage.json").read_text())
+        self.assertEqual(provenance["source_filename"], "Screenshot 2026-11-03 at 5.02.56_PM.png")
         self.assertEqual(provenance["asset_sha256"], hashlib.sha256(image.read_bytes()).hexdigest())
+        source = ROOT.parent / provenance["source_copy"]
+        self.assertEqual(provenance["source_sha256"], hashlib.sha256(source.read_bytes()).hexdigest())
         css = ROOT / "assets/sarinc.css"
         version = hashlib.sha256(css.read_bytes()).hexdigest()[:12]
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/sarinc.css?v={version}"]'))
+        self.assertIn("height: auto", css.read_text())
 
     def test_project_overlay_content_and_stylesheet_version(self):
         version = hashlib.sha256((ROOT / "assets/step-by-step.css").read_bytes()).hexdigest()[:12]

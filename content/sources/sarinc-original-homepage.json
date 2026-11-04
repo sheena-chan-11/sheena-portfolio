@@ -1,0 +1,11 @@
+{
+  "source": "Owner-provided screenshot attachment",
+  "source_filename": "Screenshot 2026-11-03 at 5.02.56_PM.png",
+  "source_dimensions_px": [964, 1208],
+  "source_sha256": "a4526cfa93055ca7abd710a77f104e42543be5dd5f9a1cae9953e1019c619375",
+  "source_copy": "content/sources/sarinc-original-homepage-source.png",
+  "crop_xywh_px": [19, 14, 903, 1170],
+  "asset": "public/assets/sarinc-original-homepage.png",
+  "asset_dimensions_px": [903, 1170],
+  "asset_sha256": "ae698b9e946bd435094c4912f7b272865a6b87794b332f19acea9a6d101811e4"
+}
