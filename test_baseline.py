@@ -102,11 +102,11 @@ class BaselineTests(unittest.TestCase):
             self.assertNotIn("height", links[0].select_one("img").attrs)
             self.assertIn("Step by Step", links[0].get_text())
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
-        for phrase in ("coming soon", "U.S. college students", "quick movement breaks"):
+        for phrase in ("coming soon", "U.S. College Students", "Movement Breaks"):
             self.assertIn(phrase, soup.get_text())
         self.assertEqual(
             soup.h1.get_text(),
-            "Help U.S. college students break up a sedentary lifestyle and build quick movement breaks into their everyday routine.",
+            "Helping U.S. College Students Build Movement Breaks into Daily Life",
         )
         self.assertEqual(soup.select_one(".step-back")["href"], "/latestprojects")
 
@@ -251,14 +251,15 @@ class BaselineTests(unittest.TestCase):
     def test_step_by_step_overview_matches_womens_wilderness_layout(self):
         soup = BeautifulSoup((ROOT / "project/step-by-step/index.html").read_text(), "html.parser")
         layout = soup.select_one(".step-layout")
-        self.assertEqual([child.get("class")[0] for child in layout.find_all(recursive=False)], ["step-title-row", "step-overview-grid"])
+        self.assertEqual([child.get("class")[0] for child in layout.find_all(recursive=False)], ["step-title-row", "step-overview-grid", "step-followup"])
         overview = layout.select_one(".step-overview-grid")
         self.assertEqual([child.name for child in overview.find_all(recursive=False)], ["figure", "section"])
         self.assertEqual(overview.select_one(".step-figure img")["src"], "/assets/step-by-step-movement.jpg")
+        self.assertIsNone(overview.select_one(".step-figure figcaption"))
         self.assertTrue(layout.select_one(".step-title-line")["aria-hidden"])
         self.assertEqual(
             soup.select_one("#step-title").get_text(),
-            "Help U.S. college students break up a sedentary lifestyle and build quick movement breaks into their everyday routine.",
+            "Helping U.S. College Students Build Movement Breaks into Daily Life",
         )
         facts = soup.select(".step-facts")
         self.assertEqual(
@@ -273,12 +274,12 @@ class BaselineTests(unittest.TestCase):
         self.assertIn("The full case study is coming soon.", soup.select_one(".step-status").get_text())
         css = (ROOT / "assets/step-by-step.css").read_text()
         self.assertIn("grid-template-columns: minmax(0, 1fr) minmax(0, 2fr)", css)
-        self.assertIn('font: 400 28px/42px "PT Sans", sans-serif', css)
+        self.assertIn('font: 400 20px/42px "PT Sans", sans-serif', css)
         self.assertIn('font: 700 18px/26px "PT Sans", sans-serif', css)
         self.assertIn("font: 300 18px/26px Lato, sans-serif", css)
-        self.assertIn("width: 68%", css)
+        self.assertIn('class="step-decoration"', str(soup.select_one(".step-decoration")))
         self.assertIn("@media (max-width: 767px)", css)
-        self.assertIn("width: min(100%, 420px)", css)
+        self.assertIn("max-width: 334px", css)
 
     def test_womens_wilderness_revised_case_study(self):
         soup = BeautifulSoup((ROOT / "project/womens-wilderness/index.html").read_text(), "html.parser")

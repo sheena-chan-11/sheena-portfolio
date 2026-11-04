@@ -80,11 +80,21 @@
 }
 .step-coming-soon {
   box-sizing: border-box;
-  width: calc(100% - 48px);
+  width: calc(100% - 128px);
   max-width: 1216px;
   margin: 0 auto;
-  padding: 145px 0 80px;
+  padding: 150px 0 80px;
   color: #08082c;
+}
+.step-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 25vw;
+  height: 20vh;
+  opacity: .3;
+  background: url("/assets/714e046ac814392e5cf2.svg") 0 0 / 20px;
+  pointer-events: none;
 }
 .step-title-row {
   display: flex;
@@ -101,7 +111,7 @@
 .step-coming-soon h1 {
   margin: 0;
   color: #08082c;
-  font: 400 28px/42px "PT Sans", sans-serif;
+  font: 400 20px/42px "PT Sans", sans-serif;
 }
 .step-overview-grid {
   display: grid;
@@ -117,6 +127,7 @@
   margin: 0;
   padding: 0;
   font: inherit;
+  letter-spacing: 1px;
 }
 .step-facts dt {
   margin: 10px 0;
@@ -129,8 +140,12 @@
   font: 300 18px/26px Lato, sans-serif;
 }
 .step-facts dd:last-child { margin-bottom: 0; }
+.step-followup {
+  margin-top: 32px;
+  text-align: center;
+}
 .step-status {
-  margin: 12px 0 20px;
+  margin: 0 0 20px;
   color: #49475c;
   font: 400 15px/1.6 "PT Sans", sans-serif;
 }
@@ -145,41 +160,41 @@
 }
 .step-back:hover, .step-back:focus-visible { background: #4830e6; color: #fff; }
 .step-figure {
-  width: 68%;
-  margin: 0 0 0 12.5%;
+  width: calc((100% - 50px) * .8);
+  max-width: 273px;
+  margin: 0 0 0 80px;
 }
 .step-figure img { display: block; width: 100%; height: auto; object-fit: cover; }
-.step-figure figcaption {
-  margin-top: 10px;
-  color: #5a596b;
-  font: 400 12px/1.6 "PT Sans", sans-serif;
+@media (min-width: 1440px) {
+  .step-figure { margin-left: 50px; }
 }
-.step-figure a { color: inherit; text-decoration: underline; }
 @media (max-width: 767px) {
+  .step-decoration { display: none; }
   .step-coming-soon {
-    width: calc(100% - 52px);
-    padding: 125px 0 50px;
+    width: calc(100% - 64px);
+    padding: 88px 0 50px;
   }
   .step-title-row {
-    align-items: flex-start;
-    gap: 14px;
+    align-items: center;
+    gap: 10px;
     margin-left: 0;
   }
   .step-title-line {
-    width: 28px;
-    flex-basis: 28px;
-    margin-top: 13px;
+    width: 33px;
+    flex-basis: 33px;
   }
   .step-coming-soon h1 {
-    font-size: clamp(22px, 5.5vw, 28px);
-    line-height: 1.4;
+    font-size: 20px;
+    line-height: 36px;
   }
   .step-overview-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 30px;
+    margin-top: 50px;
   }
   .step-figure {
-    width: min(100%, 420px);
+    width: 100%;
+    max-width: 334px;
     margin: 0 auto;
   }
   .step-overview {
