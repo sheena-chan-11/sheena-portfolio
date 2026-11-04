@@ -123,10 +123,12 @@ class BaselineTests(unittest.TestCase):
             "In my previous job, I used GA to pull site reports.",
             "I’ve also interviewed the volunteers",
             "After receiving all the responses, I gathered and analyzed the data through affinity mapping",
-            "(It is a great technique for stakeholders to digest complex data in an easy-to-understand overview.)",
+            "It is a great technique for stakeholders to digest complex data in an easy-to-understand overview.",
             "Original Small Angels Rescue homepage.",
+            "The responses gave me background details of our users, and I created Marissa to represent the user group.",
+            "What users needed:",
             "As I was new to the animal rescue platform, I conducted a competitive analysis",
-            "After I had some basic understanding of the animal rescue platform, I was ready to brainstorm",
+            "After I had some basic understanding of the animal rescue platforms, I brainstormed different potential solutions to address the user pain points",
             "How might we make it easier for first-time pet owners",
             "more than 68% of visitors browsed on mobile",
             "pet-care page views had doubled",
@@ -136,9 +138,10 @@ class BaselineTests(unittest.TestCase):
             self.assertIn(phrase, text)
         self.assertNotIn("How we worked together", text)
         infographic = soup.select_one('img[src="/assets/82f4e85c35d74c5103d7.png"]')
+        summary_figure = infographic.find_parent("figure")
         self.assertEqual(
-            infographic.find_parent("figure").find_next_sibling("p").get_text(strip=True),
-            "(It is a great technique for stakeholders to digest complex data in an easy-to-understand overview.)",
+            summary_figure.figcaption.get_text(strip=True),
+            "It is a great technique for stakeholders to digest complex data in an easy-to-understand overview.",
         )
         analysis = soup.find("h5", string="Exploring solutions")
         first = analysis.find_next_sibling("p")
@@ -146,14 +149,16 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(table["src"], "/assets/4bb2262b74a8b8255b70.png")
         self.assertIn("competitive analysis table", table["alt"].lower())
         self.assertIn("After I had some basic understanding", table.find_parent("figure").find_next_sibling("p").get_text())
-        hmw = soup.find("h5", string=lambda value: value and "How might we make it easier for first-time pet owners" in value)
-        self.assertIsNotNone(hmw)
-        figure = soup.select_one(".sarinc-original-homepage")
-        self.assertIsNotNone(figure)
-        self.assertEqual(figure.select_one("img")["src"], "/assets/sarinc-original-homepage.png")
-        self.assertTrue(figure.select_one("img")["alt"])
-        image = ROOT / "assets/sarinc-original-homepage.png"
-        self.assertEqual(image.read_bytes()[16:24], (903).to_bytes(4, "big") + (1170).to_bytes(4, "big"))
+        hmw = soup.select_one("p.sarinc-hmw")
+        self.assertIn("How might we make it easier for first-time pet owners", hmw.get_text())
+        homepage = soup.select_one(".sarinc-browser-figure")
+        self.assertIsNotNone(homepage)
+        self.assertEqual(homepage.select_one(".sarinc-browser-address").get_text(strip=True), "www.smallangelsrescue.org")
+        self.assertEqual(homepage.select_one("img")["src"], "/assets/sarinc-original-homepage-window.png")
+        self.assertEqual(homepage.figcaption.get_text(strip=True), "Original Small Angels Rescue homepage.")
+        self.assertEqual(homepage.figcaption["class"], ["sarinc-centered-caption"])
+        image = ROOT / "assets/sarinc-original-homepage-window.png"
+        self.assertEqual(image.read_bytes()[16:24], (903).to_bytes(4, "big") + (650).to_bytes(4, "big"))
         provenance = json.loads((ROOT.parent / "content/sources/sarinc-original-homepage.json").read_text())
         self.assertEqual(provenance["source_filename"], "Screenshot 2026-11-03 at 5.02.56_PM.png")
         self.assertEqual(provenance["asset_sha256"], hashlib.sha256(image.read_bytes()).hexdigest())
@@ -163,7 +168,8 @@ class BaselineTests(unittest.TestCase):
         version = hashlib.sha256(css.read_bytes()).hexdigest()[:12]
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/sarinc.css?v={version}"]'))
         self.assertIn("height: auto", css.read_text())
-        self.assertIn("max-width: 900px", css.read_text())
+        self.assertIn("max-width: 640px", css.read_text())
+        self.assertIn("border-left: 3px solid #4830e6", css.read_text())
 
     def test_project_overlay_content_and_stylesheet_version(self):
         version = hashlib.sha256((ROOT / "assets/step-by-step.css").read_bytes()).hexdigest()[:12]

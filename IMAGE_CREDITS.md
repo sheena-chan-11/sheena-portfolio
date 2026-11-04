@@ -15,8 +15,9 @@ that the photographed person or footwear brand endorses this project.
 ## Small Angel Rescue original homepage
 
 The case study uses the owner-provided screenshot of the earlier Small Angels
-Rescue website. The page image is cropped from the screenshot margins and
-displayed proportionally; the untouched source and crop details are in
+Rescue website. A shorter top-of-page crop is displayed in a decorative browser
+frame to avoid enlarging the low-resolution screenshot. The untouched source
+and crop details are in
 `content/sources/sarinc-original-homepage.json`.
 
 ## Women’s Wilderness research screenshots
