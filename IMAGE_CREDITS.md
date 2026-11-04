@@ -12,6 +12,15 @@
 The photograph is illustrative stock imagery, not project research or a claim
 that the photographed person or footwear brand endorses this project.
 
+## Small Angel Rescue archived homepage
+
+The Small Angel Rescue case study includes a screenshot of the organization’s
+homepage from the Internet Archive’s February 4, 2022 capture. It is a
+1280×552 crop of the captured 1280×720 viewport; the Wayback toolbar was
+cropped out. The figure links to the original archived page, and screenshot
+provenance and hashes are recorded in
+`content/sources/sarinc-archived-homepage.json`.
+
 ## Women’s Wilderness research screenshots
 
 The revised case study reuses the owner’s existing portfolio research artifacts.

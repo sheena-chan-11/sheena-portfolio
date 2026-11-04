@@ -1,0 +1,13 @@
+{
+  "source_url": "https://web.archive.org/web/20220204041006/https://www.smallangelsrescue.org/",
+  "archive_timestamp_utc": "2022-02-04T04:10:06Z",
+  "asset": "public/assets/sarinc-archived-homepage-2022.png",
+  "capture": {
+    "viewport_px": [1280, 720],
+    "crop_xywh_px": [0, 70, 1280, 552],
+    "description": "Visible homepage viewport from the archived capture; the Internet Archive toolbar was excluded."
+  },
+  "asset_dimensions_px": [1280, 552],
+  "asset_sha256": "31445cce8dba12f450ba6ef4c1efec92e26a9bcdfdc2ca845032ab75458656a4",
+  "original_screenshot_sha256": "1b2a91275a6957007d53363cdcf5031c336097f1812294581c45750a483482ed"
+}
