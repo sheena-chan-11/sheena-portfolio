@@ -120,13 +120,13 @@ class BaselineTests(unittest.TestCase):
         for phrase in (
             "Maryland area",
             "Quantitative and qualitative research",
-            "In my previous job, I used GA to pull site reports.",
+            "In my previous job, I used Google Analytics(GA) to pull site reports. I thought I could do the same for Small Angel Rescue to monitor user behavior, so I set it up on their site and started collecting and analyzing user data.",
             "I’ve also interviewed the volunteers",
             "After receiving all the responses, I gathered and analyzed the data through affinity mapping",
             "It is a great technique for stakeholders to digest complex data in an easy-to-understand overview.",
             "Original Small Angels Rescue homepage.",
             "The responses gave me background details of our users, and I created Marissa to represent the user group.",
-            "What users needed:",
+            "I've also uncovered the user pain point:",
             "As I was new to the animal rescue platform, I conducted a competitive analysis",
             "After I had some basic understanding of the animal rescue platforms, I brainstormed different potential solutions to address the user pain points",
             "How might we make it easier for first-time pet owners",
@@ -148,6 +148,8 @@ class BaselineTests(unittest.TestCase):
         table = first.find_next_sibling("figure").select_one("img")
         self.assertEqual(table["src"], "/assets/4bb2262b74a8b8255b70.png")
         self.assertIn("competitive analysis table", table["alt"].lower())
+        self.assertIn("sarinc-competitive-analysis", table.find_parent("figure")["class"])
+        self.assertEqual(table.find_parent("a")["href"], "/assets/4fd5c673d0a40210130b.png")
         self.assertIn("After I had some basic understanding", table.find_parent("figure").find_next_sibling("p").get_text())
         hmw = soup.select_one("p.sarinc-hmw")
         self.assertIn("How might we make it easier for first-time pet owners", hmw.get_text())
@@ -173,6 +175,7 @@ class BaselineTests(unittest.TestCase):
         self.assertIsNotNone(soup.select_one(f'link[href="/assets/sarinc.css?v={version}"]'))
         self.assertIn("height: auto", css.read_text())
         self.assertIn("max-width: 640px", css.read_text())
+        self.assertIn("figure.sarinc-competitive-analysis", css.read_text())
         self.assertIn("border-left: 3px solid #4830e6", css.read_text())
 
     def test_project_overlay_content_and_stylesheet_version(self):

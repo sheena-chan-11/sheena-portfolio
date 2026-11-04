@@ -9,6 +9,10 @@
   width: 100%;
   height: auto;
 }
+.project-info-value.content figure.sarinc-competitive-analysis {
+  width: 100%;
+  max-width: 80%;
+}
 .sarinc-browser-figure {
   width: 100%;
   max-width: 640px !important;
@@ -81,6 +85,7 @@
   background: #f5f3ff;
 }
 @media (max-width: 767px) {
+  .project-info-value.content figure.sarinc-competitive-analysis { max-width: 100%; }
   .sarinc-centered-caption,
   .sarinc-research-summary figcaption { padding: 10px 12px; font-size: 12px; }
   .sarinc-hmw { padding: 16px 18px; }
