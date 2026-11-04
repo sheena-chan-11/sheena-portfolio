@@ -153,6 +153,20 @@ class BaselineTests(unittest.TestCase):
         self.assertIn("After I had some basic understanding", table.find_parent("figure").find_next_sibling("p").get_text())
         hmw = soup.select_one("p.sarinc-hmw")
         self.assertIn("How might we make it easier for first-time pet owners", hmw.get_text())
+        usability = soup.find("h5", string="Usability testing")
+        self.assertIn("more than 68% of visitors browsed on mobile", usability.find_previous_sibling("p").get_text())
+        self.assertEqual(usability.find_next_sibling().name, "ul")
+        showcase = soup.select_one(".sarinc-device-showcase")
+        self.assertEqual(showcase.find_previous_sibling("p").get_text().strip().split(".")[0], "The site was managed by stakeholders who were unfamiliar with WordPress")
+        for device, width, height in (("desktop", 475, 1144), ("tablet", 488, 1238), ("mobile", 129, 1376)):
+            screen = showcase.select_one(f".sarinc-device-{device} .sarinc-device-screen")
+            self.assertEqual(screen.get("role"), "region")
+            self.assertEqual(screen.get("tabindex"), "0")
+            self.assertIn("scroll", screen.get("aria-label"))
+            image = screen.select_one("img")
+            self.assertEqual(image["src"], f"/assets/sarinc-redesign-{device}.png")
+            self.assertTrue(image.get("alt"))
+            self.assertEqual((ROOT / image["src"].lstrip("/")).read_bytes()[16:24], width.to_bytes(4, "big") + height.to_bytes(4, "big"))
         homepage = soup.select_one(".sarinc-browser-figure")
         self.assertIsNotNone(homepage)
         self.assertEqual(homepage.select_one(".sarinc-browser-address").get_text(strip=True), "www.smallangelsrescue.org")
@@ -177,6 +191,7 @@ class BaselineTests(unittest.TestCase):
         self.assertIn("max-width: 640px", css.read_text())
         self.assertIn("figure.sarinc-competitive-analysis", css.read_text())
         self.assertIn("border-left: 3px solid #4830e6", css.read_text())
+        self.assertIn("overflow-y: auto", css.read_text())
 
     def test_project_overlay_content_and_stylesheet_version(self):
         version = hashlib.sha256((ROOT / "assets/step-by-step.css").read_bytes()).hexdigest()[:12]

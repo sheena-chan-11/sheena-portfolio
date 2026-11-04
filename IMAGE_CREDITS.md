@@ -20,6 +20,16 @@ owner-provided reference. It is a top-of-page crop displayed in a decorative
 browser frame. The archived-page screenshot, owner reference, capture URL and
 crop details are in `content/sources/sarinc-original-homepage.json`.
 
+### Small Angel Rescue responsive redesign
+
+The desktop, tablet, and mobile previews are lossless, unscaled crops of
+`public/assets/8e5277c5505123719979.png`, the original portfolio comparison
+graphic. Crop coordinates (x, y, width, height) are desktop
+`851, 144, 475, 1144`, tablet `1394, 144, 488, 1238`, and mobile
+`1952, 145, 129, 1376`. The frames are decorative; each image scrolls
+independently. The original graphic limits the available detail, especially
+for the mobile preview; no extra resolution has been invented.
+
 ## Women’s Wilderness research screenshots
 
 The revised case study reuses the owner’s existing portfolio research artifacts.

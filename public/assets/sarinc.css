@@ -84,9 +84,99 @@
   border-left: 3px solid #4830e6;
   background: #f5f3ff;
 }
+.sarinc-device-showcase {
+  margin: 36px 0 48px;
+}
+.project-info-value.content .sarinc-device-instruction {
+  margin: 0 0 24px;
+  color: #59594f;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.sarinc-device-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(100px, 155px);
+  gap: 22px;
+  align-items: start;
+}
+.project-info-value.content .sarinc-device-item h6 {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+.sarinc-device-frame {
+  margin: 0 auto;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(8, 8, 44, .12);
+}
+.sarinc-desktop-frame {
+  max-width: 475px;
+  border: 1px solid #b7b8bb;
+  border-radius: 8px;
+}
+.sarinc-device-browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 25px;
+  padding: 0 10px;
+  background: #dfe1e5;
+}
+.sarinc-device-browser-bar span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ed6a61;
+}
+.sarinc-device-browser-bar span:nth-child(2) { background: #f6c553; }
+.sarinc-device-browser-bar span:nth-child(3) { background: #5fc457; }
+.sarinc-tablet-frame {
+  max-width: 488px;
+  padding: 8px;
+  border-radius: 15px;
+  background: #33343a;
+}
+.sarinc-phone-frame {
+  max-width: 145px;
+  padding: 7px;
+  border-radius: 19px;
+  background: #33343a;
+}
+.sarinc-phone-speaker {
+  width: 30px;
+  height: 3px;
+  margin: 1px auto 6px;
+  border-radius: 3px;
+  background: #999;
+}
+.sarinc-device-screen {
+  height: 300px;
+  overflow-y: auto;
+  background: #fff;
+  scrollbar-width: thin;
+  scrollbar-color: #a7a7ad #f1f1f1;
+}
+.sarinc-device-screen:focus-visible {
+  outline: 3px solid #4830e6;
+  outline-offset: -3px;
+}
+.sarinc-device-screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+}
+.sarinc-device-tablet .sarinc-device-screen,
+.sarinc-device-mobile .sarinc-device-screen { height: 325px; }
 @media (max-width: 767px) {
   .project-info-value.content figure.sarinc-competitive-analysis { max-width: 100%; }
   .sarinc-centered-caption,
   .sarinc-research-summary figcaption { padding: 10px 12px; font-size: 12px; }
   .sarinc-hmw { padding: 16px 18px; }
+  .sarinc-device-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .sarinc-device-screen { height: 240px; }
+  .sarinc-device-tablet .sarinc-device-screen,
+  .sarinc-device-mobile .sarinc-device-screen { height: 300px; }
 }
