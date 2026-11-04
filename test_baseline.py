@@ -167,6 +167,13 @@ class BaselineTests(unittest.TestCase):
         self.assertEqual(introduction.name, "p")
         self.assertEqual(introduction.get_text(), "GA showed that more than 68% of visitors browsed on mobile, so I used a mobile-first approach and developed four homepage directions. I shared them with volunteers in usability tests and asked them to:")
         self.assertEqual(introduction.find_next_sibling().name, "ul")
+        tasks = introduction.find_next_sibling("ul").find_all("li", recursive=False)
+        for task, label, image in (
+            (tasks[0], "Find the pet-care pages and learn how to care for the animals.", "/assets/981e1bab94bec0e10401.png"),
+            (tasks[1], "Find the adoption information.", "/assets/1d0197b0d181b26f3f5c.png"),
+        ):
+            self.assertTrue(task.get_text(strip=True).startswith(label))
+            self.assertEqual(task.select_one("figure a")["href"], image)
         showcase = soup.select_one(".sarinc-device-showcase")
         self.assertEqual(showcase.find_previous_sibling("p").get_text().strip().split(".")[0], "The site was managed by stakeholders who were unfamiliar with WordPress")
         self.assertIn("Scroll or swipe", showcase.select_one(".sarinc-device-instruction").get_text())
